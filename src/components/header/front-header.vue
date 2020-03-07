@@ -1,6 +1,6 @@
 <template>
   <div class="mod-header" :class="isShow?'hover':''">
-    <div class="cat">
+    <!-- <div class="cat">
       <div class="cat-box" :class="isShow?'active':''" data-cat="engine">
         <div class="layout">
           <div class="cat-group">
@@ -266,6 +266,413 @@
           </div>
         </div>
       </div>
+    </div>-->
+    <div class="cat">
+      <div class="cat-box" :class="isShow?'active':''" data-cat="capability">
+        <div class="layout">
+          <div class="cat-col">
+            <div class="cat-group top-row">
+              <p class="cat-tit">
+                OCR
+                <i
+                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                  class="cat-tag is-hot"
+                ></i>
+              </p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_identify"
+                    href="/product/ocr.shtml#identify"
+                  >身份证OCR</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_driverregistration"
+                    href="/product/ocr.shtml#driverregistration"
+                  >行驶证OCR</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_driverlicense"
+                    href="/product/ocr.shtml#driverlicense"
+                  >驾驶证OCR</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_common"
+                    href="/product/ocr.shtml#common"
+                  >通用OCR</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_businesslicense"
+                    href="/product/ocr.shtml#businesslicense"
+                  >营业执照OCR</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_creditcard"
+                    href="/product/ocr.shtml#creditcard"
+                  >银行卡OCR</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_handwrite"
+                    href="/product/ocr.shtml#handwrite"
+                  >手写体OCR</a>
+                  <i
+                    :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                    class="cat-tag is-new"
+                  ></i>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_plate"
+                    href="/product/ocr.shtml#plate"
+                  >车牌OCR</a>
+                  <i
+                    :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                    class="cat-tag is-new"
+                  ></i>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="ocr_card"
+                    href="/product/ocr.shtml#card"
+                  >名片OCR</a>
+                </div>
+              </div>
+            </div>
+            <div class="cat-group bottom-row">
+              <p class="cat-tit">人脸与人体识别</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="face_detect"
+                    href="/product/face.shtml#detect"
+                  >人脸检测与分析</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="face_multiface"
+                    href="/product/face.shtml#multiface"
+                  >多人脸检测</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="face_agecompare"
+                    href="/product/face.shtml#agecompare"
+                  >跨年龄人脸识别</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="face_shape"
+                    href="/product/face.shtml#shape"
+                  >五官定位</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="face_compare"
+                    href="/product/face.shtml#compare"
+                  >人脸对比</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="face_search"
+                    href="/product/face.shtml#search"
+                  >人脸搜索</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="gesture"
+                    href="/product/gesture.shtml"
+                  >手势识别</a>
+                  <i
+                    :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                    class="cat-tag is-new"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cat-col">
+            <div class="cat-group top-row">
+              <p class="cat-tit">图片特效</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="facemerge"
+                    href="/product/facemerge.shtml"
+                  >人脸融合（即将开放）</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="imgfilter"
+                    href="/product/imgfilter.shtml"
+                  >滤镜</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="facemakeup"
+                    href="/product/facemakeup.shtml"
+                  >人脸美妆</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="facedecoration"
+                    href="/product/facedecoration.shtml"
+                  >人脸变妆</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="sticker"
+                    href="/product/sticker.shtml"
+                  >大头贴</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="faceage"
+                    href="/product/faceage.shtml"
+                  >颜龄检测</a>
+                </div>
+              </div>
+            </div>
+            <div class="cat-group bottom-row">
+              <p class="cat-tit">图片识别</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="visionimgidy_express"
+                    href="/product/visionimgidy.shtml#express"
+                  >看图说话</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="visionimgidy_tag"
+                    href="/product/visionimgidy.shtml#tag"
+                  >多标签识别</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="visionimgidy_fuzzy"
+                    href="/product/visionimgidy.shtml#fuzzy"
+                  >模糊图片识别</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="visionimgidy_food"
+                    href="/product/visionimgidy.shtml#food"
+                  >美食图片识别</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="visionimgidy_scene"
+                    href="/product/visionimgidy.shtml#scene"
+                  >场景/物体识别</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cat-col">
+            <div class="cat-group top-row">
+              <p class="cat-tit">敏感信息甄别</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="terror"
+                    href="/product/terror.shtml"
+                  >暴恐识别</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="yellow"
+                    href="/product/yellow.shtml"
+                  >图片鉴黄</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="evilaudio"
+                    href="/product/evilaudio.shtml"
+                  >音频鉴黄</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="sensitive"
+                    href="/product/sensitive.shtml"
+                  >音频敏感词检测</a>
+                  <i
+                    :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                    class="cat-tag is-new"
+                  ></i>
+                </div>
+              </div>
+            </div>
+            <div class="cat-group">
+              <p class="cat-tit">智能闲聊</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlpchat"
+                    href="/product/nlpchat.shtml"
+                  >智能闲聊</a>
+                  <i
+                    :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                    class="cat-tag is-hot"
+                  ></i>
+                </div>
+              </div>
+            </div>
+            <div class="cat-group">
+              <p class="cat-tit">机器翻译</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlptrans_text"
+                    href="/product/nlptrans.shtml#text"
+                  >文本翻译</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlptrans_audio"
+                    href="/product/nlptrans.shtml#audio"
+                  >语音翻译</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlptrans_photo"
+                    href="/product/nlptrans.shtml#photo"
+                  >图片翻译</a>
+                </div>
+              </div>
+            </div>
+            <div class="cat-group bottom-row">
+              <p class="cat-tit">基础文本分析</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlpbase_participle"
+                    href="/product/nlpbase.shtml#participle"
+                  >分词/词性</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlpbase_proper"
+                    href="/product/nlpbase.shtml#proper"
+                  >专有名词</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlpbase_synonym"
+                    href="/product/nlpbase.shtml#synonym"
+                  >同义词</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cat-col">
+            <div class="cat-group top-row">
+              <p class="cat-tit">语义解析</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlpsem"
+                    href="/product/nlpsem.shtml"
+                  >意图成分</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="nlpemo"
+                    href="/product/nlpemo.shtml"
+                  >情感分析</a>
+                </div>
+              </div>
+            </div>
+            <div class="cat-group">
+              <p class="cat-tit">语音识别</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="aaiasr"
+                    href="/product/aaiasr.shtml"
+                  >语音识别</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="aaiasrl"
+                    href="/product/aaiasrl.shtml"
+                  >长语音识别</a>
+                </div>
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="keywords"
+                    href="/product/keywords.shtml"
+                  >关键词检索</a>
+                  <i
+                    :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                    class="cat-tag is-new"
+                  ></i>
+                </div>
+              </div>
+            </div>
+            <div class="cat-group bottom-row">
+              <p class="cat-tit">语音合成</p>
+              <div class="cat-list">
+                <div class="cat-item">
+                  <a
+                    _stat_click_id="header_demonav"
+                    _stat_action_obj="aaitts"
+                    href="/product/aaitts.shtml"
+                  >语音合成</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="layout clearfix">
@@ -277,7 +684,13 @@
 
       <div class="mod-header-nav">
         <ul id="jmod-header-nav">
-          <li id="nav-header-serv" class="top-cat hassub" data-cat="engine" @mouseenter="show($event)" @mouseleave="hide($event)">
+          <li
+            id="nav-header-serv"
+            class="top-cat hassub"
+            data-cat="engine"
+            @mouseenter="show($event)"
+            @mouseleave="hide($event)"
+          >
             <h2>
               <a href="javascript:void(0);">技术引擎</a>
               <i
@@ -286,27 +699,88 @@
               ></i>
             </h2>
           </li>
-          <li id="nav-header-accelerator" class="top-cat" @mouseenter="sliderIn('128px')" @mouseleave="sliderOut()">
+          <li
+            id="nav-header-case"
+            class="top-cat hassub"
+            data-cat="case"
+            @mouseenter="sliderIn('186px','96px')"
+            @mouseleave="sliderOut()"
+          >
+            <h2>
+              <a href="javascript:void(0);">解决方案</a>
+              <i
+                :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                class="top-cat-arrow"
+              ></i>
+            </h2>
+            <div class="case-menu">
+              <a
+                href="/case/hardware.shtml"
+                class="case-menu-row"
+                _stat_click_id="header_casenav"
+                _stat_action_obj="hardware"
+              >智能硬件</a>
+              <a
+                href="/case/xianji.shtml"
+                class="case-menu-row"
+                _stat_click_id="header_casenav"
+                _stat_action_obj="xianji"
+              >智慧招聘</a>
+              <a
+                href="/case/facedoor.shtml"
+                class="case-menu-row"
+                _stat_click_id="header_casenav"
+                _stat_action_obj="facedoor"
+              >智慧门禁</a>
+            </div>
+          </li>
+
+          <li
+            id="nav-header-accelerator"
+            class="top-cat"
+            @mouseenter="sliderIn('322px','72px')"
+            @mouseleave="sliderOut()"
+          >
             <h2>
               <a href="#">AI加速器</a>
             </h2>
           </li>
-          <li id="nav-header-info" class="top-cat" @mouseenter="sliderIn('220px')" @mouseleave="sliderOut()">
+          <li
+            id="nav-header-info"
+            class="top-cat"
+            @mouseenter="sliderIn('434px','72px')"
+            @mouseleave="sliderOut()"
+          >
             <h2>
               <a href="#">资讯动态</a>
             </h2>
           </li>
-          <li id="nav-header-hr" class="top-cat" @mouseenter="sliderIn('312px')" @mouseleave="sliderOut()">
+          <li
+            id="nav-header-hr"
+            class="top-cat"
+            @mouseenter="sliderIn('546px','72px')"
+            @mouseleave="sliderOut()"
+          >
             <h2>
               <a href="#">AI在腾讯</a>
             </h2>
           </li>
-          <li id="nav-header-join" class="top-cat" @mouseenter="sliderIn('404px')" @mouseleave="sliderOut()">
+          <li
+            id="nav-header-join"
+            class="top-cat"
+            @mouseenter="sliderIn('658px','72px')"
+            @mouseleave="sliderOut()"
+          >
             <h2>
               <a href="#">加入我们</a>
             </h2>
           </li>
-          <li id="nav-header-doc" class="top-cat" @mouseenter="sliderIn('496px')" @mouseleave="sliderOut()">
+          <li
+            id="nav-header-doc"
+            class="top-cat"
+            @mouseenter="sliderIn('770px','72px')"
+            @mouseleave="sliderOut()"
+          >
             <h2>
               <a href="#">文档中心</a>
             </h2>
@@ -315,7 +789,7 @@
         <i
           :style="{width:sliderWidth,transform: 'translateX('+sliderX+')',backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
           class="jmod-nav-slider slider"
-					:class="isSliderHidden?'hidden':''"
+          :class="isSliderHidden?'hidden':''"
         ></i>
       </div>
 
@@ -324,16 +798,12 @@
         <a href="#" target="_blank" class="console jmod-header-console hidden">控制台</a>
       </div>
     </div>
-
-
   </div>
 
   <!-- <div class="banner jmod_banner">
     <div class="ban cur" style="background-color:#1e1f21;background-image:url('自定义Banner图片地址');height: 62px;">
     </div>
   </div>-->
-
-	
 
   <!-- </div> -->
 </template>
@@ -347,238 +817,56 @@ export default {
 
   data() {
     return {
-			isShow: false,
-			sliderX: '0px',
-			sliderWidth: '80px',
-			isSliderHidden: true,
-		};
+      isShow: false,
+      sliderX: "0px",
+      sliderWidth: "80px",
+      isSliderHidden: true
+    };
   },
   methods: {
-		show(){
-			this.isShow = true;
-			
-			this.isSliderHidden = false;
-			var that = this;
-			setTimeout(function(){
-				that.sliderX = '12px';
-				that.sliderWidth = '104px';
-			},1)
-			// this.sliderX = '12px';
-			// this.sliderWidth = '104px';
-		},
-		hide(){
-			this.isShow = false;
-			this.sliderX = '12px';
-			this.isSliderHidden = true;
-		},
-		sliderIn(x){
-			this.isSliderHidden = false;
-			// this.sliderX = x;
-			// this.sliderWidth = '80px';
-			var that = this;
-			setTimeout(function(){
-				that.sliderX = x;
-				that.sliderWidth = '80px';
-			},1)
-		},
-		sliderOut(){
-			this.isSliderHidden = true;
-		}
-	}
+    show() {
+      this.isShow = true;
+
+      this.isSliderHidden = false;
+      var that = this;
+      setTimeout(function() {
+        that.sliderX = "50px";
+        that.sliderWidth = "96px";
+      }, 1);
+      // this.sliderX = '12px';
+      // this.sliderWidth = '104px';
+    },
+    hide() {
+      this.isShow = false;
+      this.sliderX = "50px";
+      this.isSliderHidden = true;
+    },
+    sliderIn(x,width) {
+      this.isSliderHidden = false;
+      // this.sliderX = x;
+      // this.sliderWidth = '80px';
+      var that = this;
+      setTimeout(function() {
+        that.sliderX = x;
+        that.sliderWidth = width;
+      }, 1);
+    },
+    sliderOut() {
+      this.isSliderHidden = true;
+    }
+  }
 };
 </script>
 
 <style scoped>
-body,
-dd,
-dt,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-li,
-p,
-ul {
-  margin: 0;
-  padding: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: 100%;
-  font-weight: 400;
-}
-
-dd,
-li,
-ul {
-  list-style: none;
-}
-
-img {
-  border: none;
-  outline: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
 a {
   text-decoration: none;
   cursor: pointer;
   outline: none;
   color: inherit;
 }
-
-input {
-  outline: none;
-}
-
-em {
-  font-style: normal;
-}
-
-html {
-  height: 100%;
-}
-
-body {
-  position: relative;
-  font: 12px/1.5 microsoft yahei, arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #f8f8f8;
-  min-width: 1200px;
-  color: #323232;
-  min-height: 100%;
-  box-sizing: border-box;
-}
-
-button,
-input,
-select,
-textarea {
-  font-size: 1em;
-  font-family: inherit;
-}
-
-::-webkit-input-placeholder {
-  color: #a9a9a9;
-}
-
-:-moz-placeholder {
-  color: #a9a9a9;
-}
-
-::-moz-placeholder {
-  color: #a9a9a9;
-}
-
-:-ms-input-placeholder {
-  color: #a9a9a9;
-}
-
-.scroll::-webkit-scrollbar {
-  width: 8px;
-  background: #eee;
-}
-
-.scroll::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background: #ddd;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.disabled {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)";
-  cursor: default;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-:disabled {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)";
-  cursor: default;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.layout {
-  width: 1200px;
-	margin: 0 auto;
-}
-
-.mr0 {
-  margin-right: 0 !important;
-}
-
-.weak {
-  color: #878787;
-}
-
-.weaker {
-  color: #9e9e9e;
-}
-
-.clearfix:after,
-.clearfix:before {
-  content: "";
-  display: table;
-  font: 0/0 a;
-}
-
-.clearfix:after {
-  clear: both;
-}
-
-.mod-header-user .user em {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  word-wrap: normal;
-}
-
-.fixed-bar .backtop:before {
-  font: 0/0 a;
-  color: transparent;
-  text-shadow: none;
-  background-color: transparent;
-  border: 0;
-}
-
-.mod-header {
-  width: 100%;
-  font-size: 14px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  box-sizing: border-box;
-  color: #fff;
-  z-index: 10;
-  transition: background 0.3s ease;
-}
-
-.mod-header .layout {
-  min-width: 1200px;
-  width: auto;
-  position: relative;
+.mod-header .cat .layout {
+  min-width: 0;
 }
 
 .mod-header-logo {
@@ -588,40 +876,6 @@ textarea {
   /* background-image: url(@/components/header/img/cpimg/sprite.png); */
   background-position: 0 -64px;
   margin-left: 12px;
-}
-
-.mod-header-nav {
-  position: relative;
-  float: left;
-}
-
-.mod-header-nav li {
-  position: relative;
-  float: left;
-  line-height: 1;
-}
-
-.mod-header-nav a:hover {
-  text-decoration: none;
-}
-
-.mod-header-nav .top-cat {
-  text-align: center;
-  padding: 24px 12px;
-  margin-right: 12px;
-}
-
-.mod-header-nav .top-cat:first-child {
-  margin: 0 12px;
-}
-
-.mod-header-nav .top-cat h2 {
-  position: relative;
-}
-
-.mod-header-nav .top-cat h2 a {
-  padding: 0;
-  position: relative;
 }
 
 .mod-header-nav .top-cat-arrow {
@@ -641,62 +895,6 @@ textarea {
   margin-left: 4px;
 }
 
-.mod-header-nav .top-cat.hassub:active .top-cat-arrow,
-.mod-header-nav .top-cat.hassub:hover .top-cat-arrow {
-  -webkit-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  transform: rotate(0deg);
-}
-
-.mod-header-nav .slider {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: auto;
-  height: 3px;
-  background-color: #fff;
-  transition: width 0.3s ease-out, -webkit-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out, width 0.3s ease-out;
-  transition: transform 0.3s ease-out, width 0.3s ease-out,
-    -webkit-transform 0.3s ease-out;
-}
-
-.mod-header-user {
-  line-height: 25px;
-  position: absolute;
-  top: 14px;
-  right: 0;
-  font-size: 0;
-}
-
-.mod-header-user .console {
-  display: inline-block;
-  padding: 0 12px;
-  vertical-align: middle;
-  font-size: 14px;
-}
-
-.mod-header-user .console:hover {
-  color: #126ee1;
-}
-
-.mod-header-user .user {
-  padding-left: 11px;
-  display: inline-block;
-  vertical-align: middle;
-  position: relative;
-  border-left: 1px solid #fff;
-  font-size: 14px;
-  margin-right: 22px;
-}
-
-.mod-header-user .user em {
-  color: #fff;
-  display: inline-block;
-  max-width: 102px;
-  vertical-align: bottom;
-}
-
 .mod-header-user .user i {
   position: relative;
   display: inline-block;
@@ -708,206 +906,11 @@ textarea {
   margin-left: 5px;
 }
 
-.mod-header-user .user .dropdown {
-  position: absolute;
-  padding-top: 19px;
-  top: 25px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  display: none;
-}
-
-.mod-header-user .user .dropdown a {
-  display: block;
-  line-height: 40px;
-  background-color: #333;
-}
-
-.mod-header-user .user:hover {
-  color: #126ee1;
-}
-
-.mod-header-user .user:hover .dropdown {
-  display: block;
-}
-
-.mod-header-user .user:hover a {
-  color: #fff;
-}
-
-.mod-header-user .user:hover a:hover {
-  color: #126ee1;
-}
-
-.mod-header-user .try {
-  background-color: #fff;
-  color: #0052d9;
-  padding: 8px 18px;
-  border-radius: 3px;
-  line-height: 1;
-  display: inline-block;
-  transition: all 0.3s ease;
-  vertical-align: middle;
-  font-size: 14px;
-  margin-right: 22px;
-}
-
-.mod-header.active,
-.mod-header.hover,
-.mod-header:hover {
-  background-color: #333;
-}
-
 .mod-header.active .mod-header-logo,
 .mod-header.hover .mod-header-logo,
 .mod-header:hover .mod-header-logo {
   /* background-image: url(@/components/header/img/cpimg/sprite.png); */
   background-position: 0 -128px;
-}
-
-.mod-header.active .mod-header-user .user i:after,
-.mod-header.hover .mod-header-user .user i:after,
-.mod-header:hover .mod-header-user .user i:after {
-  border-top-color: #333;
-}
-
-.mod-header.active .mod-header-user .try,
-.mod-header.hover .mod-header-user .try,
-.mod-header:hover .mod-header-user .try {
-  color: #fff;
-  background-color: #0052d9;
-}
-
-.mod-header .cat {
-  position: relative;
-}
-
-.mod-header .cat .layout {
-  min-width: 0;
-}
-
-.mod-header .cat-ico {
-  display: inline-block;
-  width: 49px;
-}
-
-.mod-header .cat-box {
-  color: #fff;
-  font-size: 0;
-  box-sizing: border-box;
-  padding: 0 0 0 220px;
-  background-color: rgba(51, 51, 51, 0.95);
-  position: absolute;
-  width: 100%;
-  top: 60px;
-  left: 0;
-  text-align: left;
-  transition: -webkit-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
-  -webkit-transform: scaleY(0);
-  -ms-transform: scaleY(0);
-  transform: scaleY(0);
-  -webkit-transform-origin: center top;
-  -ms-transform-origin: center top;
-  transform-origin: center top;
-}
-
-.mod-header .cat-box.active,
-.mod-header .cat-box:hover {
-  -webkit-transform: scaleY(1);
-  -ms-transform: scaleY(1);
-  transform: scaleY(1);
-}
-
-.mod-header .cat-group {
-  display: inline-block;
-  vertical-align: top;
-  font-size: 14px;
-  margin-left: 12px;
-  padding: 20px 0;
-}
-
-.mod-header .cat-group:first-child {
-  margin-left: 0;
-}
-
-.mod-header .cat-tit {
-  font-size: 16px;
-  padding-bottom: 7px;
-}
-
-.mod-header .cat-tit i {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 16px;
-}
-
-.mod-header .cat-item {
-  display: block;
-  width: 390px;
-  box-sizing: border-box;
-  padding: 7px 0 7px 50px;
-  margin-bottom: 4px;
-  font-size: 14px;
-  line-height: 1;
-}
-
-.mod-header .cat-item:hover {
-  background-color: #42464c;
-}
-
-.mod-header .cat-item a {
-  color: #fff;
-}
-
-.mod-header .cat-item a:hover {
-  color: #1070e1;
-}
-
-.mod-header .cat-item-sub {
-  margin-top: 7px;
-  font-size: 12px;
-}
-
-.mod-header .cat-item-sub a {
-  display: inline-block;
-  vertical-align: middle;
-  color: #a3a3a3;
-  margin-top: 4px;
-  padding-right: 24px;
-  line-height: 22px;
-}
-
-.mod-header .cat-item-sub a:last-child {
-  padding-right: 0;
-}
-
-.mod-header .cat-item-sub a.disabled {
-  color: #a3a3a3;
-  cursor: default;
-  pointer-events: none;
-  opacity: 1;
-  filter: alpha(opacity=100);
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=100)";
-}
-
-.mod-header .cat-item-row {
-  display: table-row;
-}
-
-.mod-header .cat-item-row a {
-  display: table-cell;
-}
-
-.mod-header .cat-tag {
-  display: inline-block;
-  vertical-align: middle;
-  width: 28px;
-  height: 12px;
-  margin-left: 6px;
-  margin-top: -2px;
 }
 
 .mod-header .cat-tag.is-beta {
@@ -944,61 +947,5 @@ textarea {
   height: 30px;
   /* background-image: url(@/components/header/img/cpimg/sprite.png); */
   background-position: -304px -90px;
-}
-
-.upgrade-box-cont h3 {
-  font-size: 32px;
-  line-height: 1;
-  margin: 22px auto;
-}
-
-.upgrade-box-cont p {
-  color: #c3deff;
-  width: 26em;
-  margin: 0 auto;
-}
-
-.upgrade-box-btm {
-  margin-top: 45px;
-}
-
-.upgrade-box-btm .btn {
-  width: 180px;
-  line-height: 48px;
-  border: 1px solid #fff;
-  border-radius: 4px;
-  display: inline-block;
-}
-
-.upgrade-box-btm .btn-ff {
-  margin: 0 16px;
-}
-
-.upgrade-box-btm .btn:hover {
-  background-color: hsla(0, 0%, 100%, 0.2);
-}
-
-.upgrade-box-btm i {
-  display: inline-block;
-  margin-right: 10px;
-  vertical-align: text-bottom;
-}
-
-.ie-placeholder {
-  color: #aaa;
-}
-
-@media screen and (max-width: 1400px) {
-  .mod-header .cat-box {
-    padding: 0 0 0 18px;
-  }
-
-  .mod-header .cat-group {
-    margin-left: 6px;
-  }
-}
-
-html[lang="en"] body {
-  font-family: Arial, sans-serif;
 }
 </style>
