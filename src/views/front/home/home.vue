@@ -56,81 +56,57 @@
       <div class="layout">
         <h2 class="sec-tit">接入腾讯AI能力 打造极致产品</h2>
         <div class="sec-cont">
+
           <div class="capability-row">
-            <div class="capability-group">
-              <div class="capability-group-logo">
+            <template v-for="(item1, index1) in productList" >
+            <div v-if="index1 <=3" :key="index1" class="capability-group" :class="index1%4==3?'no-margin':''">
+              <div class="capability-group-logo" >
                 <i
                   class="capa-1"
                   :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
-                <p class="capability-group-wrap__title">OCR</p>
+                <p class="capability-group-wrap__title">{{item1.label}}</p>
+                <template v-for="(item2,index2) in item1.children">
                 <a
+                  v-if="index2<5" :key="index2"
                   _stat_click_id="capa_ocridentify"
-                  href="/product/ocr.shtml#identify"
                   class="capability-group-wrap__item"
-                >身份证OCR</a>
+                  @click="goToProductDetail(item1.value, item2.value)"
+                >{{item2.label}}</a>
+                </template>
+
                 <a
-                  _stat_click_id="capa_ocrdriverregistration"
-                  href="/product/ocr.shtml#driverregistration"
-                  class="capability-group-wrap__item"
-                >行驶证OCR</a>
-                <a
-                  _stat_click_id="capa_ocrdriverlicense"
-                  href="/product/ocr.shtml#driverlicense"
-                  class="capability-group-wrap__item"
-                >驾驶证OCR</a>
-                <a
-                  _stat_click_id="capa_ocrcommon"
-                  href="/product/ocr.shtml#common"
-                  class="capability-group-wrap__item"
-                >通用OCR</a>
-                <a
-                  _stat_click_id="capa_ocrbusinesslicense"
-                  href="/product/ocr.shtml#businesslicense"
-                  class="capability-group-wrap__item"
-                >营业执照OCR</a>
-                <a
+                  v-if="item1.children.length>5"
                   _stat_click_id="capa_more"
                   _stat_action_obj="ocr"
                   href="javascript:void(0);"
                   class="capability-group-more jmod-capa-more"
-                  :style="{display: isLoadMore1?'none':'block'}"
-                  @click="loadMore1()"
+                  :style="{display: isLoadMore[index1]?'none':'block'}"
+                  @click="loadMore(index1)"
                 >
                   <i
                     class="ico-more"
                     :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
                   ></i>展开更多
                 </a>
-                <div class="hide-wrap" :style="{display: isLoadMore1?'block':'none'}">
-                  <a
-                    _stat_click_id="capa_ocrcreditcard"
-                    href="/product/ocr.shtml#creditcard"
-                    class="capability-group-wrap__item"
-                  >银行卡OCR</a>
-                  <a
-                    _stat_click_id="capa_ocrhandwrite"
-                    href="/product/ocr.shtml#handwrite"
-                    class="capability-group-wrap__item"
-                  >手写体OCR</a>
-                  <a
-                    _stat_click_id="capa_ocrplate"
-                    href="/product/ocr.shtml#plate"
-                    class="capability-group-wrap__item"
-                  >车牌OCR</a>
-                  <a
-                    _stat_click_id="capa_ocrcard"
-                    href="/product/ocr.shtml#card"
-                    class="capability-group-wrap__item no-border"
-                  >名片OCR</a>
+                <div class="hide-wrap" :style="{display: isLoadMore[index1]?'block':'none'}">
+                  <template v-for="(item2,index2) in item1.children">
+                    <a
+                      v-if="index2>=5" :key="index2"
+                      _stat_click_id="capa_ocridentify"
+                      class="capability-group-wrap__item"
+                      @click="goToProductDetail(item1.value, item2.value)"
+                    >{{item2.label}}</a>
+                  </template>
+
                   <a
                     _stat_click_id="capa_hide"
                     _stat_action_obj="ocr"
                     href="javascript:void(0);"
                     class="capability-group-more jmod-capa-hide"
-                    @click="hideMore1()"
+                    @click="hideMore(index1)"
                   >
                     <i
                       class="ico-more"
@@ -141,187 +117,135 @@
                 </div>
               </div>
             </div>
-            <div class="capability-group">
-              <div class="capability-group-logo">
-                <i
-                  class="capa-2"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
-                ></i>
-              </div>
-              <div class="capability-group-wrap">
-                <p class="capability-group-wrap__title">人脸与人体识别</p>
-                <a
-                  _stat_click_id="capa_facedetect"
-                  href="/product/face.shtml#detect"
-                  class="capability-group-wrap__item"
-                >人脸检测与分析</a>
-                <a
-                  _stat_click_id="capa_facemultiface"
-                  href="/product/face.shtml#multiface"
-                  class="capability-group-wrap__item"
-                >多人脸检测</a>
-                <a
-                  _stat_click_id="capa_faceagecompare"
-                  href="/product/face.shtml#agecompare"
-                  class="capability-group-wrap__item"
-                >跨年龄人脸识别</a>
-                <a
-                  _stat_click_id="capa_faceshape"
-                  href="/product/face.shtml#shape"
-                  class="capability-group-wrap__item"
-                >五官定位</a>
-                <a
-                  _stat_click_id="capa_facecompare"
-                  href="/product/face.shtml#compare"
-                  class="capability-group-wrap__item"
-                >人脸对比</a>
-                <a
-                  _stat_click_id="capa_more"
-                  _stat_action_obj="face"
-                  href="javascript:void(0);"
-                  class="capability-group-more jmod-capa-more"
-                  :style="{display: isLoadMore2?'none':'block'}"
-                  @click="loadMore2()"
-                >
-                  <i
-                    class="ico-more"
-                    :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
-                  ></i>展开更多
-                </a>
-                <div class="hide-wrap" :style="{display: isLoadMore2?'block':'none'}">
-                  <a
-                    _stat_click_id="capa_facesearch"
-                    href="/product/face.shtml#search"
-                    class="capability-group-wrap__item"
-                  >人脸搜索</a>
-                  <a
-                    _stat_click_id="capa_gesturedetect"
-                    href="/product/gesture.shtml"
-                    class="capability-group-wrap__item no-border"
-                  >手势识别</a>
-                  <a
-                    _stat_click_id="capa_hide"
-                    _stat_action_obj="face"
-                    href="javascript:void(0);"
-                    class="capability-group-more jmod-capa-hide"
-                    @click="hideMore2()"
-                  >
-                    <i
-                      class="ico-more"
-                      style="transform: rotate(180deg);"
-                      :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
-                    ></i>收起
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="capability-group">
-              <div class="capability-group-logo">
-                <i
-                  class="capa-3"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
-                ></i>
-              </div>
-              <div class="capability-group-wrap">
-                <p class="capability-group-wrap__title">图片特效</p>
-                <a
-                  _stat_click_id="capa_facemerge"
-                  href="/product/facemerge.shtml"
-                  class="capability-group-wrap__item"
-                >人脸融合（即将开放）</a>
-                <a
-                  _stat_click_id="capa_imgfilter"
-                  href="/product/imgfilter.shtml"
-                  class="capability-group-wrap__item"
-                >滤镜</a>
-                <a
-                  _stat_click_id="capa_facemakeup"
-                  href="/product/facemakeup.shtml"
-                  class="capability-group-wrap__item"
-                >人脸美妆</a>
-                <a
-                  _stat_click_id="capa_facedecoration"
-                  href="/product/facedecoration.shtml"
-                  class="capability-group-wrap__item"
-                >人脸变妆</a>
-                <a
-                  _stat_click_id="capa_sticker"
-                  href="/product/sticker.shtml"
-                  class="capability-group-wrap__item"
-                >大头贴</a>
-                <a
-                  _stat_click_id="capa_more"
-                  _stat_action_obj="imgeffect"
-                  href="javascript:void(0);"
-                  class="capability-group-more jmod-capa-more"
-                  :style="{display: isLoadMore3?'none':'block'}"
-                  @click="loadMore3()"
-                >
-                  <i
-                    class="ico-more"
-                    :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
-                  ></i>展开更多
-                </a>
-                <div class="hide-wrap" :style="{display: isLoadMore3?'block':'none'}">
-                  <a
-                    _stat_click_id="capa_faceage"
-                    href="/product/faceage.shtml"
-                    class="capability-group-wrap__item no-border"
-                  >颜龄检测</a>
-                  <a
-                    _stat_click_id="capa_hide"
-                    _stat_action_obj="imgeffect"
-                    href="javascript:void(0);"
-                    class="capability-group-more jmod-capa-hide"
-                    @click="hideMore3()"
-                  >
-                    <i
-                      class="ico-more"
-                      style="transform: rotate(180deg);"
-                      :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
-                    ></i>收起
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="capability-group no-margin">
-              <div class="capability-group-logo">
-                <i
-                  class="capa-4"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
-                ></i>
-              </div>
-              <div class="capability-group-wrap">
-                <p class="capability-group-wrap__title">图片识别</p>
-                <a
-                  _stat_click_id="capa_visionimgidyexpress"
-                  href="/product/visionimgidy.shtml#express"
-                  class="capability-group-wrap__item"
-                >看图说话</a>
-                <a
-                  _stat_click_id="capa_visionimgidytag"
-                  href="/product/visionimgidy.shtml#tag"
-                  class="capability-group-wrap__item"
-                >多标签识别</a>
-                <a
-                  _stat_click_id="capa_visionimgidyfuzzy"
-                  href="/product/visionimgidy.shtml#fuzzy"
-                  class="capability-group-wrap__item"
-                >模糊图片识别</a>
-                <a
-                  _stat_click_id="capa_visionimgidyfood"
-                  href="/product/visionimgidy.shtml#food"
-                  class="capability-group-wrap__item"
-                >美食图片识别</a>
-                <a
-                  _stat_click_id="capa_visionimgidyscene"
-                  href="/product/visionimgidy.shtml#scene"
-                  class="capability-group-wrap__item no-border"
-                >场景/物体识别</a>
-              </div>
-            </div>
+            </template>
           </div>
           <div class="capability-row">
+            <template v-for="(item1, index1) in productList" >
+            <div v-if="index1>=4 && index1 <=7" :key="index1" class="capability-group" :class="index1%4==3?'no-margin':''">
+              <div class="capability-group-logo" >
+                <i
+                  class="capa-1"
+                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                ></i>
+              </div>
+              <div class="capability-group-wrap">
+                <p class="capability-group-wrap__title">{{item1.label}}</p>
+                <template v-for="(item2,index2) in item1.children">
+                <a
+                  v-if="index2<5" :key="index2"
+                  _stat_click_id="capa_ocridentify"
+                  class="capability-group-wrap__item"
+                  @click="goToProductDetail(item1.value, item2.value)"
+                >{{item2.label}}</a>
+                </template>
+
+                <a
+                  v-if="item1.children.length>5"
+                  _stat_click_id="capa_more"
+                  _stat_action_obj="ocr"
+                  href="javascript:void(0);"
+                  class="capability-group-more jmod-capa-more"
+                  :style="{display: isLoadMore[index1]?'none':'block'}"
+                  @click="loadMore(index1)"
+                >
+                  <i
+                    class="ico-more"
+                    :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  ></i>展开更多
+                </a>
+                <div class="hide-wrap" :style="{display: isLoadMore[index1]?'block':'none'}">
+                  <template v-for="(item2,index2) in item1.children">
+                    <a
+                      v-if="index2>=5" :key="index2"
+                      _stat_click_id="capa_ocridentify"
+                      class="capability-group-wrap__item"
+                      @click="goToProductDetail(item1.value, item2.value)"
+                    >{{item2.label}}</a>
+                  </template>
+
+                  <a
+                    _stat_click_id="capa_hide"
+                    _stat_action_obj="ocr"
+                    href="javascript:void(0);"
+                    class="capability-group-more jmod-capa-hide"
+                    @click="hideMore(index1)"
+                  >
+                    <i
+                      class="ico-more"
+                      style="transform: rotate(180deg);"
+                      :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                    ></i>收起
+                  </a>
+                </div>
+              </div>
+            </div>
+            </template>
+          </div>
+          <div class="capability-row">
+            <template v-for="(item1, index1) in productList" >
+            <div v-if="index1>=8 && index1 <=11" :key="index1" class="capability-group" :class="index1%4==3?'no-margin':''">
+              <div class="capability-group-logo" >
+                <i
+                  class="capa-1"
+                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                ></i>
+              </div>
+              <div class="capability-group-wrap">
+                <p class="capability-group-wrap__title">{{item1.label}}</p>
+                <template v-for="(item2,index2) in item1.children">
+                <a
+                  v-if="index2<5" :key="index2"
+                  _stat_click_id="capa_ocridentify"
+                  class="capability-group-wrap__item"
+                  @click="goToProductDetail(item1.value, item2.value)"
+                >{{item2.label}}</a>
+                </template>
+
+                <a
+                  v-if="item1.children.length>5"
+                  _stat_click_id="capa_more"
+                  _stat_action_obj="ocr"
+                  href="javascript:void(0);"
+                  class="capability-group-more jmod-capa-more"
+                  :style="{display: isLoadMore[index1]?'none':'block'}"
+                  @click="loadMore(index1)"
+                >
+                  <i
+                    class="ico-more"
+                    :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  ></i>展开更多
+                </a>
+                <div class="hide-wrap" :style="{display: isLoadMore[index1]?'block':'none'}">
+                  <template v-for="(item2,index2) in item1.children">
+                    <a
+                      v-if="index2>=5" :key="index2"
+                      _stat_click_id="capa_ocridentify"
+                      class="capability-group-wrap__item"
+                      @click="goToProductDetail(item1.value, item2.value)"
+                    >{{item2.label}}</a>
+                  </template>
+
+                  <a
+                    _stat_click_id="capa_hide"
+                    _stat_action_obj="ocr"
+                    href="javascript:void(0);"
+                    class="capability-group-more jmod-capa-hide"
+                    @click="hideMore(index1)"
+                  >
+                    <i
+                      class="ico-more"
+                      style="transform: rotate(180deg);"
+                      :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                    ></i>收起
+                  </a>
+                </div>
+              </div>
+            </div>
+            </template>
+          </div>
+          
+
+          <!-- <div class="capability-row">
             <div class="capability-group">
               <div class="capability-group-logo">
                 <i
@@ -486,7 +410,7 @@
                 >语音合成</a>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -815,6 +739,8 @@
 </template>
 
 <script>
+import product from "@/mock/product.js"
+
 import frontHeader from "@/components/header/front-header.vue";
 var timer;
 export default {
@@ -825,9 +751,8 @@ export default {
   data() {
     return {
       bannerIndex: 0,
-      isLoadMore1: false,
-      isLoadMore2: false,
-      isLoadMore3: false
+      isLoadMore:[],
+      productList: product.productList
     };
   },
   mounted() {
@@ -847,23 +772,23 @@ export default {
         that.bannerIndex = (that.bannerIndex + 1) % 3;
       }, 5000);
     },
-    loadMore1() {
-      this.isLoadMore1 = true;
+    loadMore(e) {
+      console.log(this.isLoadMore);
+      this.isLoadMore[e] = true;
     },
-    hideMore1() {
-      this.isLoadMore1 = false;
+    hideMore(e) {
+      console.log(this.isLoadMore);
+      this.isLoadMore[e] = false;
     },
-    loadMore2() {
-      this.isLoadMore2 = true;
-    },
-    hideMore2() {
-      this.isLoadMore2 = false;
-    },
-    loadMore3() {
-      this.isLoadMore3 = true;
-    },
-    hideMore3() {
-      this.isLoadMore3 = false;
+    // 跳转技术引擎详情页
+    goToProductDetail(type1,type2){
+      this.$router.push({
+        path: 'product', 
+        query: { 
+          type1: type1,
+          type2: type2
+        }
+      })
     }
   }
 };

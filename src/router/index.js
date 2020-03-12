@@ -82,9 +82,9 @@ const routes = [
   },
   // 技术介绍页
   {
-    path: '/',
-    name: 'home',
-    component:  () => import('@/views/front/detail/detail.vue')
+    path: '/product',
+    name: 'product',
+    component:  () => import('@/views/front/product/product.vue')
   },
 ]
 
