@@ -289,7 +289,7 @@
                   <a
                     _stat_click_id="header_demonav"
                     _stat_action_obj="ocr_identify"
-                    @click="goToProductDetail(item1.value, item2.value)"
+                    @click="goToProductDetail(item1.value, item2.value, index2)"
                   >{{item2.label}}</a>
                   <i
                   v-if="item2.span"
@@ -321,7 +321,7 @@
                   <a
                     _stat_click_id="header_demonav"
                     _stat_action_obj="ocr_identify"
-                    @click="goToProductDetail(item1.value, item2.value)"
+                    @click="goToProductDetail(item1.value, item2.value, index2)"
                   >{{item2.label}}</a>
                   <i
                   v-if="item2.span"
@@ -353,7 +353,7 @@
                   <a
                     _stat_click_id="header_demonav"
                     _stat_action_obj="ocr_identify"
-                    @click="goToProductDetail(item1.value, item2.value)"
+                    @click="goToProductDetail(item1.value, item2.value, index2)"
                   >{{item2.label}}</a>
                   <i
                   v-if="item2.span"
@@ -385,7 +385,7 @@
                   <a
                     _stat_click_id="header_demonav"
                     _stat_action_obj="ocr_identify"
-                    @click="goToProductDetail(item1.value, item2.value)"
+                    @click="goToProductDetail(item1.value, item2.value, index2)"
                   >{{item2.label}}</a>
                   <i
                   v-if="item2.span"
@@ -997,12 +997,13 @@ export default {
       });
     },
     // 跳转技术引擎详情页
-    goToProductDetail(type1,type2){
+    goToProductDetail(type1, type2, currentTab){
       this.$router.push({
         path: 'product', 
         query: { 
           type1: type1,
-          type2: type2
+          type2: type2,
+          currentTab: currentTab
         }
       })
     }

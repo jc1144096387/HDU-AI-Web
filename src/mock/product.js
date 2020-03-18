@@ -327,6 +327,56 @@ export default {
         title: "优图OCR",
         content: "腾讯优图OCR基于腾讯领先的深度学习算法，利用光学字符识别技术，将图片上的文字内容，直接转换为可编辑文本。不仅能精准快速识别身份证、名片、营业执照、驾驶证等卡证类信息，更有通用OCR和手写体识别技术支持更多场景、任意版面的文字信息获取，大大提高了工作效率和用户体验。",
       },
+      //功能体验
+      demo:[
+        {
+          id: 3,
+          label: "身份证OCR",
+          value: "identify"
+        },
+        {
+          id: 4,
+          label: "行驶证OCR",
+          value: "driverregistration",
+        },
+        {
+          id: 5,
+          label: "驾驶证OCR",
+          value: "driverlicense",
+        },
+        {
+          id: 6,
+          label: "通用OCR",
+          value: "common",
+        },
+        {
+          id: 7,
+          label: "营业执照OCR",
+          value: "businesslicense",
+        },
+        {
+          id: 8,
+          label: "银行卡OCR",
+          value: "creditcard",
+        },
+        {
+          id: 9,
+          label: "手写体OCR",
+          value: "handwrite",
+          span: "new"
+        },
+        {
+          id: 10,
+          label: "车牌OCR",
+          value: "plate",
+          span: "new"
+        },
+        {
+          id: 11,
+          label: "名片OCR",
+          value: "card",
+        },
+      ],
       // 产品优势
       advance: [
         {
@@ -395,6 +445,56 @@ export default {
         title: "优图OCR",
         content: "腾讯优图OCR基于腾讯领先的深度学习算法，利用光学字符识别技术，将图片上的文字内容，直接转换为可编辑文本。不仅能精准快速识别身份证、名片、营业执照、驾驶证等卡证类信息，更有通用OCR和手写体识别技术支持更多场景、任意版面的文字信息获取，大大提高了工作效率和用户体验。",
       },
+      //功能体验
+      demo:[
+        {
+          id: 3,
+          label: "身份证OCR",
+          value: "identify"
+        },
+        {
+          id: 4,
+          label: "行驶证OCR",
+          value: "driverregistration",
+        },
+        {
+          id: 5,
+          label: "驾驶证OCR",
+          value: "driverlicense",
+        },
+        {
+          id: 6,
+          label: "通用OCR",
+          value: "common",
+        },
+        {
+          id: 7,
+          label: "营业执照OCR",
+          value: "businesslicense",
+        },
+        {
+          id: 8,
+          label: "银行卡OCR",
+          value: "creditcard",
+        },
+        {
+          id: 9,
+          label: "手写体OCR",
+          value: "handwrite",
+          span: "new"
+        },
+        {
+          id: 10,
+          label: "车牌OCR",
+          value: "plate",
+          span: "new"
+        },
+        {
+          id: 11,
+          label: "名片OCR",
+          value: "card",
+        },
+      ],
       // 产品优势
       advance: [
         {
@@ -465,6 +565,39 @@ export default {
         title: "人脸识别",
         content: "腾讯人脸识别基于腾讯优图和腾讯AI Lab的深度学习算法和海量数据集，对图片和视频源中面部特征进行提取分析。可实现精准的人脸检测和人脸识别，涵盖人脸检测与分析、五官定位、人脸对比与搜索、跨年龄人脸识别等，为安防监控、人脸美化、智能相册分类等应用场景提供有力的技术支持。",
       },
+      //功能体验
+      demo:[
+        {
+          id: 13,
+          label: "人脸检测与分析",
+          value: "detect",
+        },
+        {
+          id: 14,
+          label: "多人脸检测",
+          value: "multiface",
+        },
+        {
+          id: 15,
+          label: "跨年龄人脸识别",
+          value: "agecompare",
+        },
+        {
+          id: 16,
+          label: "五官定位",
+          value: "shape",
+        },
+        {
+          id: 17,
+          label: "人脸对比",
+          value: "compare",
+        },
+        {
+          id: 18,
+          label: "人脸搜索",
+          value: "search",
+        }
+      ],
       // 产品优势
       advance: [
         {

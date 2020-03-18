@@ -39,6 +39,16 @@
         <div class="demo-tab">
           <div class="demo-tab-wrap">
             <a
+              v-for="(item,index) in currentProduct.demo"
+              :key="index"
+              :class="index == currentTab?'cur':''"
+              href="javascript:void(0);"
+              class="demo-tab-1 jmod-demo-tab"
+              data-id="1"
+              _stat_click_id="demonav_identify"
+              @click="changeTab(index)"
+            >{{item.label}}</a>
+            <!-- <a
               href="javascript:void(0);"
               class="demo-tab-1 jmod-demo-tab"
               data-id="1"
@@ -91,12 +101,15 @@
               class="demo-tab-2 jmod-demo-tab cur"
               data-id="2"
               _stat_click_id="demonav_card"
-            >名片OCR</a>
+            >名片OCR</a>-->
           </div>
         </div>
 
         <!-- 通用OCR -->
-        <div class="tab-cont jmod-ocr-common" style="display: none;">
+        <div
+          class="jmod-ocr-common"
+          :class="currentProduct.demo[currentTab].value=='common'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box jmod-uploader-wrapper">
             <div class="img-list jmod-demo-list">
               <a href="javascript:void(0);" class="img-wrap active">
@@ -200,7 +213,10 @@
         <!-- 通用OCR -->
 
         <!-- 身份证 -->
-        <div class="tab-cont jmod-ocr-id" style="display: none;">
+        <div
+          class="jmod-ocr-id"
+          :class="currentProduct.demo[currentTab].value=='identify'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box demo-box-sm jmod-uploader-wrapper">
             <div class="img-preview jmod-preview" id="preview">
               <label>原始图片</label>
@@ -264,7 +280,10 @@
         </div>
         <!-- 身份证 -->
         <!-- 名片 -->
-        <div class="tab-cont jmod-ocr-card" style="display: block;">
+        <div
+          class="jmod-ocr-card"
+          :class="currentProduct.demo[currentTab].value=='card'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box demo-box-sm jmod-uploader-wrapper">
             <div class="img-preview jmod-preview" id="preview">
               <label>原始图片</label>
@@ -330,7 +349,10 @@
         </div>
         <!-- 名片 -->
         <!-- 行驶证识别 -->
-        <div class="tab-cont jmod-ocr-dlicense1" style="display: none;">
+        <div
+          class="jmod-ocr-dlicense1"
+          :class="currentProduct.demo[currentTab].value=='driverregistration'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box demo-box-sm jmod-uploader-wrapper">
             <div class="img-preview jmod-preview" id="preview">
               <label>原始图片</label>
@@ -400,7 +422,10 @@
         </div>
         <!-- 行驶证识别 -->
         <!-- 驾驶证识别 -->
-        <div class="tab-cont jmod-ocr-dlicense2" style="display: none;">
+        <div
+          class="jmod-ocr-dlicense2"
+          :class="currentProduct.demo[currentTab].value=='driverlicense'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box demo-box-sm jmod-uploader-wrapper">
             <div class="img-preview jmod-preview" id="preview">
               <label>原始图片</label>
@@ -470,7 +495,10 @@
         </div>
         <!-- 驾驶证识别 -->
         <!-- 车牌识别 -->
-        <div class="tab-cont jmod-ocr-plate" style="display: none;">
+        <div
+          class="jmod-ocr-plate"
+          :class="currentProduct.demo[currentTab].value=='plate'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box demo-box-sm jmod-uploader-wrapper">
             <div class="img-preview jmod-preview" id="preview">
               <label>原始图片</label>
@@ -529,7 +557,10 @@
         </div>
         <!-- 车牌识别 -->
         <!-- 营业执照识别 -->
-        <div class="tab-cont jmod-ocr-blicense" style="display: none;">
+        <div
+          class="jmod-ocr-blicense"
+          :class="currentProduct.demo[currentTab].value=='businesslicense'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box demo-box-sm jmod-uploader-wrapper">
             <div class="img-preview jmod-preview" id="preview">
               <label>原始图片</label>
@@ -593,7 +624,10 @@
         </div>
         <!-- 营业执照识别 -->
         <!-- 银行卡识别 -->
-        <div class="tab-cont jmod-ocr-creditcard" style="display: none;">
+        <div
+          class="jmod-ocr-creditcard"
+          :class="currentProduct.demo[currentTab].value=='creditcard'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box demo-box-sm jmod-uploader-wrapper">
             <div class="img-preview jmod-preview" id="preview">
               <label>原始图片</label>
@@ -656,7 +690,10 @@
         </div>
         <!-- 银行卡识别 -->
         <!-- 手写体识别 -->
-        <div class="tab-cont jmod-ocr-handwrite" style="display: none;">
+        <div
+          class="jmod-ocr-handwrite"
+          :class="currentProduct.demo[currentTab].value=='handwrite'?'':'tab-cont'"
+        >
           <div class="demo-opt demo-box jmod-uploader-wrapper">
             <div class="img-list jmod-demo-list">
               <a href="javascript:void(0);" class="img-wrap active">
@@ -750,8 +787,1719 @@
           </div>
         </div>
         <!-- 手写体识别 -->
+
+      
+      <!-- TODO: 人脸识别的demo图片列表 -->
+          <div class="img-list jmod-detect-demolist" style="display: none;">
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-1.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-1.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-3.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-3.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-13.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-13.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap active">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-5.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-5.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-6.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-6.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-7.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-7.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-8.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-8.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-9.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-9.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-11.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-11.jpg"
+              />
+            </a>
+          </div>
+          <div class="img-list jmod-compare-demolist" style="display: none;">
+            <a href="javascript:void(0);" class="img-wrap active target-left">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-1.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-1.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap active target-right">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-3.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-3.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-13.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-13.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-5.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-5.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-6.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-6.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-7.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-7.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-8.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-8.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-9.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-9.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-11.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-11.jpg"
+              />
+            </a>
+          </div>
+          <div class="img-list jmod-search-demolist" style="display: none;">
+            <a href="javascript:void(0);" class="img-wrap active">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-1.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-1.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-3.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-3.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-13.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-13.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-5.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-5.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-6.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-6.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-7.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-7.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-8.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-8.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-9.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-9.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-11.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-11.jpg"
+              />
+            </a>
+          </div>
+          <div class="img-list jmod-shape-demolist" style="display: none;">
+            <a href="javascript:void(0);" class="img-wrap active">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-1.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-1.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-3.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-3.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-13.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-13.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-5.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-5.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-6.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-6.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-7.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-7.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-8.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-8.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-9.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-9.jpg"
+              />
+            </a>
+            <a href="javascript:void(0);" class="img-wrap">
+              <img
+                data-src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-11.jpg"
+                src="//cdn.ai.qq.com/aiplat/static/ai-demo/small/f-11.jpg"
+              />
+            </a>
+          </div>
+
+          <!-- 人脸分析 -->
+          <div class="jmod-face-detect"  :class="currentProduct.demo[currentTab].value=='detect'?'':'tab-cont'">
+            <div class="demo-opt demo-box jmod-uploader-wrapper">
+              <div class="img-preview jmod-preview" id="preview">
+                <label>原始图片</label>
+                <img
+                  src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-5.jpg"
+                  style="width: auto; height: 100%; margin-top: 0px;"
+                  class
+                />
+                <p class="err-tip jmod-err-tip"></p>
+                <div class="jmod-img-result" style="display:inline-block;">
+                  <div class="img-analysis">
+                    <div
+                      class="img-analysis-rect"
+                      style="left: 238.197px; top: 129.135px; width: 126.798px; height: 126.798px;"
+                    ></div>
+                    <div
+                      class="img-analysis-rs left-arrow"
+                      style="left: 395.995px; top: 129.135px;"
+                    >
+                      <div class="img-analysis-item">性别：女</div>
+                      <div class="img-analysis-item">年龄：8</div>
+                      <div class="img-analysis-item">表情：似笑非笑</div>
+                      <div class="img-analysis-item">魅力：87</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <span class="btn btn-upload jmod-upload-disable disabled hidden">本地上传</span>
+                <input
+                  type="file"
+                  name="file"
+                  id="file_1"
+                  class="inputfile jmod-file"
+                  _stat_click_id="demo_uploadbtn"
+                  _stat_action_obj="detect"
+                />
+                <label for="file_1" class="btn btn-upload jmod-upload">本地上传</label>
+                <label>或</label>
+                <span class="imgurl">
+                  <div class="ui-input">
+                    <input type="text" class="jmod-network-url" placeholder="输入网络图片URL" />
+                    <div class="ui-input-bg"></div>
+                  </div>
+                  <a
+                    href="javascript:void(0);"
+                    class="btn btn-test jmod-detect"
+                    _stat_click_id="demo_checkurlbtn"
+                    _stat_action_obj="detect"
+                  >检测</a>
+                </span>
+              </div>
+              <p class="tips">提示：图片大小不超过1M，请保证需要识别部分为图片主体部分</p>
+            </div>
+            <div class="demo-rs demo-box jmod-result-wrapper">
+              <div class="jmod-result">
+                <label class="demo-rs-label">RESPONSE JSON</label>
+                <div class="sec">
+                  <pre>{
+  "ret": 0,
+  "msg": "ok",
+  "data": {
+    "image_width": "421",
+    "image_height": "600",
+    "face": [
+      {
+        "face_id": "3555044596665818076",
+        "x": 115,
+        "y": 221,
+        "width": 217,
+        "height": 217,
+        "gender": 0,
+        "age": 8,
+        "expression": 25,
+        "beauty": 87,
+        "glass": 0,
+        "pitch": -5,
+        "yaw": 9,
+        "roll": -5,
+        "face_shape": {
+          "face_profile": [
+            {
+              "x": 134,
+              "y": 279
+            },
+            {
+              "x": 132,
+              "y": 300
+            },
+            {
+              "x": 132,
+              "y": 322
+            },
+            {
+              "x": 133,
+              "y": 344
+            },
+            {
+              "x": 137,
+              "y": 365
+            },
+            {
+              "x": 146,
+              "y": 385
+            },
+            {
+              "x": 159,
+              "y": 402
+            },
+            {
+              "x": 176,
+              "y": 415
+            },
+            {
+              "x": 195,
+              "y": 425
+            },
+            {
+              "x": 216,
+              "y": 431
+            },
+            {
+              "x": 237,
+              "y": 433
+            },
+            {
+              "x": 254,
+              "y": 429
+            },
+            {
+              "x": 269,
+              "y": 419
+            },
+            {
+              "x": 282,
+              "y": 407
+            },
+            {
+              "x": 293,
+              "y": 393
+            },
+            {
+              "x": 302,
+              "y": 377
+            },
+            {
+              "x": 307,
+              "y": 360
+            },
+            {
+              "x": 311,
+              "y": 342
+            },
+            {
+              "x": 313,
+              "y": 325
+            },
+            {
+              "x": 313,
+              "y": 306
+            },
+            {
+              "x": 312,
+              "y": 290
+            }
+          ],
+          "left_eye": [
+            {
+              "x": 180,
+              "y": 281
+            },
+            {
+              "x": 187,
+              "y": 286
+            },
+            {
+              "x": 196,
+              "y": 288
+            },
+            {
+              "x": 205,
+              "y": 287
+            },
+            {
+              "x": 213,
+              "y": 285
+            },
+            {
+              "x": 207,
+              "y": 277
+            },
+            {
+              "x": 198,
+              "y": 273
+            },
+            {
+              "x": 188,
+              "y": 275
+            }
+          ],
+          "right_eye": [
+            {
+              "x": 293,
+              "y": 290
+            },
+            {
+              "x": 286,
+              "y": 293
+            },
+            {
+              "x": 278,
+              "y": 294
+            },
+            {
+              "x": 270,
+              "y": 292
+            },
+            {
+              "x": 263,
+              "y": 289
+            },
+            {
+              "x": 270,
+              "y": 282
+            },
+            {
+              "x": 279,
+              "y": 280
+            },
+            {
+              "x": 287,
+              "y": 283
+            }
+          ],
+          "left_eyebrow": [
+            {
+              "x": 164,
+              "y": 250
+            },
+            {
+              "x": 178,
+              "y": 249
+            },
+            {
+              "x": 191,
+              "y": 249
+            },
+            {
+              "x": 204,
+              "y": 250
+            },
+            {
+              "x": 217,
+              "y": 251
+            },
+            {
+              "x": 207,
+              "y": 241
+            },
+            {
+              "x": 191,
+              "y": 238
+            },
+            {
+              "x": 176,
+              "y": 241
+            }
+          ],
+          "right_eyebrow": [
+            {
+              "x": 304,
+              "y": 260
+            },
+            {
+              "x": 294,
+              "y": 259
+            },
+            {
+              "x": 283,
+              "y": 259
+            },
+            {
+              "x": 273,
+              "y": 260
+            },
+            {
+              "x": 262,
+              "y": 260
+            },
+            {
+              "x": 271,
+              "y": 253
+            },
+            {
+              "x": 283,
+              "y": 251
+            },
+            {
+              "x": 295,
+              "y": 253
+            }
+          ],
+          "mouth": [
+            {
+              "x": 219,
+              "y": 364
+            },
+            {
+              "x": 222,
+              "y": 375
+            },
+            {
+              "x": 228,
+              "y": 383
+            },
+            {
+              "x": 238,
+              "y": 387
+            },
+            {
+              "x": 247,
+              "y": 385
+            },
+            {
+              "x": 255,
+              "y": 378
+            },
+            {
+              "x": 258,
+              "y": 368
+            },
+            {
+              "x": 257,
+              "y": 357
+            },
+            {
+              "x": 249,
+              "y": 348
+            },
+            {
+              "x": 244,
+              "y": 349
+            },
+            {
+              "x": 239,
+              "y": 347
+            },
+            {
+              "x": 227,
+              "y": 353
+            },
+            {
+              "x": 227,
+              "y": 365
+            },
+            {
+              "x": 234,
+              "y": 366
+            },
+            {
+              "x": 241,
+              "y": 367
+            },
+            {
+              "x": 247,
+              "y": 367
+            },
+            {
+              "x": 253,
+              "y": 368
+            },
+            {
+              "x": 253,
+              "y": 368
+            },
+            {
+              "x": 247,
+              "y": 367
+            },
+            {
+              "x": 241,
+              "y": 367
+            },
+            {
+              "x": 234,
+              "y": 366
+            },
+            {
+              "x": 227,
+              "y": 365
+            }
+          ],
+          "nose": [
+            {
+              "x": 246,
+              "y": 318
+            },
+            {
+              "x": 240,
+              "y": 286
+            },
+            {
+              "x": 236,
+              "y": 296
+            },
+            {
+              "x": 231,
+              "y": 306
+            },
+            {
+              "x": 226,
+              "y": 316
+            },
+            {
+              "x": 218,
+              "y": 329
+            },
+            {
+              "x": 232,
+              "y": 335
+            },
+            {
+              "x": 243,
+              "y": 336
+            },
+            {
+              "x": 252,
+              "y": 336
+            },
+            {
+              "x": 262,
+              "y": 331
+            },
+            {
+              "x": 257,
+              "y": 317
+            },
+            {
+              "x": 252,
+              "y": 307
+            },
+            {
+              "x": 246,
+              "y": 297
+            }
+          ]
+        }
+      }
+    ]
+  }
+}</pre>
+                </div>
+                <div class="demo-powerby">
+                  <p>Powered by</p>
+                  <i class="ico ico-youtu"></i>
+                </div>
+              </div>
+              <div class="ui-loading jmod-result-loading hidden">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 多人脸分析 -->
+          <div class="jmod-multi-face" :class="currentProduct.demo[currentTab].value=='multiface'?'':'tab-cont'">
+            <div class="demo-opt demo-box jmod-uploader-wrapper">
+              <div class="img-preview jmod-preview" id="preview">
+                <label>原始图片</label>
+                <img
+                  src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/multiface.jpg"
+                  style="width: auto; height: 100%; margin-top: 0px;"
+                />
+                <p class="err-tip jmod-err-tip"></p>
+                <div class="jmod-img-result" style="display:inline-block;">
+                  <div class="img-analysis">
+                    <div
+                      class="img-analysis-rect"
+                      style="left: -1px;top: -1px;width: -2px;height: -2px;"
+                    ></div>
+
+                    <div
+                      class="img-analysis-rect"
+                      style="left: -1px;top: -1px;width: -2px;height: -2px;"
+                    ></div>
+
+                    <div
+                      class="img-analysis-rect"
+                      style="left: -1px;top: -1px;width: -2px;height: -2px;"
+                    ></div>
+
+                    <div
+                      class="img-analysis-rect"
+                      style="left: -1px;top: -1px;width: -2px;height: -2px;"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <span class="btn btn-upload jmod-upload-disable disabled hidden">本地上传</span>
+                <input
+                  type="file"
+                  name="file"
+                  id="file_2"
+                  class="inputfile jmod-file"
+                  _stat_click_id="demo_uploadbtn"
+                  _stat_action_obj="multiface"
+                />
+                <label for="file_2" class="btn btn-upload jmod-upload">本地上传</label>
+                <label>或</label>
+                <span class="imgurl">
+                  <div class="ui-input">
+                    <input type="text" class="jmod-network-url" placeholder="输入网络图片URL" />
+                    <div class="ui-input-bg"></div>
+                  </div>
+                  <a
+                    href="javascript:void(0);"
+                    class="btn btn-test jmod-detect"
+                    _stat_click_id="demo_checkurlbtn"
+                    _stat_action_obj="multiface"
+                  >检测</a>
+                </span>
+              </div>
+              <p class="tips">提示：图片大小不超过1M，请保证需要识别部分为图片主体部分</p>
+            </div>
+            <div class="demo-rs demo-box jmod-result-wrapper">
+              <div class="jmod-result">
+                <label class="demo-rs-label">RESPONSE JSON</label>
+                <div class="sec">
+                  <pre>{
+  "ret": 0,
+  "msg": "ok",
+  "data": {
+    "face_list": [
+      {
+        "x1": 158.967,
+        "y1": 135.621,
+        "x2": 227.912,
+        "y2": 219.931
+      },
+      {
+        "x1": 257.43,
+        "y1": 128.097,
+        "x2": 309.524,
+        "y2": 188.018
+      },
+      {
+        "x1": 338.164,
+        "y1": 130.7,
+        "x2": 386.84,
+        "y2": 193.441
+      },
+      {
+        "x1": 409.059,
+        "y1": 105.083,
+        "x2": 472.597,
+        "y2": 185.678
+      }
+    ]
+  }
+}</pre>
+                </div>
+                <div class="demo-powerby">
+                  <p>Powered by</p>
+                  <i class="ico ico-ailab"></i>
+                </div>
+              </div>
+              <div class="ui-loading jmod-result-loading hidden">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 人脸对比 -->
+          <div class="jmod-face-compare" :class="currentProduct.demo[currentTab].value=='compare'?'':'tab-cont'">
+            <div style="position: relative;">
+              <div class="demo-opt demo-box compare jmod-uploader-left" style="margin-right:18px;">
+                <div class="img-preview jmod-preview">
+                  <label>对比图片1</label>
+                  <div class="img-wrap">
+                    <img
+                      src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-1.jpg"
+                      style="width: auto; height: 100%; margin-top: 0px;"
+                    />
+                    <p class="err-tip jmod-err-tip"></p>
+                    <div class="jmod-img-result" style="display:inline-block;"></div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <span class="btn btn-upload jmod-upload-disable disabled hidden">本地上传</span>
+                  <input
+                    type="file"
+                    name="file"
+                    id="file_compare-left"
+                    class="inputfile jmod-file"
+                    _stat_click_id="demo_uploadbtn"
+                    _stat_action_obj="compare-left"
+                  />
+                  <label for="file_compare-left" class="btn btn-upload jmod-upload">本地上传</label>
+                  <label>或</label>
+                  <span class="imgurl">
+                    <div class="ui-input">
+                      <input type="text" class="jmod-network-url" placeholder="输入网络图片URL" />
+                      <div class="ui-input-bg"></div>
+                    </div>
+                    <a
+                      href="javascript:void(0);"
+                      class="btn btn-test jmod-detect"
+                      _stat_click_id="demo_checkurlbtn"
+                      _stat_action_obj="compare-left"
+                    >检测</a>
+                  </span>
+                </div>
+                <p class="tips">提示：图片大小不超过500K，请保证需要识别部分为图片主体部分</p>
+              </div>
+              <div class="demo-opt demo-box compare jmod-uploader-right">
+                <div class="img-preview jmod-preview">
+                  <label>对比图片2</label>
+                  <div class="img-wrap">
+                    <img
+                      src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-3.jpg"
+                      style="width: auto; height: 100%; margin-top: 0px;"
+                    />
+                    <p class="err-tip jmod-err-tip"></p>
+                    <div class="jmod-img-result" style="display:inline-block;"></div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <span class="btn btn-upload jmod-upload-disable disabled hidden">本地上传</span>
+                  <input
+                    type="file"
+                    name="file"
+                    id="file_compare-right"
+                    class="inputfile jmod-file"
+                    _stat_click_id="demo_uploadbtn"
+                    _stat_action_obj="compare-right"
+                  />
+                  <label for="file_compare-right" class="btn btn-upload jmod-upload">本地上传</label>
+                  <label>或</label>
+                  <span class="imgurl">
+                    <div class="ui-input">
+                      <input type="text" class="jmod-network-url" placeholder="输入网络图片URL" />
+                      <div class="ui-input-bg"></div>
+                    </div>
+                    <a
+                      href="javascript:void(0);"
+                      class="btn btn-test jmod-detect"
+                      _stat_click_id="demo_checkurlbtn"
+                      _stat_action_obj="compare-right"
+                    >检测</a>
+                  </span>
+                </div>
+                <p class="tips">提示：图片大小不超过500K，请保证需要识别部分为图片主体部分</p>
+              </div>
+              <div class="ui-loading jmod-result-loading hidden" style="top: 40%;">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <div class="compare-result jmod-compare-result" style="display: none;">
+              <p class="jmod_result">相似度:85%</p>
+              <p class="poweredby">Powered by 腾讯优图</p>
+            </div>
+
+            <div class="compare-row">
+              <a
+                href="javascript:void(0);"
+                class="btn-compare jmod-compare-btn"
+                _stat_click_id="demo_comparebtn"
+              >人脸比对</a>
+            </div>
+          </div>
+
+          <!-- 跨年龄人脸识别 -->
+          <div class="jmod-age-compare" :class="currentProduct.demo[currentTab].value=='agecompare'?'':'tab-cont'">
+            <div style="position: relative;">
+              <div class="demo-opt demo-box compare jmod-uploader-left" style="margin-right:18px;">
+                <div class="img-preview jmod-preview">
+                  <label>对比图片1</label>
+                  <div class="img-wrap">
+                    <img
+                      src="//cdn.ai.qq.com/ai/assets/ai-demo/large/peterye1.jpg"
+                      style="width: auto; height: 100%; margin-top: 0px;"
+                    />
+                    <p class="err-tip jmod-err-tip"></p>
+                    <div class="jmod-img-result" style="display:inline-block;"></div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <span class="btn btn-upload jmod-upload-disable disabled hidden">本地上传</span>
+                  <input
+                    type="file"
+                    name="file"
+                    id="file_age-left"
+                    class="inputfile jmod-file"
+                    _stat_click_id="demo_uploadbtn"
+                    _stat_action_obj="age-left"
+                  />
+                  <label for="file_age-left" class="btn btn-upload jmod-upload">本地上传</label>
+                  <label>或</label>
+                  <span class="imgurl">
+                    <div class="ui-input">
+                      <input type="text" class="jmod-network-url" placeholder="输入网络图片URL" />
+                      <div class="ui-input-bg"></div>
+                    </div>
+                    <a
+                      href="javascript:void(0);"
+                      class="btn btn-test jmod-detect"
+                      _stat_click_id="demo_checkurlbtn"
+                      _stat_action_obj="age-left"
+                    >检测</a>
+                  </span>
+                </div>
+                <p class="tips">提示：可上传不同年龄段的照片，图片大小不超过1M，请保证需要识别部分为图片主体部分</p>
+              </div>
+              <div class="demo-opt demo-box compare jmod-uploader-right">
+                <div class="img-preview jmod-preview">
+                  <label>对比图片2</label>
+                  <div class="img-wrap">
+                    <img
+                      src="//cdn.ai.qq.com/ai/assets/ai-demo/large/peterye2.jpg"
+                      style="width: auto; height: 100%; margin-top: 0px;"
+                    />
+                    <p class="err-tip jmod-err-tip"></p>
+                    <div class="jmod-img-result" style="display:inline-block;"></div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <span class="btn btn-upload jmod-upload-disable disabled hidden">本地上传</span>
+                  <input
+                    type="file"
+                    name="file"
+                    id="file_age-right"
+                    class="inputfile jmod-file"
+                    _stat_click_id="demo_uploadbtn"
+                    _stat_action_obj="age-right"
+                  />
+                  <label for="file_age-right" class="btn btn-upload jmod-upload">本地上传</label>
+                  <label>或</label>
+                  <span class="imgurl">
+                    <div class="ui-input">
+                      <input type="text" class="jmod-network-url" placeholder="输入网络图片URL" />
+                      <div class="ui-input-bg"></div>
+                    </div>
+                    <a
+                      href="javascript:void(0);"
+                      class="btn btn-test jmod-detect"
+                      _stat_click_id="demo_checkurlbtn"
+                      _stat_action_obj="age-right"
+                    >检测</a>
+                  </span>
+                </div>
+                <p class="tips">提示：可上传不同年龄段的照片，图片大小不超过1M，请保证需要识别部分为图片主体部分</p>
+              </div>
+              <div class="ui-loading jmod-result-loading hidden" style="top: 40%;">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <div class="compare-result jmod-compare-result" style="display: none;">
+              <p class="jmod_result">相似度:85%</p>
+              <p class="poweredby">Powered by Tencent AI Lab</p>
+            </div>
+
+            <div class="compare-row">
+              <a
+                href="javascript:void(0);"
+                class="btn-compare jmod-compare-btn"
+                _stat_click_id="demo_agecomparebtn"
+              >人脸识别</a>
+            </div>
+          </div>
+
+          <!-- 人脸搜索 -->
+          <div class="jmod-face-search" :class="currentProduct.demo[currentTab].value=='search'?'':'tab-cont'">
+            <div class="demo-opt demo-box jmod-uploader-wrapper">
+              <div class="img-preview jmod-preview" id="preview">
+                <label>原始图片</label>
+                <img
+                  src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-1.jpg"
+                  style="width: auto; height: 100%; margin-top: 0px;"
+                />
+                <p class="err-tip jmod-err-tip"></p>
+                <div class="jmod-img-result" style="display:inline-block;"></div>
+              </div>
+              <div class="form-row">
+                <span class="btn btn-upload jmod-upload-disable disabled hidden">本地上传</span>
+                <input
+                  type="file"
+                  name="file"
+                  id="file_4"
+                  class="inputfile jmod-file"
+                  _stat_click_id="demo_uploadbtn"
+                  _stat_action_obj="search"
+                />
+                <label for="file_4" class="btn btn-upload jmod-upload">本地上传</label>
+                <label>或</label>
+                <span class="imgurl">
+                  <div class="ui-input">
+                    <input type="text" class="jmod-network-url" placeholder="输入网络图片URL" />
+                    <div class="ui-input-bg"></div>
+                  </div>
+                  <a
+                    href="javascript:void(0);"
+                    class="btn btn-test jmod-detect"
+                    _stat_click_id="demo_checkurlbtn"
+                    _stat_action_obj="search"
+                  >检测</a>
+                </span>
+              </div>
+              <p class="tips">提示：图片大小不超过1M，请保证需要识别部分为图片主体部分</p>
+            </div>
+            <!-- 人脸搜索请加上face-search类名 -->
+            <div class="demo-rs demo-box face-search jmod-result-wrapper">
+              <div class="jmod-result">
+                <label class="demo-rs-label">搜索结果</label>
+                <div class="sec clearfix jmod-search-result">
+                  <div class="demo-powerby">
+                    <p>Powered by</p>
+                    <i class="ico ico-youtu"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-loading jmod-result-loading hidden">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 五官定位 -->
+          <div class="jmod-face-shape" :class="currentProduct.demo[currentTab].value=='shape'?'':'tab-cont'">
+            <div class="demo-opt demo-box jmod-uploader-wrapper">
+              <div class="img-preview jmod-preview" id="preview">
+                <label>原始图片</label>
+                <img
+                  src="//cdn.ai.qq.com/aiplat/static/ai-demo/large/f-1.jpg"
+                  style="width: auto; height: 100%; margin-top: 0px;"
+                />
+                <p class="err-tip jmod-err-tip"></p>
+                <div class="jmod-img-result" style="display:inline-block;">
+                  <div class="img-pos">
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+
+                    <i style="left:0px;top:0px;"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <span class="btn btn-upload jmod-upload-disable disabled hidden">本地上传</span>
+                <input
+                  type="file"
+                  name="file"
+                  id="file_3"
+                  class="inputfile jmod-file"
+                  _stat_click_id="demo_uploadbtn"
+                  _stat_action_obj="shape"
+                />
+                <label for="file_3" class="btn btn-upload jmod-upload">本地上传</label>
+                <label>或</label>
+                <span class="imgurl">
+                  <div class="ui-input">
+                    <input type="text" class="jmod-network-url" placeholder="输入网络图片URL" />
+                    <div class="ui-input-bg"></div>
+                  </div>
+                  <a
+                    href="javascript:void(0);"
+                    class="btn btn-test jmod-detect"
+                    _stat_click_id="demo_checkurlbtn"
+                    _stat_action_obj="shape"
+                  >检测</a>
+                </span>
+              </div>
+              <p class="tips">提示：图片大小不超过1M，请保证需要识别部分为图片主体部分</p>
+            </div>
+            <div class="demo-rs demo-box jmod-result-wrapper">
+              <div class="jmod-result">
+                <label class="demo-rs-label">RESPONSE JSON</label>
+                <div class="sec">
+                  <pre>{
+  "ret": 0,
+  "msg": "ok",
+  "data": {
+    "image_width": "354",
+    "image_height": "360",
+    "face_shape_list": [
+      {
+        "face_profile": [
+          {
+            "x": 115,
+            "y": 161
+          },
+          {
+            "x": 117,
+            "y": 178
+          },
+          {
+            "x": 121,
+            "y": 195
+          },
+          {
+            "x": 126,
+            "y": 211
+          },
+          {
+            "x": 133,
+            "y": 226
+          },
+          {
+            "x": 142,
+            "y": 241
+          },
+          {
+            "x": 153,
+            "y": 253
+          },
+          {
+            "x": 166,
+            "y": 264
+          },
+          {
+            "x": 180,
+            "y": 274
+          },
+          {
+            "x": 195,
+            "y": 280
+          },
+          {
+            "x": 212,
+            "y": 280
+          },
+          {
+            "x": 225,
+            "y": 273
+          },
+          {
+            "x": 235,
+            "y": 262
+          },
+          {
+            "x": 244,
+            "y": 249
+          },
+          {
+            "x": 252,
+            "y": 236
+          },
+          {
+            "x": 258,
+            "y": 222
+          },
+          {
+            "x": 264,
+            "y": 208
+          },
+          {
+            "x": 267,
+            "y": 193
+          },
+          {
+            "x": 269,
+            "y": 177
+          },
+          {
+            "x": 270,
+            "y": 162
+          },
+          {
+            "x": 269,
+            "y": 148
+          }
+        ],
+        "left_eye": [
+          {
+            "x": 147,
+            "y": 162
+          },
+          {
+            "x": 155,
+            "y": 165
+          },
+          {
+            "x": 163,
+            "y": 165
+          },
+          {
+            "x": 171,
+            "y": 164
+          },
+          {
+            "x": 178,
+            "y": 161
+          },
+          {
+            "x": 172,
+            "y": 155
+          },
+          {
+            "x": 163,
+            "y": 153
+          },
+          {
+            "x": 154,
+            "y": 155
+          }
+        ],
+        "right_eye": [
+          {
+            "x": 249,
+            "y": 152
+          },
+          {
+            "x": 242,
+            "y": 156
+          },
+          {
+            "x": 235,
+            "y": 158
+          },
+          {
+            "x": 227,
+            "y": 158
+          },
+          {
+            "x": 219,
+            "y": 157
+          },
+          {
+            "x": 224,
+            "y": 150
+          },
+          {
+            "x": 232,
+            "y": 146
+          },
+          {
+            "x": 241,
+            "y": 147
+          }
+        ],
+        "left_eyebrow": [
+          {
+            "x": 128,
+            "y": 139
+          },
+          {
+            "x": 142,
+            "y": 137
+          },
+          {
+            "x": 155,
+            "y": 137
+          },
+          {
+            "x": 168,
+            "y": 139
+          },
+          {
+            "x": 182,
+            "y": 140
+          },
+          {
+            "x": 170,
+            "y": 130
+          },
+          {
+            "x": 155,
+            "y": 128
+          },
+          {
+            "x": 140,
+            "y": 130
+          }
+        ],
+        "right_eyebrow": [
+          {
+            "x": 260,
+            "y": 128
+          },
+          {
+            "x": 249,
+            "y": 129
+          },
+          {
+            "x": 238,
+            "y": 131
+          },
+          {
+            "x": 227,
+            "y": 134
+          },
+          {
+            "x": 217,
+            "y": 137
+          },
+          {
+            "x": 224,
+            "y": 127
+          },
+          {
+            "x": 236,
+            "y": 123
+          },
+          {
+            "x": 249,
+            "y": 121
+          }
+        ],
+        "mouth": [
+          {
+            "x": 170,
+            "y": 225
+          },
+          {
+            "x": 179,
+            "y": 238
+          },
+          {
+            "x": 191,
+            "y": 248
+          },
+          {
+            "x": 207,
+            "y": 250
+          },
+          {
+            "x": 221,
+            "y": 244
+          },
+          {
+            "x": 230,
+            "y": 231
+          },
+          {
+            "x": 234,
+            "y": 217
+          },
+          {
+            "x": 224,
+            "y": 216
+          },
+          {
+            "x": 214,
+            "y": 215
+          },
+          {
+            "x": 206,
+            "y": 219
+          },
+          {
+            "x": 196,
+            "y": 217
+          },
+          {
+            "x": 183,
+            "y": 221
+          },
+          {
+            "x": 181,
+            "y": 232
+          },
+          {
+            "x": 194,
+            "y": 236
+          },
+          {
+            "x": 206,
+            "y": 238
+          },
+          {
+            "x": 217,
+            "y": 233
+          },
+          {
+            "x": 226,
+            "y": 226
+          },
+          {
+            "x": 225,
+            "y": 220
+          },
+          {
+            "x": 215,
+            "y": 222
+          },
+          {
+            "x": 206,
+            "y": 225
+          },
+          {
+            "x": 194,
+            "y": 225
+          },
+          {
+            "x": 182,
+            "y": 225
+          }
+        ],
+        "nose": [
+          {
+            "x": 204,
+            "y": 195
+          },
+          {
+            "x": 199,
+            "y": 159
+          },
+          {
+            "x": 195,
+            "y": 169
+          },
+          {
+            "x": 191,
+            "y": 179
+          },
+          {
+            "x": 187,
+            "y": 189
+          },
+          {
+            "x": 182,
+            "y": 200
+          },
+          {
+            "x": 194,
+            "y": 205
+          },
+          {
+            "x": 205,
+            "y": 207
+          },
+          {
+            "x": 215,
+            "y": 203
+          },
+          {
+            "x": 225,
+            "y": 196
+          },
+          {
+            "x": 218,
+            "y": 186
+          },
+          {
+            "x": 212,
+            "y": 177
+          },
+          {
+            "x": 206,
+            "y": 168
+          }
+        ]
+      }
+    ]
+  }
+}</pre>
+                </div>
+                <div class="demo-powerby">
+                  <p>Powered by</p>
+                  <i class="ico ico-youtu"></i>
+                </div>
+              </div>
+              <div class="ui-loading jmod-result-loading hidden">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
 
     <div class="advan">
       <div class="layout">
@@ -890,22 +2638,31 @@ export default {
     return {
       productDetail: product.productDetail,
       currentProduct: product.productDetail.identify,
+      currentTab: 0,
       type1: "",
       type2: ""
     };
   },
   watch: {
-    "$route.query.type2": function(newVal, oldVal) {
-      this.type2 = newVal;
-    },
-    "$route.query.type1": function(newVal, oldVal) {
-      this.type1 = newVal;
+    "$route.query": function(newVal, oldVal) {
+      console.log(newVal);
+      this.type2 = newVal.type2;
+      this.currentProduct = this.productDetail[this.type2];
+      this.type1 = newVal.type1;
+      this.currentTab = newVal.currentTab;
     }
   },
   mounted() {
     this.type1 = this.$route.query.type1;
     this.type2 = this.$route.query.type2;
     this.currentProduct = this.productDetail[this.type2];
+
+    this.currentTab = this.$route.query.currentTab;
+  },
+  methods: {
+    changeTab(index) {
+      this.currentTab = index;
+    }
   }
 };
 </script>
