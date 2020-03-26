@@ -2,6 +2,47 @@
 import { getRequest, postRequest, putRequest, deleteRequest, importRequest, uploadFileRequest } from '@/libs/axios';
 
 
+// 用户登录
+export const userLogin = (params) => {
+  return postRequest('/common/login', params)
+}
+// 用户注册
+export const userRegister = (params) => {
+  return postRequest('/common/register', params)
+}
+
+// 获取技术引擎的产品列表
+export const getProductList = (params) => {
+  return getRequest('/common/productList', params)
+}
+// 获取技术引擎的详情
+export const getProductDetail = (value, params) => {
+  return getRequest('/common/product/'+value, params)
+}
+
+// 获取应用列表
+export const getApplicationList = (params) => {
+  return getRequest('/application/list', params)
+}
+// 获取应用的详情
+export const getApplicationDetail = (appid, params) => {
+  return getRequest('/application/'+appid+'/data-info', params)
+}
+// 应用信息编辑
+export const editApplication = (params) => {
+  return postRequest('/application/list', params)
+}
+// 创建应用
+export const createApplication = (params) => {
+  return postRequest('/application/create-app', params)
+}
+// 删除应用
+export const deleteApplication = (params) => {
+  return postRequest('/application/delete-app', params)
+}
+
+
+
 // /*
 // ** 用户相关api
 // */
@@ -194,56 +235,56 @@ import { getRequest, postRequest, putRequest, deleteRequest, importRequest, uplo
 // }
 
 
-// 用户登录
-export const userLogin = (params) => {
-  return postRequest('/user/login', params)
-}
-// 获取分页的用户信息列表
-export const getAllUser = (params) => {
-  return getRequest('/user/getByCondition', params)
-}
-// 添加用户
-export const addUser = (params) => {
-  return postRequest('/user/add', params)
-}
-// 编辑用户
-export const editUser = (params) => {
-  return postRequest('/user/edit', params)
-}
-// 删除用户
-export const deleteUser = (ids, params) => {
-  return deleteRequest(`/user/delByIds/${ids}`, params)
-}
+// // 用户登录
+// export const userLogin = (params) => {
+//   return postRequest('/user/login', params)
+// }
+// // 获取分页的用户信息列表
+// export const getAllUser = (params) => {
+//   return getRequest('/user/getByCondition', params)
+// }
+// // 添加用户
+// export const addUser = (params) => {
+//   return postRequest('/user/add', params)
+// }
+// // 编辑用户
+// export const editUser = (params) => {
+//   return postRequest('/user/edit', params)
+// }
+// // 删除用户
+// export const deleteUser = (ids, params) => {
+//   return deleteRequest(`/user/delByIds/${ids}`, params)
+// }
 
 
-// 获取工人列表
-export const getWorkerListData = (params) => {
-  return getRequest('/name/getByCondition', params)
-}
-// 添加工人
-export const addWorker = (params) => {
-  return postRequest('/name/add', params)
-}
-// 编辑工人
-export const editWorker = (params) => {
-  return postRequest('/name/edit', params)
-}
-// 删除工人
-export const deleteWorker = (ids, params) => {
-  return deleteRequest(`/name/delByIds/${ids}`, params)
-}
+// // 获取工人列表
+// export const getWorkerListData = (params) => {
+//   return getRequest('/name/getByCondition', params)
+// }
+// // 添加工人
+// export const addWorker = (params) => {
+//   return postRequest('/name/add', params)
+// }
+// // 编辑工人
+// export const editWorker = (params) => {
+//   return postRequest('/name/edit', params)
+// }
+// // 删除工人
+// export const deleteWorker = (ids, params) => {
+//   return deleteRequest(`/name/delByIds/${ids}`, params)
+// }
 
 
 
-// 获取图片记录列表
-export const getRecordListData = (params) => {
-  return getRequest('/record/getByCondition', params)
-}
-// 删除图片记录
-export const deleteRecord = (ids, params) => {
-  return deleteRequest(`/record/delByIds/${ids}`, params)
-}
-// 对记录进行扣费
-export const dealWithRecord = (id, params) => {
-  return getRequest(`/record/dealWithRecordById/${id}`, params)
-}
+// // 获取图片记录列表
+// export const getRecordListData = (params) => {
+//   return getRequest('/record/getByCondition', params)
+// }
+// // 删除图片记录
+// export const deleteRecord = (ids, params) => {
+//   return deleteRequest(`/record/delByIds/${ids}`, params)
+// }
+// // 对记录进行扣费
+// export const dealWithRecord = (id, params) => {
+//   return getRequest(`/record/dealWithRecordById/${id}`, params)
+// }

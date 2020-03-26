@@ -74,6 +74,18 @@ const routes = [
   //   component: Login,
   // }
 
+  // 登录页
+  {
+    path: '/login',
+    name: 'login',
+    component:  () => import('@/views/login/login.vue')
+  },
+  // 注册页
+  {
+    path: '/regist',
+    name: 'regist',
+    component:  () => import('@/views/regist/regist.vue')
+  },
   // 首页
   {
     path: '/',
@@ -86,6 +98,19 @@ const routes = [
     name: 'product',
     component:  () => import('@/views/front/product/product.vue')
   },
+  // 文档中心页
+  {
+    path: '/doc',
+    name: 'doc',
+    component:  () => import('@/views/front/doc/home.vue')
+  },
+
+  // 控制台首页
+  {
+    path: '/console/home',
+    name: 'console-home',
+    component:  () => import('@/views/console/home/home.vue')
+  }
 ]
 
 const router = new VueRouter({

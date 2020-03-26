@@ -916,6 +916,8 @@
             class="top-cat"
             @mouseenter="sliderIn('770px','72px')"
             @mouseleave="sliderOut()"
+
+            @click="goToDoc()"
           >
             <h2>
               <a href="#">文档中心</a>
@@ -929,9 +931,9 @@
         ></i>
       </div>
 
-      <div class="mod-header-user">
-        <a href="#" target="_blank" class="try jmod-header-try">控制台</a>
-        <a href="#" target="_blank" class="console jmod-header-console hidden">控制台</a>
+      <div class="mod-header-user" @click="goToLogin()">
+        <a  class="try jmod-header-try">控制台</a>
+        <a  class="console jmod-header-console hidden">控制台</a>
       </div>
     </div>
   </div>
@@ -1005,6 +1007,18 @@ export default {
           type2: type2,
           currentTab: currentTab
         }
+      })
+    },
+    // 跳转文档中心
+    goToDoc(){
+      this.$router.push({
+        path: 'doc', 
+      })
+    },
+    // 跳转登录页
+    goToLogin(){
+       this.$router.push({
+        path: 'login', 
       })
     }
   }

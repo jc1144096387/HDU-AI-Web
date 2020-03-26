@@ -3,10 +3,24 @@ module.exports = {
     host: '127.0.0.1',
     port: 9997,
     proxy: {
-      '/': {
-        target: 'http://localhost:8088',  // 请求本地 
-      }
-    }
+      '/common': {
+        target: 'http://47.99.47.230:8090', // 接口请求地址
+      },
+      '/application': {
+        target: 'http://47.99.47.230:8090', // 接口请求地址
+      },
+      
+    },
+    // historyApiFallback: {
+    //   index: 'index.html',
+    //   // // to: 打包项目路径
+    //   // rewrites: [
+    //   //   {
+    //   //     from: /^.*/, 
+    //   //     to: '/index.html'
+    //   //   }
+    //   // ]
+    // }
   },
   // 打包时不生成.map文件 避免看到源码
   productionSourceMap: false,

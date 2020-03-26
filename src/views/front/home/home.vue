@@ -773,12 +773,14 @@ export default {
       }, 5000);
     },
     loadMore(e) {
-      console.log(this.isLoadMore);
-      this.isLoadMore[e] = true;
+      let arr = [...this.isLoadMore];
+      arr[e] = true;
+      this.isLoadMore = arr;
     },
     hideMore(e) {
-      console.log(this.isLoadMore);
-      this.isLoadMore[e] = false;
+      let arr = [...this.isLoadMore];
+      arr[e] = false;
+      this.isLoadMore = arr;
     },
     // 跳转技术引擎详情页
     goToProductDetail(type1,type2,currentTab){

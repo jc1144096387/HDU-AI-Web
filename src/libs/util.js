@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getMenuList } from '@/api/index';
 import lazyLoading from './lazyLoading.js';
-import router from '@/router/index';
+// import router from '@/router/index';
 import Cookies from "js-cookie";
 
 let util = {
@@ -9,7 +9,7 @@ let util = {
 };
 
 util.title = function (title) {
-    title = title || 'XBoot 前后端分离开发平台';
+    title = title || 'HDU AI';
     window.document.title = title;
 };
 
