@@ -26,10 +26,12 @@
             <div class="sec-content">
               <div class="myapp-content">
                 <a
+                  v-for="(item,index) in appList" :key="index" 
                   class="ui-card myapp-app"
                   href="/console/application/2130852857/overview"
+                  :style="{marginRight: (index%3==2? '0px':'30px')}"
                   ><div class="myapp-app-header">
-                    <p class="text-overflow" title="小程序">小程序</p>
+                    <p class="text-overflow" :title="item.name">{{item.name}}</p>
                   </div>
                   <div class="myapp-app-invoke">
                     <div class="myapp-app-invokeTitle">近30日调用总量</div>
@@ -39,23 +41,9 @@
                     <p>
                       昨日调用量变化<span class="zero">0%&nbsp;&nbsp;--</span>
                     </p>
-                  </div></a
-                ><a
-                  class="ui-card myapp-app"
-                  href="/console/application/2129141900/overview"
-                  ><div class="myapp-app-header">
-                    <p class="text-overflow" title="小程序">小程序</p>
                   </div>
-                  <div class="myapp-app-invoke">
-                    <div class="myapp-app-invokeTitle">近30日调用总量</div>
-                    <div class="myapp-app-invokeValue">0</div>
-                  </div>
-                  <div class="myapp-app-change">
-                    <p>
-                      昨日调用量变化<span class="zero">0%&nbsp;&nbsp;--</span>
-                    </p>
-                  </div></a
-                >
+                </a>
+                
               </div>
             </div>
           </div>
@@ -222,6 +210,8 @@
 import consoleHeader from '@/components/header/console-header.vue';
 import consoleFooter from '@/components/footer/console-footer.vue';
 
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "",
   components: {
@@ -231,12 +221,35 @@ export default {
   data() {
     return {
       // isNavShow: false,
-      applicationList:[
-
-      ]
     };
   },
+  computed:{
+    ...mapState([
+      "userInfo",
+      "appList"
+    ])
+  },
+  mounted(){
+    // 获取账号信息
+    this.getUserInfoAction().then(res=>{
+      
+    },err=>{
+      // 未登录重新登陆
+      if(!this.userInfo){
+        this.$router.push({
+          name: "login"
+        });
+      }
+    })
+
+    // 获取应用信息
+    this.getApplicationListAction();
+  },
   methods: {
+    ...mapActions([
+      "getUserInfoAction",
+      "getApplicationListAction"
+    ]),
     // 前往创建应用页面
     goToCreateApp(){
       this.$router.push({

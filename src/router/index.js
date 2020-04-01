@@ -111,6 +111,12 @@ const routes = [
     name: 'console-home',
     component:  () => import('@/views/console/home/home.vue')
   },
+  // 控制台账号信息
+  {
+    path: '/console/user/account-info',
+    name: 'account-info',
+    component:  () => import('@/views/console/user/account-info.vue')
+  },
   // 控制台创建应用
   {
     path: '/console/application/create-app',

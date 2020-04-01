@@ -1,228 +1,327 @@
 <template>
-  <div class="header">
-    <div class="layout">
-      <!-- 导航栏左侧 -->
-      <div class="header-left">
-        <a class="header-logo" _stat_click_id="consheader_logo" href="/"></a
-        ><span class="header-title">控制台</span>
-      </div>
-      <!-- 导航栏中间 -->
-      <div class="header-center">
-        <ul class="header-nav">
-          <li class="header-nav-first">
-            <a _stat_click_id="consheader_home" href="/console/home">首页</a>
-          </li>
-          <li
-            class="header-nav-first nav-more app-nav"
-            :class="isNavShow ? 'hover-nav' : ''"
-            @mouseenter="showNav()"
-            @mouseleave="hideNav()"
-          >
-            <a
-              href="javascript:void(0);"
-              _stat_click_id="consheader_app"
-              class="nav-more-link"
-              >应用管理</a
-            >
-            <div class="app-nav-panel">
-              <ul>
-                <!-- 我的应用列表 -->
-                <li v-for="(item,index) in appList" :key="index" class="app-nav-item">
-                  <a
-                    href="/console/application/2130852857/overview"
-                    ><span class="text-overflow" :title="item.name">{{item.name}}</span></a
-                  ><i
-                    class="ico-delete-app"
-                    @click="showDeleteModal(item.id)"
-                  ></i>
-                </li>
+  <div class="app">
+    <console-header></console-header>
+    <div class="app-main">
+      <div class="user">
+        <div class="account-info ui-paper">
+          <div class="title">帐号资料</div>
+          <div class="divider"></div>
+          <div class="section">
+            <div class="section__title">基本资料</div>
+            <div class="section__row">
+              <span class="section__label">账号昵称</span
+              ><span class="section__value">{{userInfo.name}}</span>
+            </div>
+            <div class="section__row">
+              <span class="section__label"
+                >账号ID
+                <div class="ui-tooltip">
+                  <div class="ui-tooltip-icon">
+                    <div
+                      class="ui-tooltip-wrap pos-top arrow-pos-middle shadow"
+                      style="width: 160px; left: -78px;"
+                    >
+                      <p>用户在腾讯AI开放平台的唯一身份标识</p>
+                    </div>
+                  </div>
+                </div></span
+              ><span class="section__value">{{userInfo.id}}</span>
+            </div>
+            <div class="section__row">
+              <span class="section__label">公司/个人名称</span
+              ><span class="section__value">{{userInfo.name}}</span>
+            </div>
+            <div class="section__row">
+              <span class="section__label">绑定手机</span
+              ><span class="section__value">{{userInfo.mobile}}</span
+              ><span class="section__action" _stat_click_id="user_modmobile"
+                >修改</span
+              >
+            </div>
+            <div class="section__row">
+              <span class="section__label">绑定邮箱</span
+              ><span class="section__value">{{userInfo.email}}</span
+              ><span class="section__action" _stat_click_id="user_modemail"
+                >修改</span
+              >
+            </div>
+          </div>
+          <div class="section">
+            <div class="section__title">实名认证</div>
+            <div class="section__row">
+              <span class="section__label">状态</span
+              ><span class="section__value">未实名认证</span
+              ><a
+                class="section__action"
+                href="/cgi-bin/choose_view"
+                target="_blank"
+                _stat_click_id="gotoauth"
+                >前往认证</a
+              >
+            </div>
+          </div>
+          <div class="section">
+            <div class="section__title">业务信息</div>
+            <div class="section__row">
+              <span class="section__label" style="">行业信息</span
+              ><span class="section__value"></span
+              ><span class="section__action" _stat_click_id="user_editindustry"
+                >修改</span
+              >
+            </div>
+          </div>
+        </div>
 
-              </ul>
-              <div class="app-nav-add">
-                <a
-                  _stat_click_id="consheader_app"
-                  _stat_action_obj="createapp"
-                  @click="goToCreateApp()"
-                  ><i class="ico-add-app"></i>创建应用</a
-                >
+
+        <div class="ui-dialog ui-mask" style="display: none;">
+          <div class="ui-dialog-wrap shadow auth-dialog" data-name="dialog_4">
+            <div class="ui-dialog-header">
+              <span>身份验证</span><i class="ico-close"></i>
+            </div>
+            <div class="ui-dialog-body">
+              <div class="auth-dialog-body">
+                <div class="auth-dialog-tip">
+                  为了您的账号安全，进行敏感操作前须先验证身份。
+                </div>
+                <div class="auth-dialog-content">
+                  <div class="auth-dialog-content__row">
+                    <span class="auth-dialog-content__label">验证方法</span
+                    ><span class="auth-dialog-content__value">手机验证</span>
+                  </div>
+                  <div class="auth-dialog-content__row">
+                    <span class="auth-dialog-content__label">绑定手机</span
+                    ><span class="auth-dialog-content__value">{{userInfo.mobile}}</span>
+                  </div>
+                  <div class="auth-dialog-content__row haserror">
+                    <span class="auth-dialog-content__label">短信验证码</span
+                    ><span class="auth-dialog-content__value"
+                      ><div class="ui-input auth-dialog-content__input">
+                        <input
+                          placeholder="请填写6位数字验证码"
+                          autocomplete="off"
+                          value=""
+                        />
+                        <div class="ui-input-bg"></div>
+                      </div>
+                      <span
+                        class="auth-dialog-content__err"
+                        style="display: none;"
+                        >请填写6位数字验证码</span
+                      ></span
+                    ><span class="auth-dialog-content__btn"
+                      ><input
+                        type="button"
+                        class="ui-button is-blue"
+                        value="发送验证码"
+                    /></span>
+                  </div>
+                </div>
               </div>
             </div>
-          </li>
+            <div class="ui-dialog-footer">
+              <input
+                type="button"
+                class="ui-button ui-button-primary is-blue"
+                _stat_click_id="AuthDialog_okbtn"
+                value="确定"
+              /><input
+                type="button"
+                class="ui-button ui-dialog-cancelBtn is-blue"
+                _stat_click_id="AuthDialog_cancelbtn"
+                value="取消"
+              />
+            </div>
+          </div>
+        </div>
 
-          <li class="header-nav-first">
-            <a
-              class="capa-nav"
-              _stat_click_id="consheader_capability"
-              href="/console/capability/overview"
-              >能力库</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      <div class="header-right">
-        <a
-          class="header-doc"
-          target="_blank"
-          href="/doc"
-          _stat_click_id="consheader_doc"
-        ></a>
-        <div class="header-user">
-          <div class="header-user-name nav-more user-nav">
-            <a
-              href="javascript:void(0);"
-              class="nav-more-link"
-              _stat_click_id="consheader_user"
-              ><i class="header-user-logo"></i
-              ><span class="text-overflow">{{userInfo.name}}</span></a
-            >
-            <div class="user-nav-panel">
-              <ul>
-                <li class="user-nav-item">
-                  <a
-                    @click="goToAccountInfo()"
-                    >账号信息</a
-                  >
-                </li>
-                <li
-                  class="user-nav-item"
-                  _stat_click_id="consheader_user"
-                  _stat_action_obj="logout"
-                  @click="logout()"
-                >
-                  <span>退出</span>
-                </li>
-              </ul>
+        <div class="ui-dialog ui-mask" style="display: none;">
+          <div class="ui-dialog-wrap shadow modmob-dialog" data-name="dialog_5">
+            <div class="ui-dialog-header">
+              <span>修改绑定手机</span><i class="ico-close"></i>
+            </div>
+            <div class="ui-dialog-body">
+              <div class="modmob-dialog-body">
+                <div class="modmob-dialog-content">
+                  <div class="modmob-dialog-content__row haserror">
+                    <span class="modmob-dialog-content__label">新绑定手机</span
+                    ><span class="modmob-dialog-content__value"
+                      ><span style="line-height: 36px;">+86 </span>
+                      <div
+                        class="ui-input modmob-dialog-content__input mob-input"
+                      >
+                        <input
+                          placeholder="新绑定手机"
+                          autocomplete="off"
+                          value=""
+                        />
+                        <div class="ui-input-bg"></div>
+                      </div>
+                      <span
+                        class="modmob-dialog-content__err"
+                        style="display: none; margin-left: 5px;"
+                        >请填写新绑定手机</span
+                      ><span
+                        class="modmob-dialog-content__err"
+                        style="display: none; margin-left: 5px;"
+                        >请填写正确的手机</span
+                      ></span
+                    >
+                  </div>
+                  <div class="modmob-dialog-content__row haserror">
+                    <span class="modmob-dialog-content__label">短信验证码</span
+                    ><span class="modmob-dialog-content__value"
+                      ><div class="ui-input modmob-dialog-content__input">
+                        <input
+                          placeholder="请填写6位数字验证码"
+                          autocomplete="off"
+                          value=""
+                        />
+                        <div class="ui-input-bg"></div>
+                      </div>
+                      <span
+                        class="modmob-dialog-content__err"
+                        style="display: none;"
+                        >请填写6位数字验证码</span
+                      ></span
+                    ><span class="modmob-dialog-content__btn"
+                      ><input
+                        type="button"
+                        class="ui-button is-blue"
+                        value="发送验证码"
+                    /></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-dialog-footer">
+              <input
+                type="button"
+                class="ui-button ui-button-primary is-blue"
+                _stat_click_id="ModMobileDialog_okbtn"
+                value="确定"
+              /><input
+                type="button"
+                class="ui-button ui-dialog-cancelBtn is-blue"
+                _stat_click_id="ModMobileDialog_cancelbtn"
+                value="取消"
+              />
+            </div>
+          </div>
+        </div>
+        
+        <div class="ui-dialog ui-mask" style="display: none;">
+          <div
+            class="ui-dialog-wrap shadow modemail-dialog"
+            data-name="dialog_6"
+          >
+            <div class="ui-dialog-header">
+              <span>修改绑定邮箱</span><i class="ico-close"></i>
+            </div>
+            <div class="ui-dialog-body">
+              <div class="modemail-dialog-body">
+                <div class="modemail-dialog-content">
+                  <div class="modemail-dialog-content__row haserror">
+                    <span class="modemail-dialog-content__label"
+                      >新绑定邮箱</span
+                    ><span class="modemail-dialog-content__value"
+                      ><div class="ui-input modemail-dialog-content__input">
+                        <input
+                          placeholder="新绑定邮箱"
+                          autocomplete="off"
+                          value=""
+                        />
+                        <div class="ui-input-bg"></div>
+                      </div>
+                      <span
+                        class="modemail-dialog-content__err"
+                        style="display: none; margin-left: 5px;"
+                        >请填写新绑定邮箱</span
+                      ><span
+                        class="modemail-dialog-content__err"
+                        style="display: none; margin-left: 5px;"
+                        >请填写正确的邮箱</span
+                      ></span
+                    >
+                  </div>
+                  <div class="modemail-dialog-content__row haserror">
+                    <span class="modemail-dialog-content__label"
+                      >邮箱验证码</span
+                    ><span class="modemail-dialog-content__value"
+                      ><div class="ui-input modemail-dialog-content__input">
+                        <input
+                          placeholder="请填写6位数字验证码"
+                          autocomplete="off"
+                          value=""
+                        />
+                        <div class="ui-input-bg"></div>
+                      </div>
+                      <span
+                        class="modemail-dialog-content__err"
+                        style="display: none;"
+                        >请填写6位数字验证码</span
+                      ></span
+                    ><span class="modemail-dialog-content__btn"
+                      ><input
+                        type="button"
+                        class="ui-button is-blue"
+                        value="发送验证码"
+                    /></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui-dialog-footer">
+              <input
+                type="button"
+                class="ui-button ui-button-primary is-blue"
+                _stat_click_id="dialog_okbtn"
+                value="确定"
+              /><input
+                type="button"
+                class="ui-button ui-dialog-cancelBtn is-blue"
+                _stat_click_id="dialog_cancelbtn"
+                value="取消"
+              />
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- 删除应用 模态框 -->
-    <div class="ui-dialog ui-mask" :style="{display: isDeleteModalShow?'block':'none'}">
-      <div
-        class="ui-dialog-wrap shadow delete-app-dialog"
-        data-name="dialog_0"
-        style="top: 285px; left: 203px;"
-      >
-        <div class="ui-dialog-header">
-          <span>删除应用</span><i class="ico-close" @click="hideDeleteModal()"></i>
-        </div>
-        <div class="ui-dialog-body">
-          <div class="delete-app-dialog__content">
-            删除应用后，该应用已接入的能力和数据都会被删除
-          </div>
-        </div>
-        <div class="ui-dialog-footer">
-          <input
-            type="button"
-            class="ui-button is-blue"
-            value="确认删除"
-            @click="deleteApp()"
-          /><input
-            type="button"
-            class="ui-button ui-dialog-cancelBtn ui-button-primary is-blue"
-            value="取消"
-            @click="hideDeleteModal()"
-          />
-        </div>
-      </div>
-    </div>
+    <!-- 底部版权信息 -->
+    <console-footer></console-footer>
   </div>
 </template>
 <script>
-import {deleteApplication} from '@/api/index.js';
+import consoleHeader from "@/components/header/console-header.vue";
+import consoleFooter from "@/components/footer/console-footer.vue";
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
-import Cookies from 'js-cookie';
-import { getStore, setStore } from '@/libs/storage';
 export default {
   name: "",
+  components: {
+    consoleHeader,
+    consoleFooter
+  },
   data() {
-    return {
-      isNavShow: false,
-      isDeleteModalShow: false,
-      currentAppId: "",
-    };
+    return {};
   },
-  computed:{
-    ...mapState([
-      "userInfo",
-      "appList"
-    ])
+  computed: {
+    ...mapState(["userInfo"])
   },
-  mounted(){
-    // 获取账号信息
-    this.getUserInfoAction().then(res=>{
-      
-    },err=>{
-      // 未登录重新登陆
-      if(!this.userInfo){
-        this.$router.push({
-          name: "login"
-        });
+  mounted() {
+    this.getUserInfoAction().then(
+      res => {},
+      err => {
+        // 未登录重新登陆
+        if (!this.userInfo) {
+          this.$router.push({
+            name: "login"
+          });
+        }
       }
-    })
-
-    // 获取应用信息
-    this.getApplicationListAction();
+    );
   },
   methods: {
-    ...mapActions([
-      "getUserInfoAction",
-      "getApplicationListAction"
-    ]),
-    //登出
-    logout(){
-      console.log("登出");
-      Cookies.set('userInfo', '');
-      setStore('userInfo', '');
-      setStore('accessToken', '');
-      this.$router.push({
-        name: "home"
-      });
-    },
-    // 前往账号信息页面
-    goToAccountInfo(){
-      this.$router.push({
-        name: "account-info"
-      });
-    },
-    showNav() {
-      this.isNavShow = true;
-      console.log(this.isNavShow);
-    },
-    hideNav() {
-      this.isNavShow = false;
-    },
-    // 前往创建应用页面
-    goToCreateApp(){
-      this.$router.push({
-        name: 'create-app', 
-      })
-    },
-    // 显示删除模态框
-    showDeleteModal(appid){
-      this.isDeleteModalShow = true;
-      this.currentAppId = appid;
-    },
-    // 隐藏删除模态框
-    hideDeleteModal(){
-      this.isDeleteModalShow = false;
-    },
-    // 调用删除api
-    deleteApp(){
-      deleteApplication({appid: this.currentAppId}).then(res =>{
-        console.log(res);
-        if(res.success){
-          this.$Message.success("删除成功");
-          this.isDeleteModalShow = false;
-          this.getApplicationListAction();
-        }else{
-          this.$Message.success("删除失败");
-          // this.isDeleteModalShow = false;
-        }
-      })
-    }
+    ...mapActions(["getUserInfoAction"])
   }
 };
 </script>
@@ -701,8 +800,7 @@ export default {
   display: none;
   position: absolute;
   padding: 5px;
-  /* top: calc(50% - 13px); */
-  top: 13px;
+  top: calc(50% - 13px);
   left: 151px;
 }
 .header .app-nav-item .ico-delete-app:hover {
@@ -854,7 +952,6 @@ export default {
   font-size: 14px;
   line-height: 1;
   padding: 60px 0;
-  border: none;
 }
 .ui-card {
   display: inline-block;
@@ -3388,20 +3485,12 @@ textarea {
 .mod-crumb span {
   color: #878787;
 }
-/* body {
+body {
   background-color: #f2f2f2;
-} */
+}
 .app {
   min-width: 1280px;
-
-  position: relative;
-  font: 12px/1.5 microsoft yahei,arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
   background-color: #f2f2f2;
-  min-width: 1200px;
-  color: #323232;
-  min-height: 100%;
-  box-sizing: border-box;
 }
 .app-main {
   padding-top: 60px;
@@ -3435,5 +3524,4 @@ textarea {
     width: calc(100% - 200px - 80px);
   }
 }
-
 </style>

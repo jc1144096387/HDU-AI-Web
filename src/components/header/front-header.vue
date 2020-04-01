@@ -1055,9 +1055,7 @@
               ></i>
           <div class="dropdown">
             <a
-              href="/console/user/account-info"
-              target="__blank"
-              _stat_click_id="header_userinfo"
+              @click="goToAccountInfo()"
               >帐号信息</a
             >
             <a
@@ -1118,6 +1116,13 @@ export default {
       setStore('accessToken', '');
       this.getUserInfoAction();
     },
+    // 前往账号信息页面
+    goToAccountInfo(){
+      this.$router.push({
+        name: "account-info"
+      });
+    },
+
     show() {
       this.isShow = true;
 

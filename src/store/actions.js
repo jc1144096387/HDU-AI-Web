@@ -24,7 +24,14 @@ export const getUserInfoAction = ({ commit }, data) => {
 export const getProductListAction = ({ commit }, data) => {
   return new Promise((resolve, reject) => {
     getProductList().then(res => {
-      commit('SET_PRODUCT_LIST', res);
+      console.log(res);
+      if(res.success){
+        commit('SET_PRODUCT_LIST', res.result);
+        resolve(res);
+      }else{
+        commit('SET_PRODUCT_LIST', "");
+        reject(res);
+      }
     })
   });
 }
@@ -33,7 +40,14 @@ export const getProductListAction = ({ commit }, data) => {
 export const getApplicationListAction = ({ commit }, data) => {
   return new Promise((resolve, reject) => {
     getApplicationList().then(res => {
-      commit('SET_APP_LIST', res);
+      console.log(res);
+      if(res.success){
+        commit('SET_APP_LIST', res.result);
+        resolve(res);
+      }else{
+        commit('SET_APP_LIST', "");
+        reject(res);
+      }
     })
   });
 }

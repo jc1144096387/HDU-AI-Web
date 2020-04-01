@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="app">
     <console-header></console-header>
 
     <div class="app-main">
       <div class="application">
-        <div>
+        <!-- 创建应用 -->
+        <div v-if="!isSuccess">
           <div class="create-form">
             <div class="layout ui-paper">
               <div class="create-form-title">创建应用</div>
@@ -305,7 +306,11 @@
                       ></Input>
                     </FormItem>
                     <FormItem label="应用类型" prop="type">
-                      <Select size="large" v-model="form.type" placeholder="请选择应用类型">
+                      <Select
+                        size="large"
+                        v-model="form.type"
+                        placeholder="请选择应用类型"
+                      >
                         <Option value="电子商务">电子商务</Option>
                         <Option value="社交">社交</Option>
                         <Option value="生活O2O">生活O2O</Option>
@@ -366,7 +371,7 @@
                         type="textarea"
                         maxlength="500"
                         rows="8"
-                        :autosize="{minRows: 8,maxRows: 8}"
+                        :autosize="{ minRows: 8, maxRows: 8 }"
                         placeholder="请描述该应用场景、功能等。如：使用通用OCR技术，用于电商产品图片关键信息的识别，便于后续对图片的分类处理。"
                       ></Input>
                     </FormItem>
@@ -386,6 +391,39 @@
             </div>
           </div>
         </div>
+
+        <!-- 创建成功 -->
+        <div v-if="isSuccess">
+          <div class="create-suc">
+            <div class="layout ui-paper">
+              <div class="create-suc-header">
+                <i class="create-suc-logo"></i>
+                <p class="create-suc-title">创建应用成功</p>
+                <p class="create-suc-desc">
+                  AppID和AppKey是您应用实际开发的主要凭证，每个应用唯一标示，互不相同，请妥善保管，您也可前往该应用的应用信息页面查看。
+                </p>
+              </div>
+              <div class="create-suc-result">
+                <div>
+                  <span class="create-suc-key">App_ID</span
+                  ><span class="create-suc-value">2131652023</span>
+                </div>
+                <div>
+                  <span class="create-suc-key">App_Key</span
+                  ><span class="create-suc-value">m72hcrbWM7XHQeAF</span>
+                </div>
+              </div>
+              <div class="create-suc-btn">
+                <input
+                  type="button"
+                  class="ui-button ui-button-primary is-blue"
+                  _stat_click_id="success_addapi"
+                  value="接入能力"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -397,7 +435,7 @@
 import consoleHeader from "@/components/header/console-header.vue";
 import consoleFooter from "@/components/footer/console-footer.vue";
 
-import {createApplication} from "@/api/index.js";
+import { createApplication } from "@/api/index.js";
 
 export default {
   name: "",
@@ -407,6 +445,7 @@ export default {
   },
   data() {
     return {
+      isSuccess: false,
       form: {
         name: "",
         type: "",
@@ -421,7 +460,13 @@ export default {
           { required: true, message: "请选择应用的类型", trigger: "blur" }
         ],
         platform: [
-          { required: true, type: 'array', min: 1, message: '请选择应用平台', trigger: 'change' },
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "请选择应用平台",
+            trigger: "change"
+          }
         ],
         description: [
           { required: true, message: "请输入应用的描述", trigger: "blur" }
@@ -435,12 +480,15 @@ export default {
         console.log(this.form);
         if (valid) {
           // this.form.platform = 'IOS';
-          createApplication(this.form).then(res=>{
+          createApplication(this.form).then(res => {
             console.log(res);
-            if(res.success){
+            if (res.success) {
               this.$Message.success("创建成功!");
+              this.isSuccess = true;
+            } else {
+              this.$Message.error(res.message);
             }
-          })
+          });
         }
       });
     }
@@ -448,6 +496,10 @@ export default {
 };
 </script>
 <style scoped>
+.container {
+  height: 100%;
+}
+
 .ai-notice .content {
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2084,9 +2136,11 @@ input[disabled] ~ label {
   display: inline-block;
   color: #909090;
   padding-left: 119px;
+  /* padding-right: 10px; */
 }
 .create-suc-value {
   color: #414141;
+  padding-left: 90px;
 }
 .ui-sidebar {
   background-color: #22232c;
@@ -3612,6 +3666,8 @@ body {
 }
 .app {
   min-width: 1280px;
+  background-color: #f2f2f2;
+  height: 100%;
 }
 .app-main {
   padding-top: 60px;
