@@ -9,6 +9,9 @@ module.exports = {
       '/application': {
         target: 'http://47.99.47.230:8090', // 接口请求地址
       },
+      '/user': {
+        target: 'http://47.99.47.230:8090', // 接口请求地址
+      },
       
     },
     // historyApiFallback: {

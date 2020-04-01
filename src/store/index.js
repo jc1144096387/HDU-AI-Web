@@ -1,27 +1,21 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
-// import app from './modules/app';
-import user from './modules/user';
-import dict from './modules/dict';
+import * as actions from './actions';
+import * as mutations from './mutations';
+import * as getters from './getters';
 
 Vue.use(Vuex);
 
-const store = new Vuex.Store({
-    state: {
-        // 状态
-    },
-    mutations: {
-        // 改变方法
-    },
-    actions: {
+export default new Vuex.Store({
+  state: {
+    userInfo: {}, // 用户信息
+    
+    productList: [],// 技术引擎产品列表
 
-    },
-    modules: {
-        // app,
-        user,
-        dict
-    }
+    appList: [],// 用户的应用列表
+
+  },
+  getters,
+  actions,
+  mutations
 });
-
-export default store;

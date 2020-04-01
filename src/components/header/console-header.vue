@@ -1,242 +1,200 @@
 <template>
-  <div class="app">
-    <!-- 顶部导航栏 -->
-    <console-header></console-header>
-
-    <div class="app-main">
-      <div class="home">
-        <div class="layout">
-          <!-- 我的应用列表 -->
-          <div class="sec myapp">
-            <div class="sec-header">
-              <div class="sec-header__title">我的应用</div>
-              <div class="sec-header__action">
-                <div style="margin-bottom: -8px;">
-                  <input
-                    type="button"
-                    class="ui-button ui-button-primary is-blue ui-button-mid"
-                    _stat_click_id="applist_createpp"
-                    _stat_action_obj="action"
-                    value="+  创建应用"
-                    @click="goToCreateApp()"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="sec-content">
-              <div class="myapp-content">
+  <div class="header">
+    <div class="layout">
+      <!-- 导航栏左侧 -->
+      <div class="header-left">
+        <a class="header-logo" _stat_click_id="consheader_logo" href="/"></a
+        ><span class="header-title">控制台</span>
+      </div>
+      <!-- 导航栏中间 -->
+      <div class="header-center">
+        <ul class="header-nav">
+          <li class="header-nav-first">
+            <a _stat_click_id="consheader_home" href="/console/home">首页</a>
+          </li>
+          <li
+            class="header-nav-first nav-more app-nav"
+            :class="isNavShow ? 'hover-nav' : ''"
+            @mouseenter="showNav()"
+            @mouseleave="hideNav()"
+          >
+            <a
+              href="javascript:void(0);"
+              _stat_click_id="consheader_app"
+              class="nav-more-link"
+              >应用管理</a
+            >
+            <div class="app-nav-panel">
+              <ul>
+                <!-- 我的应用列表 -->
+                <li class="app-nav-item">
+                  <a
+                    _stat_click_id="consheader_app"
+                    _stat_action_obj="appinfo"
+                    href="/console/application/2130852857/overview"
+                    ><span class="text-overflow" title="小程序">小程序</span></a
+                  ><i
+                    class="ico-delete-app"
+                    _stat_click_id="consheader_app"
+                    _stat_action_obj="deleteapp"
+                  ></i>
+                </li>
+                <li class="app-nav-item">
+                  <a
+                    _stat_click_id="consheader_app"
+                    _stat_action_obj="appinfo"
+                    href="/console/application/2130852857/overview"
+                    ><span class="text-overflow" title="小程序">小程序</span></a
+                  ><i
+                    class="ico-delete-app"
+                    _stat_click_id="consheader_app"
+                    _stat_action_obj="deleteapp"
+                  ></i>
+                </li>
+              </ul>
+              <div class="app-nav-add">
                 <a
-                  class="ui-card myapp-app"
-                  href="/console/application/2130852857/overview"
-                  ><div class="myapp-app-header">
-                    <p class="text-overflow" title="小程序">小程序</p>
-                  </div>
-                  <div class="myapp-app-invoke">
-                    <div class="myapp-app-invokeTitle">近30日调用总量</div>
-                    <div class="myapp-app-invokeValue">0</div>
-                  </div>
-                  <div class="myapp-app-change">
-                    <p>
-                      昨日调用量变化<span class="zero">0%&nbsp;&nbsp;--</span>
-                    </p>
-                  </div></a
-                ><a
-                  class="ui-card myapp-app"
-                  href="/console/application/2129141900/overview"
-                  ><div class="myapp-app-header">
-                    <p class="text-overflow" title="小程序">小程序</p>
-                  </div>
-                  <div class="myapp-app-invoke">
-                    <div class="myapp-app-invokeTitle">近30日调用总量</div>
-                    <div class="myapp-app-invokeValue">0</div>
-                  </div>
-                  <div class="myapp-app-change">
-                    <p>
-                      昨日调用量变化<span class="zero">0%&nbsp;&nbsp;--</span>
-                    </p>
-                  </div></a
+                  _stat_click_id="consheader_app"
+                  _stat_action_obj="createapp"
+                  @click="goToCreateApp()"
+                  ><i class="ico-add-app"></i>创建应用</a
                 >
               </div>
             </div>
-          </div>
+          </li>
 
-          <!-- 已接入能力列表 -->
-          <div class="sec api-table">
-            <div class="sec-header">
-              <div class="sec-header__title">已接入能力</div>
-            </div>
-            <div class="sec-content">
-              <div class="api-table-content">
-                <table class="ui-table">
-                  <thead class="ui-table__head">
-                    <tr class="ui-table__row">
-                      <td class="ui-table__cell">能力</td>
-                      <td class="ui-table__cell">API</td>
-                      <td class="ui-table__cell">本月调用量</td>
-                      <td class="ui-table__cell">
-                        免费调用限额
-                        <div class="ui-tooltip">
-                          <div class="ui-tooltip-icon">
-                            <div
-                              class="ui-tooltip-wrap pos-top arrow-pos-middle shadow"
-                              style="width: 160px; left: -78px;"
-                            >
-                              <p>免费调用限额指用户可调用该接口的次数上限</p>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-table__cell">
-                        QPS限额
-                        <div class="ui-tooltip">
-                          <div class="ui-tooltip-icon">
-                            <div
-                              class="ui-tooltip-wrap pos-top arrow-pos-middle shadow"
-                              style="width: 160px; left: -78px;"
-                            >
-                              <p>QPS限额指用户每秒可调用该接口的次数上限</p>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-table__cell">接口状态</td>
-                      <td class="ui-table__cell">操作</td>
-                    </tr>
-                  </thead>
-                  <tbody class="ui-table__body">
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">分词</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">词性</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">专有名词</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">同义词</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">智能闲聊</td>
-                      <td class="ui-table__cell">智能闲聊</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpchat.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="table-pagination">
-                  <div class="ui-pagination mt30">
-                    <div class="ui-pagination__cont">
-                      <div
-                        class="ui-pagination__arrow ui-pagination__arrow_disabled"
-                      >
-                        <div
-                          class="ui-pagination__left ui-pagination__left_disabled"
-                        ></div>
-                      </div>
-                      <div class="ui-pagination__text">1 / 1</div>
-                      <div
-                        class="ui-pagination__arrow ui-pagination__arrow_disabled"
-                      >
-                        <div
-                          class="ui-pagination__right ui-pagination__right_disabled"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <li class="header-nav-first">
+            <a
+              class="capa-nav"
+              _stat_click_id="consheader_capability"
+              href="/console/capability/overview"
+              >能力库</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="header-right">
+        <a
+          class="header-doc"
+          target="_blank"
+          href="/doc"
+          _stat_click_id="consheader_doc"
+        ></a>
+        <div class="header-user">
+          <div class="header-user-name nav-more user-nav">
+            <a
+              href="javascript:void(0);"
+              class="nav-more-link"
+              _stat_click_id="consheader_user"
+              ><i class="header-user-logo"></i
+              ><span class="text-overflow">{{userInfo.name}}</span></a
+            >
+            <div class="user-nav-panel">
+              <ul>
+                <li class="user-nav-item">
+                  <a
+                    _stat_click_id="consheader_user"
+                    _stat_action_obj="userinfo"
+                    href="/console/user/account-info"
+                    >账号信息</a
+                  >
+                </li>
+                <li
+                  class="user-nav-item"
+                  _stat_click_id="consheader_user"
+                  _stat_action_obj="logout"
+                  @click="logout()"
+                >
+                  <span>退出</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- 底部版权信息 -->
-    <console-footer></console-footer>
+    <!-- 删除应用 模态框 -->
+    <div class="ui-dialog ui-mask" style="display: none;">
+      <div
+        class="ui-dialog-wrap shadow delete-app-dialog"
+        data-name="dialog_0"
+        style="top: 285px; left: 203px;"
+      >
+        <div class="ui-dialog-header">
+          <span>删除应用</span><i class="ico-close"></i>
+        </div>
+        <div class="ui-dialog-body">
+          <div class="delete-app-dialog__content">
+            删除应用后，该应用已接入的能力和数据都会被删除
+          </div>
+        </div>
+        <div class="ui-dialog-footer">
+          <input
+            type="button"
+            class="ui-button is-blue"
+            _stat_click_id="deleteAppDialog_okbtn"
+            value="确认删除"
+          /><input
+            type="button"
+            class="ui-button ui-dialog-cancelBtn ui-button-primary is-blue"
+            _stat_click_id="deleteAppDialog_cancelbtn"
+            value="取消"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-import consoleHeader from '@/components/header/console-header.vue';
-import consoleFooter from '@/components/footer/console-footer.vue';
-
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+import Cookies from 'js-cookie';
+import { getStore, setStore } from '@/libs/storage';
 export default {
   name: "",
-  components: {
-    consoleHeader,
-    consoleFooter
-  },
   data() {
     return {
-      // isNavShow: false,
-      applicationList:[
-
-      ]
+      isNavShow: false
     };
   },
+  computed:{
+    ...mapState([
+      "userInfo"
+    ])
+  },
+  mounted(){
+    this.getUserInfoAction().then(res=>{
+      
+    },err=>{
+      // 未登录重新登陆
+      if(!this.userInfo){
+        this.$router.push({
+          name: "login"
+        });
+      }
+    })
+  },
   methods: {
+    ...mapActions([
+      "getUserInfoAction"
+    ]),
+    //登出
+    logout(){
+      console.log("登出");
+      Cookies.set('userInfo', '');
+      setStore('userInfo', '');
+      setStore('accessToken', '');
+      this.$router.push({
+        name: "home"
+      });
+    },
+    showNav() {
+      this.isNavShow = true;
+      console.log(this.isNavShow);
+    },
+    hideNav() {
+      this.isNavShow = false;
+    },
     // 前往创建应用页面
     goToCreateApp(){
       this.$router.push({
@@ -3456,7 +3414,5 @@ textarea {
     width: calc(100% - 200px - 80px);
   }
 }
-
-
 
 </style>

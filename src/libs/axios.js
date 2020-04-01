@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getStore, setStore } from './storage';
-import { router } from '../router/index';
+import router from '../router/index.js';
 import { Message } from 'view-design';
 import Cookies from 'js-cookie';
 // 统一请求路径前缀
@@ -24,7 +24,9 @@ axios.interceptors.response.use(response => {
         case 401:
             // 未登录 清除已登录状态
             Cookies.set('userInfo', '');
+            setStore('userInfo', '');
             setStore('accessToken', '');
+
             if (router.history.current.name != "login") {
                 if (data.message !== null) {
                     Message.error(data.message);
@@ -34,22 +36,22 @@ axios.interceptors.response.use(response => {
                 router.push('/login');
             }
             break;
-        case 403:
-            // 没有权限
-            if (data.message !== null) {
-                Message.error(data.message);
-            } else {
-                Message.error("未知错误");
-            }
-            break;
-        case 500:
-            // 错误
-            if (data.message !== null) {
-                Message.error(data.message);
-            } else {
-                Message.error("未知错误");
-            }
-            break;
+        // case 403:
+        //     // 没有权限
+        //     if (data.message !== null) {
+        //         Message.error(data.message);
+        //     } else {
+        //         Message.error("未知错误");
+        //     }
+        //     break;
+        // case 500:
+        //     // 错误
+        //     if (data.message !== null) {
+        //         Message.error(data.message);
+        //     } else {
+        //         Message.error("未知错误");
+        //     }
+        //     break;
         default:
             return data;
     }
@@ -57,7 +59,7 @@ axios.interceptors.response.use(response => {
     return data;
 }, (err) => {
     // 返回状态码不为200时候的错误处理
-    Message.error(err.toString());
+    // Message.error(err.toString());
     return Promise.resolve(err);
 });
 

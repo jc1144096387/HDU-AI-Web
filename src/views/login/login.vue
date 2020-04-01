@@ -89,6 +89,7 @@
 import {
   userLogin
 }from "@/api/index"
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 // import { validateMobile } from "@/libs/validate";
 // import Cookies from "js-cookie";
 // import Header from "@/views/main-components/header";
@@ -146,6 +147,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      "getUserInfoAction"
+    ]),
     // 跳转注册页面
     goToRegist(){
       this.$router.push({
@@ -184,11 +188,19 @@ export default {
       this.loading = false;
       let accessToken = res.result;
       setStore("accessToken", accessToken);
-      this.$Message.success(res.message);
+      this.getUserInfoAction().then(res =>{
+        console.log(res);
+        if(res.success){
+          setStore("userInfo", res.result);
+          this.$Message.success("登录成功");
+          this.$router.push({
+            name: "console-home"
+          });
+        }else{
+          this.$Message.error("登录失败");
+        }
+      })
       
-      this.$router.push({
-        name: "console-home"
-      });
       // getOtherSet().then(res => {
       //   if (res.result) {
       //     let domain = res.result.ssoDomain;

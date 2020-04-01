@@ -110,7 +110,19 @@ const routes = [
     path: '/console/home',
     name: 'console-home',
     component:  () => import('@/views/console/home/home.vue')
-  }
+  },
+  // 控制台创建应用
+  {
+    path: '/console/application/create-app',
+    name: 'create-app',
+    component:  () => import('@/views/console/application/create-app.vue')
+  },
+  // 控制台应用详情
+  // {
+  //   path: '/console/home',
+  //   name: 'console-home',
+  //   component:  () => import('@/views/console/home/home.vue')
+  // },
 ]
 
 const router = new VueRouter({

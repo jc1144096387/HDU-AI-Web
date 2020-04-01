@@ -42,6 +42,14 @@ export const deleteApplication = (params) => {
 }
 
 
+// 获取账号信息
+export const getUserInfo = (appid, params) => {
+  return getRequest('/user/account-info', params)
+}
+// 编辑账号信息
+export const editUserInfo = (params) => {
+  return postRequest('/user/account-info', params)
+}
 
 // /*
 // ** 用户相关api

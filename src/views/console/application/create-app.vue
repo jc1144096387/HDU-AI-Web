@@ -1,211 +1,386 @@
 <template>
-  <div class="app">
-    <!-- 顶部导航栏 -->
+  <div>
     <console-header></console-header>
 
     <div class="app-main">
-      <div class="home">
-        <div class="layout">
-          <!-- 我的应用列表 -->
-          <div class="sec myapp">
-            <div class="sec-header">
-              <div class="sec-header__title">我的应用</div>
-              <div class="sec-header__action">
-                <div style="margin-bottom: -8px;">
-                  <input
-                    type="button"
-                    class="ui-button ui-button-primary is-blue ui-button-mid"
-                    _stat_click_id="applist_createpp"
-                    _stat_action_obj="action"
-                    value="+  创建应用"
-                    @click="goToCreateApp()"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="sec-content">
-              <div class="myapp-content">
-                <a
-                  class="ui-card myapp-app"
-                  href="/console/application/2130852857/overview"
-                  ><div class="myapp-app-header">
-                    <p class="text-overflow" title="小程序">小程序</p>
-                  </div>
-                  <div class="myapp-app-invoke">
-                    <div class="myapp-app-invokeTitle">近30日调用总量</div>
-                    <div class="myapp-app-invokeValue">0</div>
-                  </div>
-                  <div class="myapp-app-change">
-                    <p>
-                      昨日调用量变化<span class="zero">0%&nbsp;&nbsp;--</span>
-                    </p>
-                  </div></a
-                ><a
-                  class="ui-card myapp-app"
-                  href="/console/application/2129141900/overview"
-                  ><div class="myapp-app-header">
-                    <p class="text-overflow" title="小程序">小程序</p>
-                  </div>
-                  <div class="myapp-app-invoke">
-                    <div class="myapp-app-invokeTitle">近30日调用总量</div>
-                    <div class="myapp-app-invokeValue">0</div>
-                  </div>
-                  <div class="myapp-app-change">
-                    <p>
-                      昨日调用量变化<span class="zero">0%&nbsp;&nbsp;--</span>
-                    </p>
-                  </div></a
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- 已接入能力列表 -->
-          <div class="sec api-table">
-            <div class="sec-header">
-              <div class="sec-header__title">已接入能力</div>
-            </div>
-            <div class="sec-content">
-              <div class="api-table-content">
-                <table class="ui-table">
-                  <thead class="ui-table__head">
-                    <tr class="ui-table__row">
-                      <td class="ui-table__cell">能力</td>
-                      <td class="ui-table__cell">API</td>
-                      <td class="ui-table__cell">本月调用量</td>
-                      <td class="ui-table__cell">
-                        免费调用限额
-                        <div class="ui-tooltip">
-                          <div class="ui-tooltip-icon">
-                            <div
-                              class="ui-tooltip-wrap pos-top arrow-pos-middle shadow"
-                              style="width: 160px; left: -78px;"
-                            >
-                              <p>免费调用限额指用户可调用该接口的次数上限</p>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-table__cell">
-                        QPS限额
-                        <div class="ui-tooltip">
-                          <div class="ui-tooltip-icon">
-                            <div
-                              class="ui-tooltip-wrap pos-top arrow-pos-middle shadow"
-                              style="width: 160px; left: -78px;"
-                            >
-                              <p>QPS限额指用户每秒可调用该接口的次数上限</p>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-table__cell">接口状态</td>
-                      <td class="ui-table__cell">操作</td>
-                    </tr>
-                  </thead>
-                  <tbody class="ui-table__body">
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">分词</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
+      <div class="application">
+        <div>
+          <div class="create-form">
+            <div class="layout ui-paper">
+              <div class="create-form-title">创建应用</div>
+              <div class="create-form-content">
+                <div class="app-form">
+                  <!-- <form class="ui-form" name="form">
+                    <div class="ui-form-content">
+                      <div class="ui-form-item">
+                        <label
+                          class="ui-form-label"
+                          style="width: 90px; vertical-align: middle;"
+                          >应用名称<i>*</i></label
                         >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">词性</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">专有名词</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">同义词</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">智能闲聊</td>
-                      <td class="ui-table__cell">智能闲聊</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpchat.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="table-pagination">
-                  <div class="ui-pagination mt30">
-                    <div class="ui-pagination__cont">
-                      <div
-                        class="ui-pagination__arrow ui-pagination__arrow_disabled"
-                      >
                         <div
-                          class="ui-pagination__left ui-pagination__left_disabled"
-                        ></div>
+                          class="ui-form-cont"
+                          style="vertical-align: middle;"
+                        >
+                          <div class="ui-input ui-large">
+                            <input
+                              type="text"
+                              placeholder="请填写该应用的名称"
+                              autocomplete="off"
+                              name="app_name"
+                              value=""
+                            />
+                            <div class="ui-input-bg"></div>
+                          </div>
+                          <span
+                            class="ui-form-error"
+                            style="display: none;"
+                          ></span>
+                        </div>
                       </div>
-                      <div class="ui-pagination__text">1 / 1</div>
-                      <div
-                        class="ui-pagination__arrow ui-pagination__arrow_disabled"
-                      >
+                      <div class="ui-form-item">
+                        <label
+                          class="ui-form-label"
+                          style="width: 90px; vertical-align: middle;"
+                          >应用类型<i>*</i></label
+                        >
                         <div
-                          class="ui-pagination__right ui-pagination__right_disabled"
-                        ></div>
+                          class="ui-form-cont"
+                          style="vertical-align: middle;"
+                        >
+                          <div class="ui-select ui-large">
+                            <div class="ui-select-main">
+                              <span class="ui-select-value">请选择应用类型</span
+                              ><input
+                                readonly=""
+                                data-type="select"
+                                autocomplete="off"
+                                name="app_category"
+                                value=""
+                                style="opacity: 0;"
+                              /><i class="ui-select-arrow"></i>
+                              <div class="ui-select-bg"></div>
+                            </div>
+                            <div class="ui-select-listWrapper">
+                              <ul class="ui-select-list">
+                                <li data-value="2">电子商务</li>
+                                <li data-value="3">社交</li>
+                                <li data-value="4">生活O2O</li>
+                                <li data-value="5">企业服务</li>
+                                <li data-value="6">教育培训</li>
+                                <li data-value="7">智能硬件</li>
+                                <li data-value="8">媒体资讯</li>
+                                <li data-value="9">广告营销</li>
+                                <li data-value="10">健康医疗</li>
+                                <li data-value="11">房产家居</li>
+                                <li data-value="12">汽车交通</li>
+                                <li data-value="13">金融</li>
+                                <li data-value="14">游戏</li>
+                                <li data-value="15">工具软件</li>
+                                <li data-value="16">旅游</li>
+                                <li data-value="17">影视娱乐</li>
+                                <li data-value="18">体育运动</li>
+                                <li data-value="19">文化艺术</li>
+                                <li data-value="20">安全</li>
+                                <li data-value="21">数据</li>
+                                <li data-value="22">创业者服务</li>
+                                <li data-value="23">机器人</li>
+                                <li data-value="24">农业</li>
+                                <li data-value="25">政务</li>
+                                <li data-value="99">其他</li>
+                              </ul>
+                            </div>
+                          </div>
+                          <span
+                            class="ui-form-error"
+                            style="display: none;"
+                          ></span>
+                        </div>
+                      </div>
+                      <div class="ui-form-item">
+                        <label
+                          class="ui-form-label"
+                          style="width: 90px; vertical-align: top;"
+                          >应用平台<i>*</i></label
+                        >
+                        <div class="ui-form-cont" style="vertical-align: top;">
+                          <div class="ui-checkbox-wrap checkbox-wrap">
+                            <div class="ui-checkbox app-form-checkbox">
+                              <div class="ui-checkbox-content">
+                                <input
+                                  type="checkbox"
+                                  id="app_platform_cknlqtu42hv"
+                                  name="app_platform"
+                                  value="1"
+                                  checked="checked"
+                                /><label
+                                  for="app_platform_cknlqtu42hv"
+                                  class="ui-checkbox-rect checked"
+                                ></label
+                                ><label
+                                  for="app_platform_cknlqtu42hv"
+                                  class="ui-checkbox-text"
+                                  title="iOS"
+                                  >iOS</label
+                                >
+                              </div>
+                            </div>
+                            <div class="ui-checkbox app-form-checkbox">
+                              <div class="ui-checkbox-content">
+                                <input
+                                  type="checkbox"
+                                  id="app_platform_bg4adzb3wok"
+                                  name="app_platform"
+                                  value="2"
+                                  checked="checked"
+                                /><label
+                                  for="app_platform_bg4adzb3wok"
+                                  class="ui-checkbox-rect checked"
+                                ></label
+                                ><label
+                                  for="app_platform_bg4adzb3wok"
+                                  class="ui-checkbox-text"
+                                  title="Android"
+                                  >Android</label
+                                >
+                              </div>
+                            </div>
+                            <div class="ui-checkbox app-form-checkbox">
+                              <div class="ui-checkbox-content">
+                                <input
+                                  type="checkbox"
+                                  id="app_platform_f6meowdq1z"
+                                  name="app_platform"
+                                  value="4"
+                                  checked="checked"
+                                /><label
+                                  for="app_platform_f6meowdq1z"
+                                  class="ui-checkbox-rect checked"
+                                ></label
+                                ><label
+                                  for="app_platform_f6meowdq1z"
+                                  class="ui-checkbox-text"
+                                  title="HTML5"
+                                  >HTML5</label
+                                >
+                              </div>
+                            </div>
+                            <div class="ui-checkbox app-form-checkbox">
+                              <div class="ui-checkbox-content">
+                                <input
+                                  type="checkbox"
+                                  id="app_platform_i0gkm9rfey"
+                                  name="app_platform"
+                                  value="7"
+                                  checked="checked"
+                                /><label
+                                  for="app_platform_i0gkm9rfey"
+                                  class="ui-checkbox-rect checked"
+                                ></label
+                                ><label
+                                  for="app_platform_i0gkm9rfey"
+                                  class="ui-checkbox-text"
+                                  title="小程序"
+                                  >小程序</label
+                                >
+                              </div>
+                            </div>
+                            <div class="ui-checkbox app-form-checkbox">
+                              <div class="ui-checkbox-content">
+                                <input
+                                  type="checkbox"
+                                  id="app_platform_fkv5jbstyuq"
+                                  name="app_platform"
+                                  value="6"
+                                  checked="checked"
+                                /><label
+                                  for="app_platform_fkv5jbstyuq"
+                                  class="ui-checkbox-rect checked"
+                                ></label
+                                ><label
+                                  for="app_platform_fkv5jbstyuq"
+                                  class="ui-checkbox-text"
+                                  title="其他"
+                                  >其他</label
+                                >
+                              </div>
+                            </div>
+                          </div>
+                          <span
+                            class="ui-form-error"
+                            style="display: none;"
+                          ></span>
+                        </div>
+                      </div>
+                      <div class="ui-form-item">
+                        <label
+                          class="ui-form-label"
+                          style="width: 90px; vertical-align: middle;"
+                          >官网地址</label
+                        >
+                        <div
+                          class="ui-form-cont"
+                          style="vertical-align: middle;"
+                        >
+                          <div class="ui-input ui-large">
+                            <input
+                              placeholder="请填写该应用的官网地址"
+                              autocomplete="off"
+                              name="app_url"
+                              value=""
+                            />
+                            <div class="ui-input-bg"></div>
+                          </div>
+                          <span
+                            class="ui-form-error"
+                            style="display: none;"
+                          ></span>
+                        </div>
+                      </div>
+                      <div class="ui-form-item">
+                        <label
+                          class="ui-form-label"
+                          style="width: 90px; vertical-align: middle;"
+                          >站点域名</label
+                        >
+                        <div
+                          class="ui-form-cont"
+                          style="vertical-align: middle;"
+                        >
+                          <div class="ui-input ui-large">
+                            <input
+                              type="text"
+                              placeholder="请填写站点域名，如：www.example.com"
+                              autocomplete="off"
+                              name="app_domain_name"
+                              value=""
+                            />
+                            <div class="ui-input-bg"></div>
+                          </div>
+                          <span
+                            class="ui-form-error"
+                            style="display: none;"
+                          ></span>
+                        </div>
+                      </div>
+                      <div class="ui-form-item">
+                        <label
+                          class="ui-form-label"
+                          style="width: 90px; vertical-align: top;"
+                          >应用描述<i>*</i></label
+                        >
+                        <div class="ui-form-cont" style="vertical-align: top;">
+                          <div class="ui-textarea ui-large count">
+                            <textarea
+                              rows="6"
+                              name="app_description"
+                              placeholder="请描述该应用场景、功能等。如：使用通用OCR技术，用于电商产品图片关键信息的识别，便于后续对图片的分类处理。"
+                            ></textarea>
+                            <div class="ui-textarea-bg"></div>
+                            <label class="ui-textarea-count"
+                              ><i>0</i>/<i>500</i></label
+                            >
+                          </div>
+                          <span
+                            class="ui-form-error"
+                            style="display: none;"
+                          ></span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </form> -->
+
+                  <Form
+                    ref="form"
+                    :model="form"
+                    :rules="rules"
+                    :label-width="80"
+                    style="width: 50%"
+                  >
+                    <FormItem label="应用名称" prop="name">
+                      <Input
+                        v-model="form.name"
+                        placeholder="请填写该应用的名称"
+                        size="large"
+                      ></Input>
+                    </FormItem>
+                    <FormItem label="应用类型" prop="type">
+                      <Select size="large" v-model="form.type" placeholder="请选择应用类型">
+                        <Option value="电子商务">电子商务</Option>
+                        <Option value="社交">社交</Option>
+                        <Option value="生活O2O">生活O2O</Option>
+                        <Option value="企业服务">企业服务</Option>
+                        <Option value="教育培训">教育培训</Option>
+                        <Option value="智能硬件">智能硬件</Option>
+                        <Option value="媒体资讯">媒体资讯</Option>
+                        <Option value="广告营销">广告营销</Option>
+                        <Option value="健康医疗">健康医疗</Option>
+                        <Option value="房产家居">房产家居</Option>
+                        <Option value="汽车交通">汽车交通</Option>
+                        <Option value="金融">金融</Option>
+                        <Option value="游戏">游戏</Option>
+                        <Option value="工具软件">工具软件</Option>
+                        <Option value="旅游">旅游</Option>
+                        <Option value="影视娱乐">影视娱乐</Option>
+                        <Option value="体育运动">体育运动</Option>
+                        <Option value="文化艺术">文化艺术</Option>
+                        <Option value="安全">安全</Option>
+                        <Option value="数据">数据</Option>
+                        <Option value="创业者服务">创业者服务</Option>
+                        <Option value="机器人">机器人</Option>
+                        <Option value="农业">农业</Option>
+                        <Option value="政务">政务</Option>
+                        <Option value="其他">其他</Option>
+                      </Select>
+                    </FormItem>
+
+                    <FormItem label="应用平台" prop="platform">
+                      <CheckboxGroup size="large" v-model="form.platform">
+                        <Checkbox size="large" label="IOS"></Checkbox>
+                        <Checkbox size="large" label="Android"></Checkbox>
+                        <Checkbox size="large" label="HTML5"></Checkbox>
+                        <Checkbox size="large" label="小程序"></Checkbox>
+                        <Checkbox size="large" label="其他"></Checkbox>
+                      </CheckboxGroup>
+                    </FormItem>
+
+                    <!-- <FormItem label="官网地址" prop="name">
+                      <Input
+                        size="large"
+                        v-model="form.name"
+                        placeholder="请填写该应用的官网地址"
+                      ></Input>
+                    </FormItem>
+                    <FormItem label="站点域名" prop="name">
+                      <Input
+                        size="large"
+                        v-model="form.name"
+                        placeholder="请填写站点域名，如：www.example.com"
+                      ></Input>
+                    </FormItem> -->
+
+                    <FormItem label="应用描述" prop="description">
+                      <Input
+                        size="large"
+                        v-model="form.description"
+                        type="textarea"
+                        maxlength="500"
+                        rows="8"
+                        :autosize="{minRows: 8,maxRows: 8}"
+                        placeholder="请描述该应用场景、功能等。如：使用通用OCR技术，用于电商产品图片关键信息的识别，便于后续对图片的分类处理。"
+                      ></Input>
+                    </FormItem>
+
+                    <div class="create-form-btn">
+                      <input
+                        type="button"
+                        class="ui-button ui-button-primary is-blue"
+                        _stat_click_id="form_create"
+                        @click="handleSubmit('form')"
+                        value="创建"
+                      />
+                    </div>
+                  </Form>
                 </div>
               </div>
             </div>
@@ -219,8 +394,10 @@
   </div>
 </template>
 <script>
-import consoleHeader from '@/components/header/console-header.vue';
-import consoleFooter from '@/components/footer/console-footer.vue';
+import consoleHeader from "@/components/header/console-header.vue";
+import consoleFooter from "@/components/footer/console-footer.vue";
+
+import {createApplication} from "@/api/index.js";
 
 export default {
   name: "",
@@ -230,20 +407,43 @@ export default {
   },
   data() {
     return {
-      // isNavShow: false,
-      applicationList:[
-
-      ]
+      form: {
+        name: "",
+        type: "",
+        platform: [],
+        description: ""
+      },
+      rules: {
+        name: [
+          { required: true, message: "请输入应用的名称", trigger: "blur" }
+        ],
+        type: [
+          { required: true, message: "请选择应用的类型", trigger: "blur" }
+        ],
+        platform: [
+          { required: true, type: 'array', min: 1, message: '请选择应用平台', trigger: 'change' },
+        ],
+        description: [
+          { required: true, message: "请输入应用的描述", trigger: "blur" }
+        ]
+      }
     };
   },
   methods: {
-    // 前往创建应用页面
-    goToCreateApp(){
-      this.$router.push({
-        name: 'create-app', 
-      })
+    handleSubmit(name) {
+      this.$refs[name].validate(valid => {
+        console.log(this.form);
+        if (valid) {
+          // this.form.platform = 'IOS';
+          createApplication(this.form).then(res=>{
+            console.log(res);
+            if(res.success){
+              this.$Message.success("创建成功!");
+            }
+          })
+        }
+      });
     }
-
   }
 };
 </script>
@@ -722,8 +922,7 @@ export default {
   display: none;
   position: absolute;
   padding: 5px;
-  /* top: calc(50% - 13px); */
-  top: 13px;
+  top: calc(50% - 13px);
   left: 151px;
 }
 .header .app-nav-item .ico-delete-app:hover {
@@ -875,7 +1074,6 @@ export default {
   font-size: 14px;
   line-height: 1;
   padding: 60px 0;
-  border: none;
 }
 .ui-card {
   display: inline-block;
@@ -3286,7 +3484,7 @@ input[disabled] ~ label {
   word-wrap: break-word;
   white-space: normal;
 }
-body,
+/* body,
 dd,
 dt,
 h1,
@@ -3300,7 +3498,7 @@ p,
 ul {
   margin: 0;
   padding: 0;
-}
+} */
 h1,
 h2,
 h3,
@@ -3409,20 +3607,11 @@ textarea {
 .mod-crumb span {
   color: #878787;
 }
-/* body {
+body {
   background-color: #f2f2f2;
-} */
+}
 .app {
   min-width: 1280px;
-
-  position: relative;
-  font: 12px/1.5 microsoft yahei,arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #f2f2f2;
-  min-width: 1200px;
-  color: #323232;
-  min-height: 100%;
-  box-sizing: border-box;
 }
 .app-main {
   padding-top: 60px;
@@ -3456,7 +3645,4 @@ textarea {
     width: calc(100% - 200px - 80px);
   }
 }
-
-
-
 </style>

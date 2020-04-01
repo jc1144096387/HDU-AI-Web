@@ -1,6 +1,6 @@
 /* eslint-disable vue/no-use-v-if-with-v-for */
 <template>
-  <div class="mod-header" :class="isShow?'hover':''">
+  <div class="mod-header" :class="isShow ? 'hover' : ''">
     <!-- <div class="cat">
       <div class="cat-box" :class="isShow?'active':''" data-cat="engine">
         <div class="layout">
@@ -269,139 +269,212 @@
       </div>
     </div>-->
     <div class="cat">
-      <div class="cat-box" :class="isShow?'active':''" data-cat="capability">
+      <div
+        class="cat-box"
+        :class="isShow ? 'active' : ''"
+        data-cat="capability"
+      >
         <div class="layout">
-
           <div class="cat-col">
-            <template  v-for="(item1,index1) in productList" >
-            <div class="cat-group top-row" :key="index1" v-if="index1<=1">
-              <p class="cat-tit">
-                {{item1.label}}
-                <i
-                  v-if="item1.span"
-                  :class="'is-'+item1.span"
-                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
-                  class="cat-tag"
-                ></i>
-              </p>
-              <div class="cat-list">
-                <div class="cat-item" v-for="(item2,index2) in item1.children" :key="index2">
-                  <a
-                    _stat_click_id="header_demonav"
-                    _stat_action_obj="ocr_identify"
-                    @click="goToProductDetail(item1.value, item2.value, index2)"
-                  >{{item2.label}}</a>
+            <template v-for="(item1, index1) in productList">
+              <div class="cat-group top-row" :key="index1" v-if="index1 <= 1">
+                <p class="cat-tit">
+                  {{ item1.label }}
                   <i
-                  v-if="item2.span"
-                  :class="'is-'+item2.span"
-                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
-                  class="cat-tag"
-                ></i>
+                    v-if="item1.span"
+                    :class="'is-' + item1.span"
+                    :style="{
+                      backgroundImage:
+                        'url(' +
+                        require('../../assets/header/cpimg/sprite.png') +
+                        ')'
+                    }"
+                    class="cat-tag"
+                  ></i>
+                </p>
+                <div class="cat-list">
+                  <div
+                    class="cat-item"
+                    v-for="(item2, index2) in item1.children"
+                    :key="index2"
+                  >
+                    <a
+                      _stat_click_id="header_demonav"
+                      _stat_action_obj="ocr_identify"
+                      @click="
+                        goToProductDetail(item1.value, item2.value, index2)
+                      "
+                      >{{ item2.label }}</a
+                    >
+                    <i
+                      v-if="item2.span"
+                      :class="'is-' + item2.span"
+                      :style="{
+                        backgroundImage:
+                          'url(' +
+                          require('../../assets/header/cpimg/sprite.png') +
+                          ')'
+                      }"
+                      class="cat-tag"
+                    ></i>
+                  </div>
                 </div>
-                
               </div>
-            </div>
             </template>
-           
           </div>
           <div class="cat-col">
-            <template  v-for="(item1,index1) in productList" >
-            <div class="cat-group top-row" :key="index1" v-if="index1>=2&&index1<=3">
-              <p class="cat-tit">
-                {{item1.label}}
-                <i
-                  v-if="item1.span"
-                  :class="'is-'+item1.span"
-                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
-                  class="cat-tag"
-                ></i>
-              </p>
-              <div class="cat-list">
-                <div class="cat-item" v-for="(item2,index2) in item1.children" :key="index2">
-                  <a
-                    _stat_click_id="header_demonav"
-                    _stat_action_obj="ocr_identify"
-                    @click="goToProductDetail(item1.value, item2.value, index2)"
-                  >{{item2.label}}</a>
+            <template v-for="(item1, index1) in productList">
+              <div
+                class="cat-group top-row"
+                :key="index1"
+                v-if="index1 >= 2 && index1 <= 3"
+              >
+                <p class="cat-tit">
+                  {{ item1.label }}
                   <i
-                  v-if="item2.span"
-                  :class="'is-'+item2.span"
-                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
-                  class="cat-tag"
-                ></i>
+                    v-if="item1.span"
+                    :class="'is-' + item1.span"
+                    :style="{
+                      backgroundImage:
+                        'url(' +
+                        require('../../assets/header/cpimg/sprite.png') +
+                        ')'
+                    }"
+                    class="cat-tag"
+                  ></i>
+                </p>
+                <div class="cat-list">
+                  <div
+                    class="cat-item"
+                    v-for="(item2, index2) in item1.children"
+                    :key="index2"
+                  >
+                    <a
+                      _stat_click_id="header_demonav"
+                      _stat_action_obj="ocr_identify"
+                      @click="
+                        goToProductDetail(item1.value, item2.value, index2)
+                      "
+                      >{{ item2.label }}</a
+                    >
+                    <i
+                      v-if="item2.span"
+                      :class="'is-' + item2.span"
+                      :style="{
+                        backgroundImage:
+                          'url(' +
+                          require('../../assets/header/cpimg/sprite.png') +
+                          ')'
+                      }"
+                      class="cat-tag"
+                    ></i>
+                  </div>
                 </div>
-                
               </div>
-            </div>
             </template>
-           
           </div>
-           <div class="cat-col">
-            <template  v-for="(item1,index1) in productList" >
-            <div class="cat-group top-row" :key="index1" v-if="index1>=4&&index1<=7">
-              <p class="cat-tit">
-                {{item1.label}}
-                <i
-                  v-if="item1.span"
-                  :class="'is-'+item1.span"
-                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
-                  class="cat-tag"
-                ></i>
-              </p>
-              <div class="cat-list">
-                <div class="cat-item" v-for="(item2,index2) in item1.children" :key="index2">
-                  <a
-                    _stat_click_id="header_demonav"
-                    _stat_action_obj="ocr_identify"
-                    @click="goToProductDetail(item1.value, item2.value, index2)"
-                  >{{item2.label}}</a>
+          <div class="cat-col">
+            <template v-for="(item1, index1) in productList">
+              <div
+                class="cat-group top-row"
+                :key="index1"
+                v-if="index1 >= 4 && index1 <= 7"
+              >
+                <p class="cat-tit">
+                  {{ item1.label }}
                   <i
-                  v-if="item2.span"
-                  :class="'is-'+item2.span"
-                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
-                  class="cat-tag"
-                ></i>
+                    v-if="item1.span"
+                    :class="'is-' + item1.span"
+                    :style="{
+                      backgroundImage:
+                        'url(' +
+                        require('../../assets/header/cpimg/sprite.png') +
+                        ')'
+                    }"
+                    class="cat-tag"
+                  ></i>
+                </p>
+                <div class="cat-list">
+                  <div
+                    class="cat-item"
+                    v-for="(item2, index2) in item1.children"
+                    :key="index2"
+                  >
+                    <a
+                      _stat_click_id="header_demonav"
+                      _stat_action_obj="ocr_identify"
+                      @click="
+                        goToProductDetail(item1.value, item2.value, index2)
+                      "
+                      >{{ item2.label }}</a
+                    >
+                    <i
+                      v-if="item2.span"
+                      :class="'is-' + item2.span"
+                      :style="{
+                        backgroundImage:
+                          'url(' +
+                          require('../../assets/header/cpimg/sprite.png') +
+                          ')'
+                      }"
+                      class="cat-tag"
+                    ></i>
+                  </div>
                 </div>
-                
               </div>
-            </div>
             </template>
-           
           </div>
-           <div class="cat-col">
-            <template  v-for="(item1,index1) in productList" >
-            <div class="cat-group top-row" :key="index1" v-if="index1>=8&&index1<=10">
-              <p class="cat-tit">
-                {{item1.label}}
-                <i
-                  v-if="item1.span"
-                  :class="'is-'+item1.span"
-                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
-                  class="cat-tag"
-                ></i>
-              </p>
-              <div class="cat-list">
-                <div class="cat-item" v-for="(item2,index2) in item1.children" :key="index2">
-                  <a
-                    _stat_click_id="header_demonav"
-                    _stat_action_obj="ocr_identify"
-                    @click="goToProductDetail(item1.value, item2.value, index2)"
-                  >{{item2.label}}</a>
+          <div class="cat-col">
+            <template v-for="(item1, index1) in productList">
+              <div
+                class="cat-group top-row"
+                :key="index1"
+                v-if="index1 >= 8 && index1 <= 10"
+              >
+                <p class="cat-tit">
+                  {{ item1.label }}
                   <i
-                  v-if="item2.span"
-                  :class="'is-'+item2.span"
-                  :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
-                  class="cat-tag"
-                ></i>
+                    v-if="item1.span"
+                    :class="'is-' + item1.span"
+                    :style="{
+                      backgroundImage:
+                        'url(' +
+                        require('../../assets/header/cpimg/sprite.png') +
+                        ')'
+                    }"
+                    class="cat-tag"
+                  ></i>
+                </p>
+                <div class="cat-list">
+                  <div
+                    class="cat-item"
+                    v-for="(item2, index2) in item1.children"
+                    :key="index2"
+                  >
+                    <a
+                      _stat_click_id="header_demonav"
+                      _stat_action_obj="ocr_identify"
+                      @click="
+                        goToProductDetail(item1.value, item2.value, index2)
+                      "
+                      >{{ item2.label }}</a
+                    >
+                    <i
+                      v-if="item2.span"
+                      :class="'is-' + item2.span"
+                      :style="{
+                        backgroundImage:
+                          'url(' +
+                          require('../../assets/header/cpimg/sprite.png') +
+                          ')'
+                      }"
+                      class="cat-tag"
+                    ></i>
+                  </div>
                 </div>
-                
               </div>
-            </div>
             </template>
-           
           </div>
-
-         
 
           <!-- <div class="cat-col">
             <div class="cat-group top-row">
@@ -815,7 +888,10 @@
       <a
         @click="goToHome()"
         class="mod-header-logo"
-        :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+        :style="{
+          backgroundImage:
+            'url(' + require('../../assets/header/cpimg/sprite.png') + ')'
+        }"
       ></a>
 
       <div class="mod-header-nav">
@@ -830,7 +906,12 @@
             <h2>
               <a href="javascript:void(0);">技术引擎</a>
               <i
-                :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                :style="{
+                  backgroundImage:
+                    'url(' +
+                    require('../../assets/header/cpimg/sprite.png') +
+                    ')'
+                }"
                 class="top-cat-arrow"
               ></i>
             </h2>
@@ -839,13 +920,18 @@
             id="nav-header-case"
             class="top-cat hassub"
             data-cat="case"
-            @mouseenter="sliderIn('186px','96px')"
+            @mouseenter="sliderIn('186px', '96px')"
             @mouseleave="sliderOut()"
           >
             <h2>
               <a href="javascript:void(0);">解决方案</a>
               <i
-                :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+                :style="{
+                  backgroundImage:
+                    'url(' +
+                    require('../../assets/header/cpimg/sprite.png') +
+                    ')'
+                }"
                 class="top-cat-arrow"
               ></i>
             </h2>
@@ -855,26 +941,29 @@
                 class="case-menu-row"
                 _stat_click_id="header_casenav"
                 _stat_action_obj="hardware"
-              >智能硬件</a>
+                >智能硬件</a
+              >
               <a
                 href="/case/xianji.shtml"
                 class="case-menu-row"
                 _stat_click_id="header_casenav"
                 _stat_action_obj="xianji"
-              >智慧招聘</a>
+                >智慧招聘</a
+              >
               <a
                 href="/case/facedoor.shtml"
                 class="case-menu-row"
                 _stat_click_id="header_casenav"
                 _stat_action_obj="facedoor"
-              >智慧门禁</a>
+                >智慧门禁</a
+              >
             </div>
           </li>
 
           <li
             id="nav-header-accelerator"
             class="top-cat"
-            @mouseenter="sliderIn('322px','72px')"
+            @mouseenter="sliderIn('322px', '72px')"
             @mouseleave="sliderOut()"
           >
             <h2>
@@ -884,7 +973,7 @@
           <li
             id="nav-header-info"
             class="top-cat"
-            @mouseenter="sliderIn('434px','72px')"
+            @mouseenter="sliderIn('434px', '72px')"
             @mouseleave="sliderOut()"
           >
             <h2>
@@ -894,7 +983,7 @@
           <li
             id="nav-header-hr"
             class="top-cat"
-            @mouseenter="sliderIn('546px','72px')"
+            @mouseenter="sliderIn('546px', '72px')"
             @mouseleave="sliderOut()"
           >
             <h2>
@@ -904,7 +993,7 @@
           <li
             id="nav-header-join"
             class="top-cat"
-            @mouseenter="sliderIn('658px','72px')"
+            @mouseenter="sliderIn('658px', '72px')"
             @mouseleave="sliderOut()"
           >
             <h2>
@@ -914,9 +1003,8 @@
           <li
             id="nav-header-doc"
             class="top-cat"
-            @mouseenter="sliderIn('770px','72px')"
+            @mouseenter="sliderIn('770px', '72px')"
             @mouseleave="sliderOut()"
-
             @click="goToDoc()"
           >
             <h2>
@@ -925,15 +1013,60 @@
           </li>
         </ul>
         <i
-          :style="{width:sliderWidth,transform: 'translateX('+sliderX+')',backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
+          :style="{
+            width: sliderWidth,
+            transform: 'translateX(' + sliderX + ')',
+            backgroundImage:
+              'url(' + require('../../assets/header/cpimg/sprite.png') + ')'
+          }"
           class="jmod-nav-slider slider"
-          :class="isSliderHidden?'hidden':''"
+          :class="isSliderHidden ? 'hidden' : ''"
         ></i>
       </div>
 
-      <div class="mod-header-user" @click="goToLogin()">
-        <a  class="try jmod-header-try">控制台</a>
-        <a  class="console jmod-header-console hidden">控制台</a>
+      <div v-if="!userInfo" class="mod-header-user" @click="goToLogin()">
+        <a class="try jmod-header-try">控制台</a>
+        <a class="console jmod-header-console hidden">控制台</a>
+      </div>
+      <div v-if="userInfo"  class="mod-header-user">
+        <a
+          href="/console/home"
+          target="_blank"
+          class="try jmod-header-try hidden"
+          _stat_click_id="header_console"
+          >控制台</a
+        >
+        <a
+          href="/console/home"
+          target="_blank"
+          class="console jmod-header-console"
+          _stat_click_id="header_console"
+          >控制台</a
+        >
+        <div class="jmod-header-user user">
+          <em class="jmod-header-name">{{userInfo.name}}</em>              <i
+                :style="{
+                  backgroundImage:
+                    'url(' +
+                    require('../../assets/header/cpimg/sprite.png') +
+                    ')'
+                }"
+                class="top-cat-arrow"
+              ></i>
+          <div class="dropdown">
+            <a
+              href="/console/user/account-info"
+              target="__blank"
+              _stat_click_id="header_userinfo"
+              >帐号信息</a
+            >
+            <a
+              href="javascript:void(0);"
+              @click="logout()"
+              >退出</a
+            >
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -948,7 +1081,9 @@
 
 <script>
 import product from "@/mock/product.js";
-
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+import Cookies from 'js-cookie';
+import { getStore, setStore } from '@/libs/storage';
 export default {
   name: "front-header",
 
@@ -961,7 +1096,28 @@ export default {
       productList: product.productList
     };
   },
+  computed: {
+    ...mapState(["userInfo"])
+  },
+  mounted() {
+    this.getUserInfoAction().then(res => {
+      if (!this.userInfo) {
+        this.$router.push({
+          name: "login"
+        });
+      }
+    });
+  },
   methods: {
+    ...mapActions(["getUserInfoAction"]),
+    //登出
+    logout(){
+      console.log("登出");
+      Cookies.set('userInfo', '');
+      setStore('userInfo', '');
+      setStore('accessToken', '');
+      this.getUserInfoAction();
+    },
     show() {
       this.isShow = true;
 
@@ -999,27 +1155,27 @@ export default {
       });
     },
     // 跳转技术引擎详情页
-    goToProductDetail(type1, type2, currentTab){
+    goToProductDetail(type1, type2, currentTab) {
       this.$router.push({
-        path: 'product', 
-        query: { 
+        path: "product",
+        query: {
           type1: type1,
           type2: type2,
           currentTab: currentTab
         }
-      })
+      });
     },
     // 跳转文档中心
-    goToDoc(){
+    goToDoc() {
       this.$router.push({
-        path: 'doc', 
-      })
+        path: "doc"
+      });
     },
     // 跳转登录页
-    goToLogin(){
-       this.$router.push({
-        path: 'login', 
-      })
+    goToLogin() {
+      this.$router.push({
+        path: "login"
+      });
     }
   }
 };

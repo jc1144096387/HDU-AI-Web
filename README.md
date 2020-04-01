@@ -153,13 +153,15 @@ HDU AI平台（仿腾讯AI）
   
 - console 控制台页面
   - 控制台首页 console/home
+  - 账号信息 console/user/account-info
   - 应用管理 console/application
+    - 创建应用 console/application/create-app
     - 应用概览 console/application/{id}/overview
     - 数据分析 console/application/{id}/data-analysis
     - 应用信息 console/application/{id}/data-info
   - 能力库 console/capability/overview
     - 能力详情 console/capability/detail
-
+  
 ## 需要的api
 - 技术引擎列表
 - 技术引擎详情
@@ -179,13 +181,32 @@ HDU AI平台（仿腾讯AI）
 - 底部网站信息
 
 - 控制台顶部导航栏
+- 控制台底部版权信息
+
+## 用户态
+利用JWT实现基于token的鉴权机制
+调用登录接口成功登录后，后台会返回一个token
+将token保存到localstorage的accessToken中
+调用其他接口时在请求的header中带上accessToken
+调用接口时如果后台返回401状态码（和后台的约定），表示登录失效了，此时清除localstorage中的accessToken和userInfo
+调用登录接口成功并保存token后会调用获取用户信息的接口，并将用户信息保存到localstorage的userInfo中
+TODO：vuex保存userInfo以及实现自动登录
 
 ## todo list
 
-- 引入md5，引入vuex
 - 文档详情考虑用静态页面，看看vuepress
-- 控制台页面
-- 控制台的顶部导航栏以及修改登录状态下官网的顶部导航栏
+
+- 修改创建应用页面（表单部分，考虑用iview的组件，自己写感觉很麻烦），对接创建应用接口
+- 引入vuex，用户信息，控制台的顶部导航栏以及修改登录状态下官网的顶部导航栏
+- 对接应用列表接口
+- 对接删除应用接口
+- 应用详情页面
+- 对接编辑应用接口
+
+- 修改技术引擎产品详情页，对接技术引擎详情接口
+- 技术引擎产品详情的功能体验
+
+- 文档详情页
 
 ## 后台管理系统
 - 用户管理：可以查看平台用户的相关信息，以及对这些用户进行一些操作。
@@ -210,5 +231,8 @@ HDU AI平台（仿腾讯AI）
 
 ### 第6周
 - 获取用户信息，修改登录态的样式
-- 获取应用列表、创建应用、删除应用、应用详情页面、编辑应用
+- 获取应用列表、创建应用、删除应用
+
+### 第7周
+- 应用详情页面、编辑应用
 
