@@ -29,8 +29,8 @@ export const getApplicationDetail = (appid, params) => {
   return getRequest('/application/'+appid+'/data-info', params)
 }
 // 应用信息编辑
-export const editApplication = (params) => {
-  return postRequest('/application/list', params)
+export const editApplication = (appid, params) => {
+  return postRequest('/application/'+appid+'/data-info', params)
 }
 // 创建应用
 export const createApplication = (params) => {

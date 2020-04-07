@@ -1,241 +1,222 @@
 <template>
-  <div class="header">
-    <div class="layout">
-      <!-- 导航栏左侧 -->
-      <div class="header-left">
-        <a class="header-logo" _stat_click_id="consheader_logo" href="/"></a
-        ><span class="header-title">控制台</span>
+  <div>
+    <div class="sec api-chart">
+      <div class="sec-header">
+        <div class="sec-header__title">调用总量（近30天）</div>
       </div>
-      <!-- 导航栏中间 -->
-      <div class="header-center">
-        <ul class="header-nav">
-          <li class="header-nav-first">
-            <a _stat_click_id="consheader_home" href="/console/home">首页</a>
-          </li>
-          <li
-            class="header-nav-first nav-more app-nav"
-            :class="isNavShow ? 'hover-nav' : ''"
-            @mouseenter="showNav()"
-            @mouseleave="hideNav()"
-          >
-            <a
-              href="javascript:void(0);"
-              _stat_click_id="consheader_app"
-              class="nav-more-link"
-              >应用管理</a
-            >
-            <div class="app-nav-panel">
-              <ul>
-                <!-- 我的应用列表 -->
-                <li v-for="(item,index) in appList" :key="index" class="app-nav-item">
-                  <a
-                    @click="goToDetail(item)"
-                    ><span class="text-overflow" :title="item.name">{{item.name}}</span></a
-                  ><i
-                    class="ico-delete-app"
-                    @click="showDeleteModal(item.id)"
-                  ></i>
-                </li>
-
-              </ul>
-              <div class="app-nav-add">
-                <a
-                  _stat_click_id="consheader_app"
-                  _stat_action_obj="createapp"
-                  @click="goToCreateApp()"
-                  ><i class="ico-add-app"></i>创建应用</a
-                >
-              </div>
-            </div>
-          </li>
-
-          <li class="header-nav-first">
-            <a
-              class="capa-nav"
-              _stat_click_id="consheader_capability"
-              href="/console/capability/overview"
-              >能力库</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      <div class="header-right">
-        <a
-          class="header-doc"
-          target="_blank"
-          href="/doc"
-          _stat_click_id="consheader_doc"
-        ></a>
-        <div class="header-user">
-          <div class="header-user-name nav-more user-nav">
-            <a
-              href="javascript:void(0);"
-              class="nav-more-link"
-              _stat_click_id="consheader_user"
-              ><i class="header-user-logo"></i
-              ><span class="text-overflow">{{userInfo.name}}</span></a
-            >
-            <div class="user-nav-panel">
-              <ul>
-                <li class="user-nav-item">
-                  <a
-                    @click="goToAccountInfo()"
-                    >账号信息</a
-                  >
-                </li>
-                <li
-                  class="user-nav-item"
-                  _stat_click_id="consheader_user"
-                  _stat_action_obj="logout"
-                  @click="logout()"
-                >
-                  <span>退出</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+      <div class="sec-content">
+        <div class="api-chart__line">
+          <iframe
+            class="chartjs-hidden-iframe"
+            tabindex="-1"
+            style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"
+          ></iframe
+          ><canvas
+            height="256"
+            width="915"
+            style="display: block; width: 915px; height: 256px;"
+          ></canvas>
         </div>
       </div>
     </div>
-    <!-- 删除应用 模态框 -->
-    <div class="ui-dialog ui-mask" :style="{display: isDeleteModalShow?'block':'none'}">
-      <div
-        class="ui-dialog-wrap shadow delete-app-dialog"
-        data-name="dialog_0"
-        style="top: 285px; left: 203px;"
-      >
-        <div class="ui-dialog-header">
-          <span>删除应用</span><i class="ico-close" @click="hideDeleteModal()"></i>
+    <div class="sec api-table">
+      <div class="sec-header">
+        <div class="sec-header__title">能力运行概况（近30天）</div>
+        <div class="sec-header__action">
+          <a
+            class="link"
+            _stat_click_id="table_more"
+            href="/console/application/2129141900/data-analysis"
+            >更多数据</a
+          >
         </div>
-        <div class="ui-dialog-body">
-          <div class="delete-app-dialog__content">
-            删除应用后，该应用已接入的能力和数据都会被删除
+      </div>
+      <div class="sec-content">
+        <div class="main">
+          <table class="ui-table">
+            <thead class="ui-table__head">
+              <tr class="ui-table__row">
+                <td class="ui-table__cell">能力</td>
+                <td class="ui-table__cell">API</td>
+                <td class="ui-table__cell">调用量</td>
+                <td class="ui-table__cell">失败次数</td>
+                <td class="ui-table__cell">失败率</td>
+                <td class="ui-table__cell">耗时（ms）</td>
+              </tr>
+            </thead>
+            <tbody class="ui-table__body">
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=101"
+                    >分词</a
+                  >
+                </td>
+                <td class="ui-table__cell">4</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">74</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=102"
+                    >词性</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=103"
+                    >专有名词</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=104"
+                    >同义词</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">意图成分</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=301"
+                    >意图成分</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">情感分析</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=501"
+                    >情感分析</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">智能闲聊</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=801"
+                    >智能闲聊</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">图片鉴黄</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=1301"
+                    >图片鉴黄</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">暴恐识别</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=1401"
+                    >暴恐识别</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">身份证OCR</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=1901"
+                    >身份证OCR</a
+                  >
+                </td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-pagination">
+            <div class="ui-pagination">
+              <div class="ui-pagination__cont">
+                <div class="ui-pagination__arrow ui-pagination__arrow_disabled">
+                  <div
+                    class="ui-pagination__left ui-pagination__left_disabled"
+                  ></div>
+                </div>
+                <div class="ui-pagination__text">1 / 2</div>
+                <div class="ui-pagination__arrow">
+                  <div class="ui-pagination__right"></div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="ui-dialog-footer">
-          <input
-            type="button"
-            class="ui-button is-blue"
-            value="确认删除"
-            @click="deleteApp()"
-          /><input
-            type="button"
-            class="ui-button ui-dialog-cancelBtn ui-button-primary is-blue"
-            value="取消"
-            @click="hideDeleteModal()"
-          />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import {deleteApplication} from '@/api/index.js';
-import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
-import Cookies from 'js-cookie';
-import { getStore, setStore } from '@/libs/storage';
 export default {
   name: "",
   data() {
-    return {
-      isNavShow: false,
-      isDeleteModalShow: false,
-      currentAppId: "",
-    };
+    return {};
   },
-  computed:{
-    ...mapState([
-      "userInfo",
-      "appList"
-    ])
+  mounted() {
+    console.log(this.$route.query.item);
   },
-  mounted(){
-    // 获取账号信息
-    this.getUserInfoAction().then(res=>{
-      
-    },err=>{
-      // 未登录重新登陆
-      if(!this.userInfo){
-        this.$router.push({
-          name: "login"
-        });
-      }
-    })
-
-    // 获取应用信息
-    this.getApplicationListAction();
-  },
-  methods: {
-    ...mapActions([
-      "getUserInfoAction",
-      "getApplicationListAction"
-    ]),
-    //登出
-    logout(){
-      console.log("登出");
-      Cookies.set('userInfo', '');
-      setStore('userInfo', '');
-      setStore('accessToken', '');
-      this.$router.push({
-        name: "home"
-      });
-    },
-    // 前往账号信息页面
-    goToAccountInfo(){
-      this.$router.push({
-        name: "account-info"
-      });
-    },
-    showNav() {
-      this.isNavShow = true;
-      console.log(this.isNavShow);
-    },
-    hideNav() {
-      this.isNavShow = false;
-    },
-    // 前往创建应用页面
-    goToCreateApp(){
-      this.$router.push({
-        name: 'create-app', 
-      })
-    },
-    // 显示删除模态框
-    showDeleteModal(appid){
-      this.isDeleteModalShow = true;
-      this.currentAppId = appid;
-    },
-    // 隐藏删除模态框
-    hideDeleteModal(){
-      this.isDeleteModalShow = false;
-    },
-    // 调用删除api
-    deleteApp(){
-      deleteApplication({appid: this.currentAppId}).then(res =>{
-        console.log(res);
-        if(res.success){
-          this.$Message.success("删除成功");
-          this.isDeleteModalShow = false;
-          this.getApplicationListAction();
-        }else{
-          this.$Message.success("删除失败");
-          // this.isDeleteModalShow = false;
-        }
-      })
-    },
-
-    // 跳转应用详情页
-    goToDetail(item){
-      console.log(item);
-      this.$router.push({
-        name: "application-detail",
-        query:{
-          item: item,
-          name: 'overview'
-        }
-      });
-    }
-  }
+  methods: {}
 };
 </script>
 <style scoped>
@@ -713,8 +694,7 @@ export default {
   display: none;
   position: absolute;
   padding: 5px;
-  /* top: calc(50% - 13px); */
-  top: 13px;
+  top: calc(50% - 13px);
   left: 151px;
 }
 .header .app-nav-item .ico-delete-app:hover {
@@ -866,7 +846,6 @@ export default {
   font-size: 14px;
   line-height: 1;
   padding: 60px 0;
-  border: none;
 }
 .ui-card {
   display: inline-block;
@@ -1978,8 +1957,10 @@ input[disabled] ~ label {
   display: inline-block;
   width: 100%;
   height: 100%;
+  line-height: 35px;
   padding: 14px 33px;
   box-sizing: border-box;
+
 }
 .ui-sidebar .ui-sidebar-item__link:hover {
   background-color: #2f3949;
@@ -3400,20 +3381,11 @@ textarea {
 .mod-crumb span {
   color: #878787;
 }
-/* body {
+body {
   background-color: #f2f2f2;
-} */
+}
 .app {
   min-width: 1280px;
-
-  position: relative;
-  font: 12px/1.5 microsoft yahei,arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #f2f2f2;
-  min-width: 1200px;
-  color: #323232;
-  min-height: 100%;
-  box-sizing: border-box;
 }
 .app-main {
   padding-top: 60px;
@@ -3447,5 +3419,4 @@ textarea {
     width: calc(100% - 200px - 80px);
   }
 }
-
 </style>

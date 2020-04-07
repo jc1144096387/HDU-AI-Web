@@ -1,244 +1,149 @@
 <template>
-  <div class="header">
-    <div class="layout">
-      <!-- 导航栏左侧 -->
-      <div class="header-left">
-        <a class="header-logo" _stat_click_id="consheader_logo" href="/"></a
-        ><span class="header-title">控制台</span>
-      </div>
-      <!-- 导航栏中间 -->
-      <div class="header-center">
-        <ul class="header-nav">
-          <li class="header-nav-first">
-            <a _stat_click_id="consheader_home" href="/console/home">首页</a>
-          </li>
-          <li
-            class="header-nav-first nav-more app-nav"
-            :class="isNavShow ? 'hover-nav' : ''"
-            @mouseenter="showNav()"
-            @mouseleave="hideNav()"
-          >
-            <a
-              href="javascript:void(0);"
-              _stat_click_id="consheader_app"
-              class="nav-more-link"
-              >应用管理</a
-            >
-            <div class="app-nav-panel">
-              <ul>
-                <!-- 我的应用列表 -->
-                <li v-for="(item,index) in appList" :key="index" class="app-nav-item">
-                  <a
-                    @click="goToDetail(item)"
-                    ><span class="text-overflow" :title="item.name">{{item.name}}</span></a
-                  ><i
-                    class="ico-delete-app"
-                    @click="showDeleteModal(item.id)"
-                  ></i>
-                </li>
-
-              </ul>
-              <div class="app-nav-add">
-                <a
-                  _stat_click_id="consheader_app"
-                  _stat_action_obj="createapp"
-                  @click="goToCreateApp()"
-                  ><i class="ico-add-app"></i>创建应用</a
-                >
+  <div class="container">
+    <console-header></console-header>
+    <div class="app-main">
+      <div class="application">
+        <div class="overview">
+          <div>
+            <div class="ui-sidebar adv-config">
+              <div class="ui-sidebar-wrap">
+                <div class="ui-sidebar-title text-overflow" :title="item.name">
+                  {{ item.name }}
+                </div>
+                <div class="ui-sidebar-content">
+                  <div
+                    class="ui-sidebar-item"
+                    :class="currentSide == 'overview' ? 'cur' : ''"
+                  >
+                    <a
+                      _stat_click_id="sidebar_overview"
+                      class="ui-sidebar-item__link"
+                      @click="goToSide('overview')"
+                      >
+                      <Icon class="ui-sidebar-item__icon" type="md-desktop" size='26' />
+                      <div class="ui-sidebar-item__title">应用概览</div>
+                    </a>
+                  </div>
+                  <div
+                    class="ui-sidebar-item data-analysis-nav"
+                    :class="currentSide == 'data-analysis' ? 'cur' : ''"
+                  >
+                    <a
+                      _stat_click_id="sidebar_dataanalysis"
+                      class="ui-sidebar-item__link"
+                      @click="goToSide('data-analysis')"
+                    >
+                      <Icon class="ui-sidebar-item__icon" type="md-analytics" size='26' />
+                      <div class="ui-sidebar-item__title">数据分析</div>
+                    </a>
+                  </div>
+                  <div
+                    class="ui-sidebar-item"
+                    :class="currentSide == 'data-info' ? 'cur' : ''"
+                  >
+                    <a
+                      _stat_click_id="sidebar_datainfo"
+                      class="ui-sidebar-item__link"
+                      @click="goToSide('data-info')"
+                      >  
+                      <Icon class="ui-sidebar-item__icon" type="md-apps" size='26' />
+                      <div class="ui-sidebar-item__title">应用信息</div>
+                    </a>
+                  </div>
+                  <!-- <div class="ui-sidebar-item auto-height">
+                    <div class="ui-sidebar-item__father unfold">
+                      <div
+                        _stat_click_id="sidebar_advconfig"
+                        class="ui-sidebar-item__click"
+                      >
+                        <img
+                          class="ui-sidebar-item__icon"
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjFBODM4OURFQTQ2RDExRThBNURGOEY2NUNBM0MyMTk0IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjFBODM4OURGQTQ2RDExRThBNURGOEY2NUNBM0MyMTk0Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MUE4Mzg5RENBNDZEMTFFOEE1REY4RjY1Q0EzQzIxOTQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MUE4Mzg5RERBNDZEMTFFOEE1REY4RjY1Q0EzQzIxOTQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz77aTMvAAAB70lEQVR42ryWPUhCURiG9WKRS6BLBA0GRVs1REugS1RrORm0hWP0N5TtUo0NhTYmjdXY32BgSw1BS4YuJfQztQVNt/eDV7meDtdj3jrw4Oe553zvOZ/nnle/bdu+/2iBbDZrOrYfbIJxfr8Ea8lksmQy2TIUGQAFcAV6icQFLHTAaEeGQmmy4+iTOMj+uBc7CrFcB5pn+2ACuwq1ItQB1kHRYDFFiKVAsFmhCLgFo2CMP/ycZtw8OOeYEXADsYipUA/Is1TToAw2QAossJQhxivyDCevDGY4Jw+xnkZCUq4jsAu2naUBURADT0TiKARqpUUsc/Ykh1pGVWgRVBSRanvk6eokcfbVNYht4eOZubRCYbCsDvhlWxKwq7BOKAEuuKOWGnZV4SFJ6IQmwYmH15vkmtIJDcvx9FBIXo8hnVAXePNQ6JU5fwh9gfa/sglLWUG3h7kl17t6e4vXvLCuNa8BpWYy4zirnnUnfeJZlsNrjlWv4TNTEZ1nHVU9K+CF1zg9C6uvy8OrKG018pomKueax/L9U7MMvMa0ueYJ0GvkB7QdW5cJq+AM9NGT3A6CjPmUXIjVPOJZMcvFa6TmD+Aa5HgoxD3biMRxJM5xzAPnaD3Ln8lkTP6czPKCHHS81PKC34NTcIhkH25JvgUYAHbVoBqxWXhzAAAAAElFTkSuQmCC"
+                          alt="nav logo"
+                        />
+                        <div class="ui-sidebar-item__title">能力高级设置</div>
+                      </div>
+                      <div class="ui-sidebar-item__child">
+                        <div class="ui-sidebar-item">
+                          <a
+                            _stat_click_id="sidebar_advconfig"
+                            _stat_action_obj="chat"
+                            class="ui-sidebar-item__link"
+                            href="/console/application/2129141900/advconfig-intelchat"
+                            ><div class="ui-sidebar-item__title">
+                              智能闲聊
+                            </div></a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
               </div>
             </div>
-          </li>
-
-          <li class="header-nav-first">
-            <a
-              class="capa-nav"
-              _stat_click_id="consheader_capability"
-              href="/console/capability/overview"
-              >能力库</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      <div class="header-right">
-        <a
-          class="header-doc"
-          target="_blank"
-          href="/doc"
-          _stat_click_id="consheader_doc"
-        ></a>
-        <div class="header-user">
-          <div class="header-user-name nav-more user-nav">
-            <a
-              href="javascript:void(0);"
-              class="nav-more-link"
-              _stat_click_id="consheader_user"
-              ><i class="header-user-logo"></i
-              ><span class="text-overflow">{{userInfo.name}}</span></a
-            >
-            <div class="user-nav-panel">
-              <ul>
-                <li class="user-nav-item">
-                  <a
-                    @click="goToAccountInfo()"
-                    >账号信息</a
-                  >
-                </li>
-                <li
-                  class="user-nav-item"
-                  _stat_click_id="consheader_user"
-                  _stat_action_obj="logout"
-                  @click="logout()"
-                >
-                  <span>退出</span>
-                </li>
-              </ul>
-            </div>
+          </div>
+          <div class="main-section">
+            <router-view></router-view>
           </div>
         </div>
       </div>
     </div>
-    <!-- 删除应用 模态框 -->
-    <div class="ui-dialog ui-mask" :style="{display: isDeleteModalShow?'block':'none'}">
-      <div
-        class="ui-dialog-wrap shadow delete-app-dialog"
-        data-name="dialog_0"
-        style="top: 285px; left: 203px;"
-      >
-        <div class="ui-dialog-header">
-          <span>删除应用</span><i class="ico-close" @click="hideDeleteModal()"></i>
-        </div>
-        <div class="ui-dialog-body">
-          <div class="delete-app-dialog__content">
-            删除应用后，该应用已接入的能力和数据都会被删除
-          </div>
-        </div>
-        <div class="ui-dialog-footer">
-          <input
-            type="button"
-            class="ui-button is-blue"
-            value="确认删除"
-            @click="deleteApp()"
-          /><input
-            type="button"
-            class="ui-button ui-dialog-cancelBtn ui-button-primary is-blue"
-            value="取消"
-            @click="hideDeleteModal()"
-          />
-        </div>
-      </div>
-    </div>
+    <!-- 底部版权信息 -->
+    <console-footer></console-footer>
   </div>
 </template>
 <script>
-import {deleteApplication} from '@/api/index.js';
-import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
-import Cookies from 'js-cookie';
-import { getStore, setStore } from '@/libs/storage';
+import consoleHeader from "@/components/header/console-header.vue";
+import consoleFooter from "@/components/footer/console-footer.vue";
+
 export default {
   name: "",
+  components: {
+    consoleHeader,
+    consoleFooter
+  },
   data() {
     return {
-      isNavShow: false,
-      isDeleteModalShow: false,
-      currentAppId: "",
+      item: {},
+      currentSide: "overview"
     };
   },
-  computed:{
-    ...mapState([
-      "userInfo",
-      "appList"
-    ])
+  watch: {
+    "$route.query": function(newVal, oldVal) {
+      this.item = newVal.item;
+      this.currentSide = newVal.name;
+    }
   },
-  mounted(){
-    // 获取账号信息
-    this.getUserInfoAction().then(res=>{
-      
-    },err=>{
-      // 未登录重新登陆
-      if(!this.userInfo){
-        this.$router.push({
-          name: "login"
-        });
-      }
-    })
-
-    // 获取应用信息
-    this.getApplicationListAction();
+  mounted() {
+    console.log("应用: " + this.$route.query.item);
+    if (this.$route.query.item) {
+      this.item = this.$route.query.item;
+    }
   },
   methods: {
-    ...mapActions([
-      "getUserInfoAction",
-      "getApplicationListAction"
-    ]),
-    //登出
-    logout(){
-      console.log("登出");
-      Cookies.set('userInfo', '');
-      setStore('userInfo', '');
-      setStore('accessToken', '');
+    // 跳转侧边栏
+    goToSide(name) {
+      this.currentSide = name;
+      console.log(name, this.currentSide);
       this.$router.push({
-        name: "home"
-      });
-    },
-    // 前往账号信息页面
-    goToAccountInfo(){
-      this.$router.push({
-        name: "account-info"
-      });
-    },
-    showNav() {
-      this.isNavShow = true;
-      console.log(this.isNavShow);
-    },
-    hideNav() {
-      this.isNavShow = false;
-    },
-    // 前往创建应用页面
-    goToCreateApp(){
-      this.$router.push({
-        name: 'create-app', 
-      })
-    },
-    // 显示删除模态框
-    showDeleteModal(appid){
-      this.isDeleteModalShow = true;
-      this.currentAppId = appid;
-    },
-    // 隐藏删除模态框
-    hideDeleteModal(){
-      this.isDeleteModalShow = false;
-    },
-    // 调用删除api
-    deleteApp(){
-      deleteApplication({appid: this.currentAppId}).then(res =>{
-        console.log(res);
-        if(res.success){
-          this.$Message.success("删除成功");
-          this.isDeleteModalShow = false;
-          this.getApplicationListAction();
-        }else{
-          this.$Message.success("删除失败");
-          // this.isDeleteModalShow = false;
-        }
-      })
-    },
-
-    // 跳转应用详情页
-    goToDetail(item){
-      console.log(item);
-      this.$router.push({
-        name: "application-detail",
-        query:{
-          item: item,
-          name: 'overview'
+        name: name,
+        query: {
+          item: this.item,
+          name: name
         }
       });
+      console.log(name, this.currentSide);
     }
   }
 };
 </script>
 <style scoped>
+.container{
+  height: 100%;
+  background-color: #f2f2f2;
+}
+
+
 .ai-notice .content {
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -713,8 +618,7 @@ export default {
   display: none;
   position: absolute;
   padding: 5px;
-  /* top: calc(50% - 13px); */
-  top: 13px;
+  top: calc(50% - 13px);
   left: 151px;
 }
 .header .app-nav-item .ico-delete-app:hover {
@@ -866,7 +770,6 @@ export default {
   font-size: 14px;
   line-height: 1;
   padding: 60px 0;
-  border: none;
 }
 .ui-card {
   display: inline-block;
@@ -1978,8 +1881,10 @@ input[disabled] ~ label {
   display: inline-block;
   width: 100%;
   height: 100%;
+  line-height: 35px;
   padding: 14px 33px;
   box-sizing: border-box;
+
 }
 .ui-sidebar .ui-sidebar-item__link:hover {
   background-color: #2f3949;
@@ -2107,7 +2012,7 @@ input[disabled] ~ label {
   top: 9px;
   cursor: pointer;
 }
-.application .overview {
+.application, .application .overview {
   background-color: #f2f2f2;
 }
 .application .overview .mt35 {
@@ -3375,6 +3280,7 @@ textarea {
 .layout {
   width: 1200px;
   margin: 0 auto;
+  
 }
 .mr0 {
   margin-right: 0 !important;
@@ -3400,20 +3306,11 @@ textarea {
 .mod-crumb span {
   color: #878787;
 }
-/* body {
+body {
   background-color: #f2f2f2;
-} */
+}
 .app {
   min-width: 1280px;
-
-  position: relative;
-  font: 12px/1.5 microsoft yahei,arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #f2f2f2;
-  min-width: 1200px;
-  color: #323232;
-  min-height: 100%;
-  box-sizing: border-box;
 }
 .app-main {
   padding-top: 60px;
@@ -3447,5 +3344,4 @@ textarea {
     width: calc(100% - 200px - 80px);
   }
 }
-
 </style>

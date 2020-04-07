@@ -26,12 +26,15 @@
             <div class="sec-content">
               <div class="myapp-content">
                 <a
-                  v-for="(item,index) in appList" :key="index" 
+                  v-for="(item, index) in appList"
+                  :key="index"
                   class="ui-card myapp-app"
-                  href="/console/application/2130852857/overview"
-                  :style="{marginRight: (index%3==2? '0px':'30px')}"
+                  @click="goToDetail(item)"
+                  :style="{ marginRight: index % 3 == 2 ? '0px' : '30px' }"
                   ><div class="myapp-app-header">
-                    <p class="text-overflow" :title="item.name">{{item.name}}</p>
+                    <p class="text-overflow" :title="item.name">
+                      {{ item.name }}
+                    </p>
                   </div>
                   <div class="myapp-app-invoke">
                     <div class="myapp-app-invokeTitle">近30日调用总量</div>
@@ -43,7 +46,6 @@
                     </p>
                   </div>
                 </a>
-                
               </div>
             </div>
           </div>
@@ -207,8 +209,8 @@
   </div>
 </template>
 <script>
-import consoleHeader from '@/components/header/console-header.vue';
-import consoleFooter from '@/components/footer/console-footer.vue';
+import consoleHeader from "@/components/header/console-header.vue";
+import consoleFooter from "@/components/footer/console-footer.vue";
 
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
@@ -223,40 +225,45 @@ export default {
       // isNavShow: false,
     };
   },
-  computed:{
-    ...mapState([
-      "userInfo",
-      "appList"
-    ])
+  computed: {
+    ...mapState(["userInfo", "appList"])
   },
-  mounted(){
+  mounted() {
     // 获取账号信息
-    this.getUserInfoAction().then(res=>{
-      
-    },err=>{
-      // 未登录重新登陆
-      if(!this.userInfo){
-        this.$router.push({
-          name: "login"
-        });
+    this.getUserInfoAction().then(
+      res => {},
+      err => {
+        // 未登录重新登陆
+        if (!this.userInfo) {
+          this.$router.push({
+            name: "login"
+          });
+        }
       }
-    })
+    );
 
     // 获取应用信息
     this.getApplicationListAction();
   },
   methods: {
-    ...mapActions([
-      "getUserInfoAction",
-      "getApplicationListAction"
-    ]),
+    ...mapActions(["getUserInfoAction", "getApplicationListAction"]),
     // 前往创建应用页面
-    goToCreateApp(){
+    goToCreateApp() {
       this.$router.push({
-        name: 'create-app', 
-      })
+        name: "create-app"
+      });
+    },
+    // 跳转应用详情页
+    goToDetail(item) {
+      console.log(item);
+      this.$router.push({
+        name: "application-detail",
+        query: {
+          item: item,
+          name: "overview"
+        }
+      });
     }
-
   }
 };
 </script>
@@ -3429,7 +3436,7 @@ textarea {
   min-width: 1280px;
 
   position: relative;
-  font: 12px/1.5 microsoft yahei,arial,sans-serif;
+  font: 12px/1.5 microsoft yahei, arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   background-color: #f2f2f2;
   min-width: 1200px;
@@ -3469,7 +3476,4 @@ textarea {
     width: calc(100% - 200px - 80px);
   }
 }
-
-
-
 </style>

@@ -1,239 +1,334 @@
 <template>
-  <div class="header">
-    <div class="layout">
-      <!-- 导航栏左侧 -->
-      <div class="header-left">
-        <a class="header-logo" _stat_click_id="consheader_logo" href="/"></a
-        ><span class="header-title">控制台</span>
-      </div>
-      <!-- 导航栏中间 -->
-      <div class="header-center">
-        <ul class="header-nav">
-          <li class="header-nav-first">
-            <a _stat_click_id="consheader_home" href="/console/home">首页</a>
-          </li>
-          <li
-            class="header-nav-first nav-more app-nav"
-            :class="isNavShow ? 'hover-nav' : ''"
-            @mouseenter="showNav()"
-            @mouseleave="hideNav()"
-          >
-            <a
-              href="javascript:void(0);"
-              _stat_click_id="consheader_app"
-              class="nav-more-link"
-              >应用管理</a
+  <div>
+    <div class="ui-paper select-control">
+      <Form :label-width="80">
+        <Row>
+          <Col span="4">
+            <Select v-model="select" size="large">
+              <Option value="全部能力">全部能力</Option>
+              <Option value="分词">分词</Option>
+              <Option value="词性">词性</Option>
+            </Select>
+          </Col>
+          <Col span="8" style="width:400px;text-align:center" offset="1">
+            <RadioGroup
+              @on-change="dateRadioChange"
+              v-model="dateRadio"
+              type="button"
+              size="large"
+              style="width:100%"
             >
-            <div class="app-nav-panel">
-              <ul>
-                <!-- 我的应用列表 -->
-                <li v-for="(item,index) in appList" :key="index" class="app-nav-item">
-                  <a
-                    @click="goToDetail(item)"
-                    ><span class="text-overflow" :title="item.name">{{item.name}}</span></a
-                  ><i
-                    class="ico-delete-app"
-                    @click="showDeleteModal(item.id)"
-                  ></i>
-                </li>
-
-              </ul>
-              <div class="app-nav-add">
-                <a
-                  _stat_click_id="consheader_app"
-                  _stat_action_obj="createapp"
-                  @click="goToCreateApp()"
-                  ><i class="ico-add-app"></i>创建应用</a
-                >
+              <Radio label="今天" style="width:25%">今天</Radio>
+              <Radio label="昨天" style="width:25%">昨天</Radio>
+              <Radio label="近7天" style="width:25%">近7天</Radio>
+              <Radio label="近30天" style="width:25%">近30天</Radio>
+            </RadioGroup>
+          </Col>
+          <Col span="6" offset="1">
+            <DatePicker
+              size="large"
+              :value="datePicker"
+              @on-change="datePickerChange()"
+              format="yyyy-MM-dd"
+              type="daterange"
+              placement="bottom-end"
+              placeholder="选择日期"
+            ></DatePicker>
+          </Col>
+        </Row>
+      </Form>
+    </div>
+    <div v-if="select == '全部能力'" class="sec api-overview is-normal">
+      <div class="sec-header">
+        <div class="sec-header__title">能力运行概况</div>
+      </div>
+      <div class="sec-content">
+        <div class="main">
+          <table class="ui-table">
+            <thead class="ui-table__head">
+              <tr class="ui-table__row">
+                <td class="ui-table__cell">能力</td>
+                <td class="ui-table__cell">API</td>
+                <td class="ui-table__cell">调用量</td>
+                <td class="ui-table__cell">失败次数</td>
+                <td class="ui-table__cell">失败率</td>
+                <td class="ui-table__cell">耗时（ms）</td>
+              </tr>
+            </thead>
+            <tbody class="ui-table__body">
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">分词</td>
+                <td class="ui-table__cell">4</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">74</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">词性</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">专有名词</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">同义词</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">意图成分</td>
+                <td class="ui-table__cell">意图成分</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">情感分析</td>
+                <td class="ui-table__cell">情感分析</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">智能闲聊</td>
+                <td class="ui-table__cell">智能闲聊</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">图片鉴黄</td>
+                <td class="ui-table__cell">图片鉴黄</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">暴恐识别</td>
+                <td class="ui-table__cell">暴恐识别</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+              <tr class="ui-table__row ui-table__row_border">
+                <td class="ui-table__cell">身份证OCR</td>
+                <td class="ui-table__cell">身份证OCR</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">0</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-pagination">
+            <div class="ui-pagination">
+              <div class="ui-pagination__cont">
+                <div class="ui-pagination__arrow ui-pagination__arrow_disabled">
+                  <div
+                    class="ui-pagination__left ui-pagination__left_disabled"
+                  ></div>
+                </div>
+                <div class="ui-pagination__text">1 / 2</div>
+                <div class="ui-pagination__arrow">
+                  <div class="ui-pagination__right"></div>
+                </div>
               </div>
-            </div>
-          </li>
-
-          <li class="header-nav-first">
-            <a
-              class="capa-nav"
-              _stat_click_id="consheader_capability"
-              href="/console/capability/overview"
-              >能力库</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      <div class="header-right">
-        <a
-          class="header-doc"
-          target="_blank"
-          href="/doc"
-          _stat_click_id="consheader_doc"
-        ></a>
-        <div class="header-user">
-          <div class="header-user-name nav-more user-nav">
-            <a
-              href="javascript:void(0);"
-              class="nav-more-link"
-              _stat_click_id="consheader_user"
-              ><i class="header-user-logo"></i
-              ><span class="text-overflow">{{userInfo.name}}</span></a
-            >
-            <div class="user-nav-panel">
-              <ul>
-                <li class="user-nav-item">
-                  <a
-                    @click="goToAccountInfo()"
-                    >账号信息</a
-                  >
-                </li>
-                <li
-                  class="user-nav-item"
-                  _stat_click_id="consheader_user"
-                  _stat_action_obj="logout"
-                  @click="logout()"
-                >
-                  <span>退出</span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- 删除应用 模态框 -->
-    <div class="ui-dialog ui-mask" :style="{display: isDeleteModalShow?'block':'none'}">
-      <div
-        class="ui-dialog-wrap shadow delete-app-dialog"
-        data-name="dialog_0"
-        style="top: 285px; left: 203px;"
-      >
-        <div class="ui-dialog-header">
-          <span>删除应用</span><i class="ico-close" @click="hideDeleteModal()"></i>
+    <div v-else>
+      <div class="sec api-overview is-normal">
+        <div class="sec-header">
+          <div class="sec-header__title">能力运行概况</div>
         </div>
-        <div class="ui-dialog-body">
-          <div class="delete-app-dialog__content">
-            删除应用后，该应用已接入的能力和数据都会被删除
+        <div class="sec-content">
+          <div class="main">
+            <table class="ui-table">
+              <thead class="ui-table__head">
+                <tr class="ui-table__row">
+                  <td class="ui-table__cell">能力</td>
+                  <td class="ui-table__cell">API</td>
+                  <td class="ui-table__cell">调用量</td>
+                  <td class="ui-table__cell">失败次数</td>
+                  <td class="ui-table__cell">失败率</td>
+                  <td class="ui-table__cell">耗时（ms）</td>
+                </tr>
+              </thead>
+              <tbody class="ui-table__body">
+                <tr class="ui-table__row ui-table__row_border">
+                  <td class="ui-table__cell">基础文本分析</td>
+                  <td class="ui-table__cell">分词</td>
+                  <td class="ui-table__cell">4</td>
+                  <td class="ui-table__cell">0</td>
+                  <td class="ui-table__cell">0</td>
+                  <td class="ui-table__cell">74</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="table-pagination">
+              <div class="ui-pagination">
+                <div class="ui-pagination__cont">
+                  <div
+                    class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                  >
+                    <div
+                      class="ui-pagination__left ui-pagination__left_disabled"
+                    ></div>
+                  </div>
+                  <div class="ui-pagination__text">1 / 1</div>
+                  <div
+                    class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                  >
+                    <div
+                      class="ui-pagination__right ui-pagination__right_disabled"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="ui-dialog-footer">
-          <input
-            type="button"
-            class="ui-button is-blue"
-            value="确认删除"
-            @click="deleteApp()"
-          /><input
-            type="button"
-            class="ui-button ui-dialog-cancelBtn ui-button-primary is-blue"
-            value="取消"
-            @click="hideDeleteModal()"
-          />
+      </div>
+      <div class="sec invoke-count">
+        <div class="sec-header">
+          <div class="sec-header__title">调用次数</div>
+        </div>
+        <div class="sec-content">
+          <div class="invoke-count__line">
+            <iframe
+              class="chartjs-hidden-iframe"
+              tabindex="-1"
+              style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"
+            ></iframe
+            ><canvas
+              height="306"
+              width="926"
+              style="display: block; width: 926px; height: 306px;"
+            ></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="sec invoke-time">
+        <div class="sec-header">
+          <div class="sec-header__title">调用耗时(ms)</div>
+        </div>
+        <div class="sec-content">
+          <div class="invoke-time__line">
+            <iframe
+              class="chartjs-hidden-iframe"
+              tabindex="-1"
+              style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"
+            ></iframe
+            ><canvas
+              height="256"
+              width="926"
+              style="display: block; width: 926px; height: 256px;"
+            ></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="sec error-code-info">
+        <div class="sec-header">
+          <div class="sec-header__title">
+            <div>
+              错误码分布
+              <div class="ui-tooltip">
+                <div class="ui-tooltip-icon">
+                  <div
+                    class="ui-tooltip-wrap pos-top arrow-pos-middle shadow"
+                    style="width: 160px; left: -78px;"
+                  >
+                    <p>以下仅展示业务错误 (即错误码为正值) 的分布情况</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sec-content">
+          <div class="sec-empty">
+            <div>
+              <div class="sec-empty__ico"></div>
+              <div class="sec-empty__msg">数据为空</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import {deleteApplication} from '@/api/index.js';
-import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
-import Cookies from 'js-cookie';
-import { getStore, setStore } from '@/libs/storage';
 export default {
   name: "",
   data() {
     return {
-      isNavShow: false,
-      isDeleteModalShow: false,
-      currentAppId: "",
+      item: {},
+      select: "全部能力",
+      dateRadio: "近30天",
+      datePicker: [
+        new Date(new Date().getTime() - 3600 * 1000 * 24 * 30),
+        new Date()
+      ]
     };
   },
-  computed:{
-    ...mapState([
-      "userInfo",
-      "appList"
-    ])
+  watch: {
+    datePicker: function(newVal, oldVal) {
+      console.log(newVal);
+    }
   },
-  mounted(){
-    // 获取账号信息
-    this.getUserInfoAction().then(res=>{
-      
-    },err=>{
-      // 未登录重新登陆
-      if(!this.userInfo){
-        this.$router.push({
-          name: "login"
-        });
-      }
-    })
-
-    // 获取应用信息
-    this.getApplicationListAction();
+  mounted() {
+    console.log("应用: " + this.$route.query.item);
+    if (this.$route.query.item) {
+      this.item = this.$route.query.item;
+    }
   },
   methods: {
-    ...mapActions([
-      "getUserInfoAction",
-      "getApplicationListAction"
-    ]),
-    //登出
-    logout(){
-      console.log("登出");
-      Cookies.set('userInfo', '');
-      setStore('userInfo', '');
-      setStore('accessToken', '');
-      this.$router.push({
-        name: "home"
-      });
+    dateRadioChange() {
+      console.log(this.dateRadio);
+      if (this.dateRadio == "今天") {
+        const end = new Date();
+        const start = new Date();
+        this.datePicker = [start, end];
+      } else if (this.dateRadio == "昨天") {
+        const end = new Date();
+        const start = new Date();
+        end.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+        this.datePicker = [start, end];
+      } else if (this.dateRadio == "近7天") {
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+        this.datePicker = [start, end];
+      } else if (this.dateRadio == "近30天") {
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+        this.datePicker = [start, end];
+      }
     },
-    // 前往账号信息页面
-    goToAccountInfo(){
-      this.$router.push({
-        name: "account-info"
-      });
-    },
-    showNav() {
-      this.isNavShow = true;
-      console.log(this.isNavShow);
-    },
-    hideNav() {
-      this.isNavShow = false;
-    },
-    // 前往创建应用页面
-    goToCreateApp(){
-      this.$router.push({
-        name: 'create-app', 
-      })
-    },
-    // 显示删除模态框
-    showDeleteModal(appid){
-      this.isDeleteModalShow = true;
-      this.currentAppId = appid;
-    },
-    // 隐藏删除模态框
-    hideDeleteModal(){
-      this.isDeleteModalShow = false;
-    },
-    // 调用删除api
-    deleteApp(){
-      deleteApplication({appid: this.currentAppId}).then(res =>{
-        console.log(res);
-        if(res.success){
-          this.$Message.success("删除成功");
-          this.isDeleteModalShow = false;
-          this.getApplicationListAction();
-        }else{
-          this.$Message.success("删除失败");
-          // this.isDeleteModalShow = false;
-        }
-      })
-    },
-
-    // 跳转应用详情页
-    goToDetail(item){
-      console.log(item);
-      this.$router.push({
-        name: "application-detail",
-        query:{
-          item: item,
-          name: 'overview'
-        }
-      });
+    datePickerChange() {
+      console.log(this.datePicker);
     }
   }
 };
@@ -713,8 +808,7 @@ export default {
   display: none;
   position: absolute;
   padding: 5px;
-  /* top: calc(50% - 13px); */
-  top: 13px;
+  top: calc(50% - 13px);
   left: 151px;
 }
 .header .app-nav-item .ico-delete-app:hover {
@@ -866,7 +960,6 @@ export default {
   font-size: 14px;
   line-height: 1;
   padding: 60px 0;
-  border: none;
 }
 .ui-card {
   display: inline-block;
@@ -1930,9 +2023,7 @@ input[disabled] ~ label {
   color: #999;
 }
 .ui-sidebar .ui-sidebar-item.auto-height {
-  height: auto;
-  max-height: 500px;
-  transition: max-height 0.3s ease;
+  /* height:auto; */ /* max-height:500px; */ /* transition:max-height .3s ease */
 }
 .ui-sidebar .ui-sidebar-item.cur {
   color: #fff;
@@ -2401,88 +2492,88 @@ input[disabled] ~ label {
 .DayPicker-wrapper:focus {
   outline: 0 !important;
 }
-.application .data-analysis .select-control {
+.select-control {
   box-sizing: border-box;
   height: 64px;
   padding-left: 24px;
   padding-top: 15px;
   margin-bottom: 24px;
 }
-.application .data-analysis .select-control__api-select {
+.select-control__api-select {
   vertical-align: top;
   width: 240px;
 }
-.application .data-analysis .select-control__api-select .ui-select-value {
+.select-control__api-select .ui-select-value {
   margin: 7px 0;
 }
-.application .data-analysis .select-control__api-select .ui-select-listWrapper {
+.select-control__api-select .ui-select-listWrapper {
   top: 36px;
 }
-.application .data-analysis .select-control__api-select .ui-select-arrow {
+.select-control__api-select .ui-select-arrow {
   top: 15px;
 }
-.application .data-analysis .select-control__period-date,
-.application .data-analysis .select-control__period-select {
+.select-control__period-date,
+.select-control__period-select {
   vertical-align: top;
   margin-left: 24px;
 }
-.application .data-analysis .api-overview {
+.api-overview {
   margin-bottom: 24px;
   min-height: 348px;
 }
-.application .data-analysis .api-overview.is-normal {
+.api-overview.is-normal {
   min-height: 240px;
 }
-.application .data-analysis .api-overview .table-pagination {
+.api-overview .table-pagination {
   margin-top: 14px;
 }
-.application .data-analysis .invoke-count {
+.invoke-count {
   margin-bottom: 24px;
   height: 426px;
 }
-.application .data-analysis .invoke-count__line {
+.invoke-count__line {
   width: 100%;
   height: 306px;
 }
-.application .data-analysis .invoke-time {
+.invoke-time {
   margin-bottom: 24px;
   height: 406px;
 }
-.application .data-analysis .invoke-time__line {
+.invoke-time__line {
   width: 100%;
   height: 256px;
 }
-.application .data-analysis .error-code-info {
+.error-code-info {
   min-height: 402px;
 }
-.application .data-analysis .error-code-info__pie {
+.error-code-info__pie {
   display: inline-block;
   vertical-align: middle;
   width: 236px;
   height: 236px;
 }
-.application .data-analysis .error-code-info__table {
+.error-code-info__table {
   display: inline-block;
   vertical-align: middle;
   width: calc(100% - 276px - 32px);
   margin-left: 32px;
 }
-.application .data-analysis .error-code-info__label {
+.error-code-info__label {
   margin-bottom: 30px;
 }
-.application .data-analysis .error-code-info__label .item {
+.error-code-info__label .item {
   margin: 4px;
   margin-right: 28px;
   display: inline-block;
 }
-.application .data-analysis .error-code-info__label .item .ind {
+.error-code-info__label .item .ind {
   border-radius: 50%;
   display: inline-block;
   width: 16px;
   height: 16px;
   vertical-align: top;
 }
-.application .data-analysis .error-code-info__label .item .text {
+.error-code-info__label .item .text {
   color: #333;
   display: inline-block;
   font-size: 14px;
@@ -3286,7 +3377,6 @@ h3,
 h4,
 h5,
 h6,
-li,
 p,
 ul {
   margin: 0;
@@ -3400,20 +3490,11 @@ textarea {
 .mod-crumb span {
   color: #878787;
 }
-/* body {
+body {
   background-color: #f2f2f2;
-} */
+}
 .app {
   min-width: 1280px;
-
-  position: relative;
-  font: 12px/1.5 microsoft yahei,arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #f2f2f2;
-  min-width: 1200px;
-  color: #323232;
-  min-height: 100%;
-  box-sizing: border-box;
 }
 .app-main {
   padding-top: 60px;
@@ -3447,5 +3528,4 @@ textarea {
     width: calc(100% - 200px - 80px);
   }
 }
-
 </style>

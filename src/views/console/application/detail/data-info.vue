@@ -1,129 +1,176 @@
 <template>
-  <div class="header">
-    <div class="layout">
-      <!-- 导航栏左侧 -->
-      <div class="header-left">
-        <a class="header-logo" _stat_click_id="consheader_logo" href="/"></a
-        ><span class="header-title">控制台</span>
-      </div>
-      <!-- 导航栏中间 -->
-      <div class="header-center">
-        <ul class="header-nav">
-          <li class="header-nav-first">
-            <a _stat_click_id="consheader_home" href="/console/home">首页</a>
-          </li>
-          <li
-            class="header-nav-first nav-more app-nav"
-            :class="isNavShow ? 'hover-nav' : ''"
-            @mouseenter="showNav()"
-            @mouseleave="hideNav()"
-          >
-            <a
-              href="javascript:void(0);"
-              _stat_click_id="consheader_app"
-              class="nav-more-link"
-              >应用管理</a
-            >
-            <div class="app-nav-panel">
-              <ul>
-                <!-- 我的应用列表 -->
-                <li v-for="(item,index) in appList" :key="index" class="app-nav-item">
-                  <a
-                    @click="goToDetail(item)"
-                    ><span class="text-overflow" :title="item.name">{{item.name}}</span></a
-                  ><i
-                    class="ico-delete-app"
-                    @click="showDeleteModal(item.id)"
-                  ></i>
-                </li>
-
-              </ul>
-              <div class="app-nav-add">
-                <a
-                  _stat_click_id="consheader_app"
-                  _stat_action_obj="createapp"
-                  @click="goToCreateApp()"
-                  ><i class="ico-add-app"></i>创建应用</a
-                >
-              </div>
-            </div>
-          </li>
-
-          <li class="header-nav-first">
-            <a
-              class="capa-nav"
-              _stat_click_id="consheader_capability"
-              href="/console/capability/overview"
-              >能力库</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      <div class="header-right">
-        <a
-          class="header-doc"
-          target="_blank"
-          href="/doc"
-          _stat_click_id="consheader_doc"
-        ></a>
-        <div class="header-user">
-          <div class="header-user-name nav-more user-nav">
-            <a
-              href="javascript:void(0);"
-              class="nav-more-link"
-              _stat_click_id="consheader_user"
-              ><i class="header-user-logo"></i
-              ><span class="text-overflow">{{userInfo.name}}</span></a
-            >
-            <div class="user-nav-panel">
-              <ul>
-                <li class="user-nav-item">
-                  <a
-                    @click="goToAccountInfo()"
-                    >账号信息</a
-                  >
-                </li>
-                <li
-                  class="user-nav-item"
-                  _stat_click_id="consheader_user"
-                  _stat_action_obj="logout"
-                  @click="logout()"
-                >
-                  <span>退出</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+  <div>
+    <div v-show="!isEdit" class="app-info-normal ui-paper">
+      <div class="app-info-header">基本信息</div>
+      <div class="app-info-content">
+        <div class="app-info-row">
+          <span class="app-info-title">应用名称</span
+          ><span class="app-info-value">{{ item.name }}</span>
         </div>
+        <div class="app-info-row">
+          <span class="app-info-title">APPID</span
+          ><span
+            class="app-info-value"
+            style="width: 300px; position: relative;"
+            ><span id="app-id-value" ref="appid">{{ item.id }}</span
+            ><span
+              class="copy"
+              id="appIdValue"
+              data-clipboard-target="#app-id-value"
+              _stat_click_id="info_copyappid"
+              @click="copy('appIdValue')"
+              :data-clipboard-text="item.id"
+              >复制</span
+            ></span
+          >
+        </div>
+        <div class="app-info-row">
+          <span class="app-info-title">APPKEY</span
+          ><span
+            class="app-info-value"
+            style="width: 300px; position: relative;"
+            ><span id="app-key-value" ref="appkey">{{ item.appKey }}</span
+            ><span
+              class="copy"
+              id="appKeyValue"
+              data-clipboard-target="#app-key-value"
+              _stat_click_id="info_copyappkey"
+              @click="copy('appKeyValue')"
+              :data-clipboard-text="item.appKey"
+              >复制</span
+            ></span
+          >
+        </div>
+        <div class="app-info-row">
+          <span class="app-info-title">创建时间</span
+          ><span class="app-info-value">{{ item.createTime }}</span>
+        </div>
+        <div class="app-info-row">
+          <span class="app-info-title">应用类型</span
+          ><span class="app-info-value">{{ item.type }}</span>
+        </div>
+        <div class="app-info-row">
+          <span class="app-info-title">应用平台</span
+          ><span class="app-info-value">{{ item.platform }}</span>
+        </div>
+        <div class="app-info-row">
+          <span class="app-info-title">应用描述</span
+          ><span class="app-info-value word-break">{{ item.description }}</span>
+        </div>
+      </div>
+      <div class="app-info-btn">
+        <input
+          type="button"
+          class="ui-button ui-button-primary is-blue is-mid"
+          _stat_click_id="info_edit"
+          @click="showEdit()"
+          value="编辑"
+        />
       </div>
     </div>
-    <!-- 删除应用 模态框 -->
-    <div class="ui-dialog ui-mask" :style="{display: isDeleteModalShow?'block':'none'}">
-      <div
-        class="ui-dialog-wrap shadow delete-app-dialog"
-        data-name="dialog_0"
-        style="top: 285px; left: 203px;"
-      >
-        <div class="ui-dialog-header">
-          <span>删除应用</span><i class="ico-close" @click="hideDeleteModal()"></i>
-        </div>
-        <div class="ui-dialog-body">
-          <div class="delete-app-dialog__content">
-            删除应用后，该应用已接入的能力和数据都会被删除
-          </div>
-        </div>
-        <div class="ui-dialog-footer">
+
+    <div v-show="isEdit" class="app-info-edit ui-paper">
+      <div class="app-info-edit-title">编辑应用</div>
+      <div class="app-form">
+        <Form
+          class="ui-form"
+          ref="form"
+          :model="form"
+          :rules="rules"
+          :label-width="80"
+          style="width: 50%"
+        >
+          <FormItem label="应用名称" prop="name">
+            <Input
+              v-model="form.name"
+              placeholder="请填写该应用的名称"
+              size="large"
+            ></Input>
+          </FormItem>
+          <FormItem label="应用类型" prop="type">
+            <Select
+              size="large"
+              v-model="form.type"
+              placeholder="请选择应用类型"
+            >
+              <Option value="电子商务">电子商务</Option>
+              <Option value="社交">社交</Option>
+              <Option value="生活O2O">生活O2O</Option>
+              <Option value="企业服务">企业服务</Option>
+              <Option value="教育培训">教育培训</Option>
+              <Option value="智能硬件">智能硬件</Option>
+              <Option value="媒体资讯">媒体资讯</Option>
+              <Option value="广告营销">广告营销</Option>
+              <Option value="健康医疗">健康医疗</Option>
+              <Option value="房产家居">房产家居</Option>
+              <Option value="汽车交通">汽车交通</Option>
+              <Option value="金融">金融</Option>
+              <Option value="游戏">游戏</Option>
+              <Option value="工具软件">工具软件</Option>
+              <Option value="旅游">旅游</Option>
+              <Option value="影视娱乐">影视娱乐</Option>
+              <Option value="体育运动">体育运动</Option>
+              <Option value="文化艺术">文化艺术</Option>
+              <Option value="安全">安全</Option>
+              <Option value="数据">数据</Option>
+              <Option value="创业者服务">创业者服务</Option>
+              <Option value="机器人">机器人</Option>
+              <Option value="农业">农业</Option>
+              <Option value="政务">政务</Option>
+              <Option value="其他">其他</Option>
+            </Select>
+          </FormItem>
+
+          <FormItem label="应用平台" prop="platform">
+            <CheckboxGroup size="large" v-model="form.platform">
+              <Checkbox size="large" label="IOS"></Checkbox>
+              <Checkbox size="large" label="Android"></Checkbox>
+              <Checkbox size="large" label="HTML5"></Checkbox>
+              <Checkbox size="large" label="小程序"></Checkbox>
+              <Checkbox size="large" label="其他"></Checkbox>
+            </CheckboxGroup>
+          </FormItem>
+
+          <!-- <FormItem label="官网地址" prop="name">
+                      <Input
+                        size="large"
+                        v-model="form.name"
+                        placeholder="请填写该应用的官网地址"
+                      ></Input>
+                    </FormItem>
+                    <FormItem label="站点域名" prop="name">
+                      <Input
+                        size="large"
+                        v-model="form.name"
+                        placeholder="请填写站点域名，如：www.example.com"
+                      ></Input>
+                    </FormItem> -->
+
+          <FormItem label="应用描述" prop="description">
+            <Input
+              size="large"
+              v-model="form.description"
+              type="textarea"
+              maxlength="500"
+              rows="8"
+              :autosize="{ minRows: 8, maxRows: 8 }"
+              placeholder="请描述该应用场景、功能等。如：使用通用OCR技术，用于电商产品图片关键信息的识别，便于后续对图片的分类处理。"
+            ></Input>
+          </FormItem>
+        </Form>
+        <div class="app-info-edit__btn">
           <input
             type="button"
-            class="ui-button is-blue"
-            value="确认删除"
-            @click="deleteApp()"
+            class="ui-button ui-button-primary is-blue is-mid"
+            _stat_click_id="form_saveinfo"
+            @click="edit()"
+            value="保存"
           /><input
             type="button"
-            class="ui-button ui-dialog-cancelBtn ui-button-primary is-blue"
+            class="ui-button is-blue is-mid"
+            _stat_click_id="form_cancelinfo"
+            @click="hideEdit()"
             value="取消"
-            @click="hideDeleteModal()"
           />
         </div>
       </div>
@@ -131,109 +178,100 @@
   </div>
 </template>
 <script>
-import {deleteApplication} from '@/api/index.js';
+import Clipboard from "clipboard";
+
+import { editApplication } from "@/api/index.js";
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
-import Cookies from 'js-cookie';
-import { getStore, setStore } from '@/libs/storage';
 export default {
   name: "",
   data() {
     return {
-      isNavShow: false,
-      isDeleteModalShow: false,
-      currentAppId: "",
+      isEdit: false,
+      item: {},
+      form: {
+        id: "",
+        name: "",
+        type: "",
+        platform: [],
+        description: ""
+      },
+      rules: {
+        name: [
+          { required: true, message: "请输入应用的名称", trigger: "blur" }
+        ],
+        type: [
+          { required: true, message: "请选择应用的类型", trigger: "blur" }
+        ],
+        platform: [
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "请选择应用平台",
+            trigger: "change"
+          }
+        ],
+        description: [
+          { required: true, message: "请输入应用的描述", trigger: "blur" }
+        ]
+      }
     };
   },
-  computed:{
-    ...mapState([
-      "userInfo",
-      "appList"
-    ])
-  },
-  mounted(){
-    // 获取账号信息
-    this.getUserInfoAction().then(res=>{
-      
-    },err=>{
-      // 未登录重新登陆
-      if(!this.userInfo){
-        this.$router.push({
-          name: "login"
-        });
-      }
-    })
-
-    // 获取应用信息
-    this.getApplicationListAction();
+  mounted() {
+    console.log("应用: " + this.$route.query.item);
+    if (this.$route.query.item) {
+      this.item = this.$route.query.item;
+    }
   },
   methods: {
-    ...mapActions([
-      "getUserInfoAction",
-      "getApplicationListAction"
-    ]),
-    //登出
-    logout(){
-      console.log("登出");
-      Cookies.set('userInfo', '');
-      setStore('userInfo', '');
-      setStore('accessToken', '');
-      this.$router.push({
-        name: "home"
-      });
-    },
-    // 前往账号信息页面
-    goToAccountInfo(){
-      this.$router.push({
-        name: "account-info"
-      });
-    },
-    showNav() {
-      this.isNavShow = true;
-      console.log(this.isNavShow);
-    },
-    hideNav() {
-      this.isNavShow = false;
-    },
-    // 前往创建应用页面
-    goToCreateApp(){
-      this.$router.push({
-        name: 'create-app', 
-      })
-    },
-    // 显示删除模态框
-    showDeleteModal(appid){
-      this.isDeleteModalShow = true;
-      this.currentAppId = appid;
-    },
-    // 隐藏删除模态框
-    hideDeleteModal(){
-      this.isDeleteModalShow = false;
-    },
-    // 调用删除api
-    deleteApp(){
-      deleteApplication({appid: this.currentAppId}).then(res =>{
-        console.log(res);
-        if(res.success){
-          this.$Message.success("删除成功");
-          this.isDeleteModalShow = false;
-          this.getApplicationListAction();
-        }else{
-          this.$Message.success("删除失败");
-          // this.isDeleteModalShow = false;
-        }
-      })
-    },
+    ...mapActions(["getApplicationListAction"]),
+    showEdit() {
+      // 初始化form
+      this.form.id = this.item.id;
+      this.form.name = this.item.name;
+      this.form.type = this.item.type;
+      this.form.platform = this.item.platform.split(",");
+      this.form.description = this.item.description;
 
-    // 跳转应用详情页
-    goToDetail(item){
-      console.log(item);
-      this.$router.push({
-        name: "application-detail",
-        query:{
-          item: item,
-          name: 'overview'
+      this.isEdit = true;
+    },
+    hideEdit() {
+      console.log(this.isEdit);
+      this.isEdit = false;
+    },
+    edit() {
+      console.log(this.form);
+      console.log(this.item);
+
+      editApplication(this.form.id, this.form).then(res => {
+        console.log(res);
+        if (res.success) {
+          this.$Message.success("编辑成功!");
+          this.getApplicationListAction();
+          this.item = res.result;
+          this.isEdit = false;
+        } else {
+          this.$Message.error("编辑失败!");
         }
       });
+    },
+    copy(id) {
+      var clipboard = new Clipboard("#"+id);
+      clipboard.on("success", e => {
+        console.log("复制成功");
+         this.$Message.success("复制成功！");
+        // 释放内存
+        clipboard.destroy();
+      });
+      clipboard.on("error", e => {
+        // 不支持复制
+        console.log("该浏览器不支持自动复制");
+         this.$Message.error("该浏览器不支持自动复制");
+        // 释放内存
+        clipboard.destroy();
+      });
+
+     
     }
   }
 };
@@ -713,8 +751,7 @@ export default {
   display: none;
   position: absolute;
   padding: 5px;
-  /* top: calc(50% - 13px); */
-  top: 13px;
+  top: calc(50% - 13px);
   left: 151px;
 }
 .header .app-nav-item .ico-delete-app:hover {
@@ -866,7 +903,6 @@ export default {
   font-size: 14px;
   line-height: 1;
   padding: 60px 0;
-  border: none;
 }
 .ui-card {
   display: inline-block;
@@ -1930,9 +1966,7 @@ input[disabled] ~ label {
   color: #999;
 }
 .ui-sidebar .ui-sidebar-item.auto-height {
-  height: auto;
-  max-height: 500px;
-  transition: max-height 0.3s ease;
+  /* height:auto; */ /* max-height:500px; */ /* transition:max-height .3s ease */
 }
 .ui-sidebar .ui-sidebar-item.cur {
   color: #fff;
@@ -2491,7 +2525,7 @@ input[disabled] ~ label {
   vertical-align: top;
   margin-left: 10px;
 }
-.app-info .copy {
+.copy {
   color: #0052d9;
   right: 5px;
   position: absolute;
@@ -3400,20 +3434,11 @@ textarea {
 .mod-crumb span {
   color: #878787;
 }
-/* body {
+body {
   background-color: #f2f2f2;
-} */
+}
 .app {
   min-width: 1280px;
-
-  position: relative;
-  font: 12px/1.5 microsoft yahei,arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #f2f2f2;
-  min-width: 1200px;
-  color: #323232;
-  min-height: 100%;
-  box-sizing: border-box;
 }
 .app-main {
   padding-top: 60px;
@@ -3447,5 +3472,4 @@ textarea {
     width: calc(100% - 200px - 80px);
   }
 }
-
 </style>

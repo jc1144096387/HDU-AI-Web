@@ -107,6 +107,10 @@ const routes = [
 
   // 控制台首页
   {
+    path: '/console',
+    redirect: '/console/home'
+  },
+  {
     path: '/console/home',
     name: 'console-home',
     component:  () => import('@/views/console/home/home.vue')
@@ -124,11 +128,29 @@ const routes = [
     component:  () => import('@/views/console/application/create-app.vue')
   },
   // 控制台应用详情
-  // {
-  //   path: '/console/home',
-  //   name: 'console-home',
-  //   component:  () => import('@/views/console/home/home.vue')
-  // },
+  {
+    path: '/console/application/detail',
+    redirect: '/console/application/detail/overview',
+    name: 'application-detail',
+    component:  () => import('@/views/console/application/detail.vue'),
+    children:[
+      {
+        path: 'overview',
+        name: 'overview',
+        component: () => import('@/views/console/application/detail/overview.vue')
+      },
+      {
+        path: 'data-analysis',
+        name: 'data-analysis',
+        component: () => import('@/views/console/application/detail/data-analysis.vue')
+      },
+      {
+        path: 'data-info',
+        name: 'data-info',
+        component: () => import('@/views/console/application/detail/data-info.vue')
+      },
+    ]
+  },
 ]
 
 const router = new VueRouter({

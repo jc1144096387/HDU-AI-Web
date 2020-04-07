@@ -406,11 +406,11 @@
               <div class="create-suc-result">
                 <div>
                   <span class="create-suc-key">App_ID</span
-                  ><span class="create-suc-value">2131652023</span>
+                  ><span class="create-suc-value">{{appid}}</span>
                 </div>
                 <div>
                   <span class="create-suc-key">App_Key</span
-                  ><span class="create-suc-value">m72hcrbWM7XHQeAF</span>
+                  ><span class="create-suc-value">{{appkey}}</span>
                 </div>
               </div>
               <div class="create-suc-btn">
@@ -437,6 +437,8 @@ import consoleFooter from "@/components/footer/console-footer.vue";
 
 import { createApplication } from "@/api/index.js";
 
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "",
   components: {
@@ -445,6 +447,8 @@ export default {
   },
   data() {
     return {
+      appid:"",
+      appkey: "",
       isSuccess: false,
       form: {
         name: "",
@@ -475,6 +479,9 @@ export default {
     };
   },
   methods: {
+        ...mapActions([
+      "getApplicationListAction"
+    ]),
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         console.log(this.form);
@@ -483,7 +490,11 @@ export default {
           createApplication(this.form).then(res => {
             console.log(res);
             if (res.success) {
+              this.getApplicationListAction();
+              
               this.$Message.success("创建成功!");
+              this.appid = res.result.id;
+              this.appkey = res.result.appKey;
               this.isSuccess = true;
             } else {
               this.$Message.error(res.message);
@@ -2135,7 +2146,7 @@ input[disabled] ~ label {
   width: 70px;
   display: inline-block;
   color: #909090;
-  padding-left: 119px;
+  padding-left: 70px;
   /* padding-right: 10px; */
 }
 .create-suc-value {
