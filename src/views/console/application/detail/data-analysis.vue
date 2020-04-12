@@ -28,7 +28,7 @@
             <DatePicker
               size="large"
               :value="datePicker"
-              @on-change="datePickerChange()"
+              @on-change="datePickerChange($event)"
               format="yyyy-MM-dd"
               type="daterange"
               placement="bottom-end"
@@ -215,7 +215,7 @@
         </div>
         <div class="sec-content">
           <div class="invoke-count__line">
-            <iframe
+            <!-- <iframe
               class="chartjs-hidden-iframe"
               tabindex="-1"
               style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"
@@ -224,7 +224,14 @@
               height="306"
               width="926"
               style="display: block; width: 926px; height: 306px;"
-            ></canvas>
+            ></canvas> -->
+            <chart
+              chartId="numChart"
+              :xData="dateArray"
+              :itemData="numArray"
+              :series="numSeries"
+              :legend="numLegend"
+            ></chart>
           </div>
         </div>
       </div>
@@ -234,7 +241,7 @@
         </div>
         <div class="sec-content">
           <div class="invoke-time__line">
-            <iframe
+            <!-- <iframe
               class="chartjs-hidden-iframe"
               tabindex="-1"
               style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"
@@ -243,7 +250,13 @@
               height="256"
               width="926"
               style="display: block; width: 926px; height: 256px;"
-            ></canvas>
+            ></canvas> -->
+            <chart
+              chartId="costChart"
+              :xData="dateArray"
+              :itemData="costArray"
+              :series="costSeries"
+            ></chart>
           </div>
         </div>
       </div>
@@ -278,22 +291,245 @@
   </div>
 </template>
 <script>
+// 引入日期相关工具
+import dateUtil from "@/libs/dateUtil.js";
+
+// 引入折线图组件
+import chart from "@/components/chart.vue";
+
 export default {
   name: "",
+  components: {
+    chart
+  },
   data() {
     return {
       item: {},
       select: "全部能力",
       dateRadio: "近30天",
       datePicker: [
-        new Date(new Date().getTime() - 3600 * 1000 * 24 * 30),
+        new Date(new Date().getTime() - 3600 * 1000 * 24 * 29),
         new Date()
+      ],
+      numLegend: {
+        bottom: 0,
+        itemGap: 25,
+        itemWidth: 20,
+        itemHeight: 20,
+        data: [
+          {
+            name: "总次数",
+            // 强制设置图形为圆。
+            icon: "circle",
+
+          },
+          {
+            name: "成功次数",
+            // 强制设置图形为圆。
+            icon: "circle",
+
+          },
+          {
+            name: "失败次数",
+            // 强制设置图形为圆。
+            icon: "circle",
+
+          }
+        ]
+      },
+      numArray: {
+        all: [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        success: [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        fail: [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      costArray: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
       ]
     };
+  },
+  computed: {
+    dateArray: function() {
+      return dateUtil.getDateArray(
+        this.datePicker[0],
+        this.datePicker[1],
+        3600 * 1000 * 24 * 1,
+        "yyyy-MM-dd"
+      );
+    },
+    numSeries: function() {
+      let arr = [
+        {
+          // xAxisIndex: 0,
+          name: "总次数",
+          data: this.numArray.all,
+          type: "line",
+          color: "#036bc8",
+          symbolSize: 6
+        },
+        {
+          // xAxisIndex: 1,
+          name: "成功次数",
+          data: this.numArray.success,
+          type: "line",
+          color: "#4cb050",
+          symbolSize: 6
+        },
+        {
+          // xAxisIndex: 2,
+          name: "失败次数",
+          data: this.numArray.fail,
+          type: "line",
+          color: "#4bc0c0",
+          symbolSize: 6
+        }
+      ];
+      return arr;
+    },
+    costSeries: function() {
+      let arr = [
+        {
+          name: "调用耗时",
+          data: this.costArray,
+          type: "line",
+          color: "#036bc8",
+          symbolSize: 6
+        }
+      ];
+      return arr;
+    }
   },
   watch: {
     datePicker: function(newVal, oldVal) {
       console.log(newVal);
+      // this.dateArray = dateUtil.getDateArray(
+      //   this.datePicker[0],
+      //   this.datePicker[1],
+      //   3600 * 1000 * 24 * 1,
+      //   "yyyy-MM-dd"
+      // )
+      // console.log(this.dateArray)
     }
   },
   mounted() {
@@ -318,17 +554,18 @@ export default {
       } else if (this.dateRadio == "近7天") {
         const end = new Date();
         const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
         this.datePicker = [start, end];
       } else if (this.dateRadio == "近30天") {
         const end = new Date();
         const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
         this.datePicker = [start, end];
       }
     },
-    datePickerChange() {
-      console.log(this.datePicker);
+    datePickerChange(date) {
+      console.log(date, this.datePicker, this.dateArray);
+      this.datePicker = date;
     }
   }
 };
@@ -2541,7 +2778,7 @@ input[disabled] ~ label {
 }
 .invoke-time__line {
   width: 100%;
-  height: 256px;
+  height: 306px;
 }
 .error-code-info {
   min-height: 402px;

@@ -6,19 +6,12 @@
       </div>
       <div class="sec-content">
         <div class="api-chart__line">
-          <iframe
-            class="chartjs-hidden-iframe"
-            tabindex="-1"
-            style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"
-          ></iframe
-          ><canvas
-            height="256"
-            width="915"
-            style="display: block; width: 915px; height: 256px;"
-          ></canvas>
+          <chart chartId="mychart" :xData="dateArray" :itemData="numArray" :series="series"></chart>
         </div>
+
       </div>
     </div>
+
     <div class="sec api-table">
       <div class="sec-header">
         <div class="sec-header__title">能力运行概况（近30天）</div>
@@ -26,7 +19,7 @@
           <a
             class="link"
             _stat_click_id="table_more"
-            href="/console/application/2129141900/data-analysis"
+            @click="goToSide('data-analysis')"
             >更多数据</a
           >
         </div>
@@ -208,15 +201,98 @@
   </div>
 </template>
 <script>
+
+
+// 引入日期相关工具
+import dateUtil from "@/libs/dateUtil.js";
+
+// 引入折线图组件
+import chart from "@/components/chart.vue";
+
 export default {
   name: "",
+  components:{
+    chart
+  },
   data() {
-    return {};
+    return {
+      item: {},
+      numArray: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      dateArray:dateUtil.getDateArray(
+        new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 29),
+        new Date(),
+        3600 * 1000 * 24 * 1,
+        "yyyy-MM-dd"
+      ),
+      
+    };
+  },
+  computed:{
+    series:function(){
+      let arr = [
+        {
+          name: "总调用",
+          data: this.numArray,
+          type: "line",
+          color: "#036bc8",
+          symbolSize: 6
+        }
+      ];
+      return arr;
+    } 
   },
   mounted() {
     console.log(this.$route.query.item);
+    if (this.$route.query.item) {
+      this.item = this.$route.query.item;
+    }
   },
-  methods: {}
+  methods: {
+    // 跳转侧边栏
+    goToSide(name) {
+      this.currentSide = name;
+      console.log(name, this.currentSide);
+      this.$router.push({
+        name: name,
+        query: {
+          item: this.item,
+          name: name
+        }
+      });
+      console.log(name, this.currentSide);
+    }
+  }
 };
 </script>
 <style scoped>
@@ -1960,7 +2036,6 @@ input[disabled] ~ label {
   line-height: 35px;
   padding: 14px 33px;
   box-sizing: border-box;
-
 }
 .ui-sidebar .ui-sidebar-item__link:hover {
   background-color: #2f3949;
@@ -2100,7 +2175,7 @@ input[disabled] ~ label {
 }
 .application .overview .api-chart__line {
   width: 100%;
-  height: 256px;
+  height: 306px;
 }
 .application .overview .api-table {
   min-height: 346px;
