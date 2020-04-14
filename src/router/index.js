@@ -151,6 +151,18 @@ const routes = [
       },
     ]
   },
+  // 控制台-能力库-首页
+  {
+    path: '/console/capability/overview',
+    name: 'capability-overview',
+    component:  () => import('@/views/console/capability/overview.vue')
+  },
+  // 控制台-能力库-详情页
+  {
+    path: '/console/capability/detail',
+    name: 'capability-detail',
+    component:  () => import('@/views/console/capability/detail.vue')
+  },
 ]
 
 const router = new VueRouter({

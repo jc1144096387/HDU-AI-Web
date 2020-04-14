@@ -249,7 +249,279 @@ TODO：vuex保存userInfo以及实现自动登录
 
 ### 第8周
 - 图表（ECharts）
-- 能力库搜索页
-- 能力库列表页
-
-
+  + 引入ECharts
+  + 对照ECharts文档将图表修改成类似腾讯AI里的图表
+- 能力库首页
+  + 渲染能力库列表
+```
+list: [
+  {
+    label: "基础文本分析",
+    value: "",
+    children: [
+      {
+        label: "基础文本分析",
+        value: "",
+        content:
+          "抽取文本关键信息，提供准确的分词、词性标注，命名实体识别、同义词转换等功能"
+      }
+    ]
+  },
+  {
+    label: "语义解析",
+    value: "",
+    children: [
+      {
+        label: "意图成分",
+        value: "",
+        content: "对文本进行意图识别，快速找出意图及上下文成分"
+      },
+      {
+        label: "情感分析",
+        value: "",
+        content: "对文本进行情感分析，快速判断情感倾向（正面或负面）"
+      }
+    ]
+  },
+  {
+    label: "机器翻译",
+    value: "",
+    children: [
+      {
+        label: "文本翻译",
+        value: "",
+        content: "对文本进行翻译，支持多种语言之间互译"
+      },
+      {
+        label: "语音翻译",
+        value: "",
+        content: "识别出音频中的文字，并进行翻译"
+      },
+      {
+        label: "图片翻译",
+        value: "",
+        content: "识别图片中的文字，并进行翻译"
+      },
+      {
+        label: "语种识别",
+        value: "",
+        content: "识别给出文本的语种"
+      }
+    ]
+  },
+  {
+    label: "智能闲聊",
+    value: "",
+    children: [
+      {
+        label: "智能闲聊",
+        value: "",
+        content:
+          "基于文本的基础聊天能力，具备上下文语义理解的机器聊天功能"
+      }
+    ]
+  },
+  {
+    label: "图片识别",
+    value: "",
+    children: [
+      {
+        label: "看图说话",
+        value: "",
+        content: "用一句话描述图片"
+      },
+      {
+        label: "多标签识别",
+        value: "",
+        content: "识别一个图像的标签信息，对图像分类"
+      },
+      {
+        label: "模糊图片识别",
+        value: "",
+        content: "判断一个图像的模糊程度"
+      },
+      {
+        label: "美食图片识别",
+        value: "",
+        content: "识别一个图像是否为美食图像"
+      },
+      {
+        label: "场景物体识别",
+        value: "",
+        content:
+          "对图片进行场景物体识别，快速找出图片中包含的场景物体信息"
+      }
+    ]
+  },
+  {
+    label: "敏感信息甄别",
+    value: "",
+    children: [
+      {
+        label: "暴恐识别",
+        value: "",
+        content: "识别一个图像是否为暴恐图像"
+      },
+      {
+        label: "图片鉴黄",
+        value: "",
+        content: "识别一个图像是否为色情图像"
+      },
+      {
+        label: "音频鉴黄/敏感词检测",
+        value: "",
+        content: "识别一段音频是否为恶意音频，并判断其恶意类别"
+      }
+    ]
+  },
+  {
+    label: "OCR",
+    value: "",
+    children: [
+      {
+        label: "身份证OCR",
+        value: "",
+        content: "识别身份证图像上面的详细身份信息"
+      },
+      {
+        label: "行驶证/驾驶证OCR",
+        value: "",
+        content: "识别行驶证或驾驶证图像上面的字段信息"
+      },
+      {
+        label: "通用OCR",
+        value: "",
+        content: "识别上传图像上面的字段信息"
+      },
+      {
+        label: "营业执照OCR",
+        value: "",
+        content: "识别营业执照上面的字段信息"
+      },
+      {
+        label: "银行卡OCR",
+        value: "",
+        content: "识别银行卡上面的字段信息"
+      },
+      {
+        label: "手写体OCR",
+        value: "",
+        content: "检测和识别图像上面手写体的字段信息"
+      },
+      {
+        label: "车牌OCR",
+        value: "",
+        content: "识别车牌上面的字段信息"
+      },
+      {
+        label: "名片OCR",
+        value: "",
+        content: "识别名片图像上面的字段信息"
+      }
+    ]
+  },
+  {
+    label: "图片特效",
+    value: "",
+    children: [
+      {
+        label: "滤镜",
+        value: "",
+        content: "对原图进行滤镜特效处理，适合人物、风景等各类图片"
+      },
+      {
+        label: "人脸美妆",
+        value: "",
+        content: "给定图片和美妆编码，对原图进行人脸美妆特效处理"
+      },
+      {
+        label: "人脸变妆",
+        value: "",
+        content: "给定图片和变妆编码，对原图进行人脸变妆特效处理"
+      },
+      {
+        label: "大头贴",
+        value: "",
+        content: "给定图片和大头贴编码，对原图进行大头贴特效处理"
+      },
+      {
+        label: "颜龄检测",
+        value: "",
+        content: "给定图片，对原图进行人脸颜龄检测处理"
+      }
+    ]
+  },
+  {
+    label: "人脸与人体识别",
+    value: "",
+    children: [
+      {
+        label: "人脸检测与分析",
+        value: "",
+        content: "识别上传图像上面的人脸信息"
+      },
+      {
+        label: "多人脸检测",
+        value: "",
+        content: "识别上传图像上面的人脸位置，支持多人脸识别"
+      },
+      {
+        label: "跨年龄人脸识别",
+        value: "",
+        content: "上传两张人脸照，返回最相似的两张人脸及相似度"
+      },
+      {
+        label: "五官定位",
+        value: "",
+        content: "对请求图片进行五官定位"
+      },
+      {
+        label: "人脸对比",
+        value: "",
+        content: "对请求图片进行人脸对比"
+      },
+      {
+        label: "人脸搜索与验证",
+        value: "",
+        content:
+          "人脸搜索支持图片人脸在人脸库中进行搜索；人脸验证可根据图片和个体ID，返回是否是同一个人"
+      }
+    ]
+  },
+  {
+    label: "语音合成",
+    value: "",
+    children: [
+      {
+        label: "语音合成",
+        value: "",
+        content: "将文字转换为语音，返回文字的语音数据"
+      }
+    ]
+  },
+  {
+    label: "语音识别",
+    value: "",
+    children: [
+      {
+        label: "语音识别",
+        value: "",
+        content:
+          "对音频进行语音识别，并返回语音的文字内容，支持整段识别或流式识别"
+      },
+      {
+        label: "长语音识别",
+        value: "",
+        content: "上传长音频，提供回调接口，异步获取识别结果"
+      },
+      {
+        label: "关键词检索",
+        value: "",
+        content: "上传长音频，设置关键词，提供回调接口，异步获取识别结果"
+      }
+    ]
+  }
+],
+```
+  + 实现滚动切换Nav
+  + 实现前端搜索
