@@ -6,13 +6,14 @@
         <div class="capa-overview">
           <div class="capa-overview-search">
             <div class="ui-input">
-              <input placeholder="搜索能力库" autocomplete="off" value="" />
+              <input placeholder="搜索能力库" autocomplete="off" v-model="searchValue" />
               <div class="ui-input-bg"></div>
             </div>
             <i class="ico-search"></i>
           </div>
           <!-- fixed吸顶 -->
           <ul
+            v-if="!isSearch"
             class="capa-overview-nav"
             id="fixedNav"
             :class="isFixed ? 'fixed' : ''"
@@ -28,8 +29,7 @@
             </li>
             
           </ul>
-
-          <div class="capa-overview-content">
+          <div v-if="!isSearch" class="capa-overview-content">
             <div
               v-for="(item1, index1) in list"
               :key="index1"
@@ -59,6 +59,39 @@
               </div>
             </div>
           </div>
+
+          <div v-if="isSearch" class="capa-overview-keyword">"{{searchValue.trim()}}" 的搜索结果，共有{{searchNumber}}项能力。</div>
+          <div v-if="isSearch" class="capa-overview-content">
+            <div
+              v-for="(item1, index1) in searchList"
+              :key="index1"
+              :class="'content-item'+index1"
+              class="capa-overview-item ui-paper"
+            >
+              <div class="capa-overview-item__title">{{item1.label}}</div>
+              <div 
+                class="capa-overview-item__cardContent"
+              >
+                <a
+                  v-for="(item2, index2) in item1.children"
+                  :key="index2"
+                  _stat_click_id="apigrouplist_card"
+                  class="ui-card capa-card"
+                  :class="['card-'+(index1+1), index2%3==2?'mr0':'']"
+                  href="/console/capability/detail/1"
+                >
+                  <p class="capa-card__title" v-html="item2.label">
+                    <!-- {{item2.label}} -->
+                  </p>
+                  <p class="capa-card__desc" v-html="item2.content">
+                    <!-- {{item2.content}} -->
+                  </p>
+                  <p class="capa-card__more">了解更多 &gt;</p></a
+                >
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -350,8 +383,25 @@ export default {
           ]
         }
       ],
+      isSearch: false,
+      searchValue:"",
+      searchNumber: 0,
+      searchList:[
 
+      ],
     };
+  },
+  watch:{
+    'searchValue': function(val){
+      // 去头尾空白
+      val = val.trim();
+      if(val){
+        this.search(val);
+        this.isSearch = true;
+      }else{
+        this.isSearch = false;
+      }
+    }
   },
   mounted() {
     // 监听滚动事件
@@ -394,6 +444,43 @@ export default {
     changeNav(index){
       window.scrollTo(0, this.itemOffest[index]-250);
       this.currentNavItemIndex = index;
+    },
+    // 根据输入框的内容对this.list进行模糊搜索，结果放在this.searchList中
+    search(val){
+      this.searchList = [];
+      this.searchNumber = 0;
+      for(let i = 0; i < this.list.length; i ++){
+        let item = JSON.parse(JSON.stringify(this.list[i]));
+        let children = [];
+        for(let j = 0; j < item.children.length; j ++){
+          // 检测label和content中是否包含val，若是，则放入搜索结果列表中
+          let hasResult = false;
+          let index = item.children[j].label.indexOf(val);
+          if(index>-1){
+            hasResult = true;
+            // 用<span></span>包裹val，实现提示的效果
+            item.children[j].label = item.children[j].label.substring(0,index) 
+              + '<span style="color: #f17a32;">'+val+'</span>' 
+              + item.children[j].label.substring(index+val.length,item.length);
+          }
+          index = item.children[j].content.indexOf(val);
+          if(index>-1){
+            hasResult = true;
+            // 用<span></span>包裹val，实现提示的效果
+            item.children[j].content = item.children[j].content.substring(0,index) 
+            + '<span style="color: #f17a32;">'+val+'</span>' 
+            + item.children[j].content.substring(index+val.length,item.length);
+          }
+          if(hasResult){
+            children.push(item.children[j]);
+          }
+        }
+        if(children.length>0){
+          item.children = children;
+          this.searchNumber += children.length;
+          this.searchList.push(item);
+        }
+      }
     }
   }
 };
