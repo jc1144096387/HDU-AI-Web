@@ -46,7 +46,8 @@
                   _stat_click_id="apigrouplist_card"
                   class="ui-card capa-card"
                   :class="['card-'+(index1+1), index2%3==2?'mr0':'']"
-                  href="/console/capability/detail/1"
+                  
+                  @click="goToDetail(index1,index2)"
                 >
                   <p class="capa-card__title">
                     {{item2.label}}
@@ -78,7 +79,7 @@
                   _stat_click_id="apigrouplist_card"
                   class="ui-card capa-card"
                   :class="['card-'+(index1+1), index2%3==2?'mr0':'']"
-                  href="/console/capability/detail/1"
+                  @click="goToDetail(index1,index2)"
                 >
                   <p class="capa-card__title" v-html="item2.label">
                     <!-- {{item2.label}} -->
@@ -481,6 +482,16 @@ export default {
           this.searchList.push(item);
         }
       }
+    },
+    // 跳转详情页
+    goToDetail(index1,index2){
+       this.$router.push({
+        name: "capability-detail",
+        query:{
+          index1: index1,
+          index2: index2
+        }
+      });
     }
   }
 };

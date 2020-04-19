@@ -10,7 +10,7 @@
       <div class="header-center">
         <ul class="header-nav">
           <li class="header-nav-first">
-            <a _stat_click_id="consheader_home" href="/console/home">首页</a>
+            <a _stat_click_id="consheader_home" @click="goToPageByName('console-home')">首页</a>
           </li>
           <li
             class="header-nav-first nav-more app-nav"
@@ -53,7 +53,7 @@
             <a
               class="capa-nav"
               _stat_click_id="consheader_capability"
-              href="/console/capability/overview"
+              @click="goToPageByName('capability-overview')"
               >能力库</a
             >
           </li>
@@ -233,6 +233,12 @@ export default {
           item: item,
           name: 'overview'
         }
+      });
+    },
+
+    goToPageByName(name){
+      this.$router.push({
+        name: name,
       });
     }
   }
