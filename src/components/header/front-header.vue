@@ -1078,7 +1078,7 @@
 </template>
 
 <script>
-import product from "@/mock/product.js";
+// import product from "@/mock/product.js";
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 import Cookies from 'js-cookie';
 import { getStore, setStore } from '@/libs/storage';
@@ -1091,13 +1091,13 @@ export default {
       sliderX: "0px",
       sliderWidth: "80px",
       isSliderHidden: true,
-      productList: product.productList
+      // productList: product.productList
     };
   },
   computed: {
-    ...mapState(["userInfo"])
+    ...mapState(["userInfo", "productList"])
   },
-  mounted() {
+  created() {
     this.getUserInfoAction().then(res => {
       if (!this.userInfo) {
         this.$router.push({
@@ -1105,9 +1105,11 @@ export default {
         });
       }
     });
+
+    this.getProductListAction();
   },
   methods: {
-    ...mapActions(["getUserInfoAction"]),
+    ...mapActions(["getUserInfoAction", "getProductListAction"]),
     //登出
     logout(){
       console.log("登出");

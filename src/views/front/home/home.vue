@@ -739,9 +739,11 @@
 </template>
 
 <script>
-import product from "@/mock/product.js"
+// import product from "@/mock/product.js"
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
 import frontHeader from "@/components/header/front-header.vue";
+
 var timer;
 export default {
   name: "home",
@@ -752,17 +754,23 @@ export default {
     return {
       bannerIndex: 0,
       isLoadMore:[],
-      productList: product.productList
+      // productList: product.productList
     };
   },
-  mounted() {
+  computed: {
+    ...mapState(["productList"])
+  },
+  created() {
     var that = this;
     // 自动轮播
     timer = setInterval(() => {
       that.bannerIndex = (that.bannerIndex + 1) % 3;
     }, 5000);
+
+    this.getProductListAction();
   },
   methods: {
+    ...mapActions(["getProductListAction"]),
     changeBanner(e) {
       this.bannerIndex = e;
       clearInterval(timer);
