@@ -3,6 +3,7 @@ import {
   getProductList,
   getApplicationList,
 } from "@/api/index";
+import { getStore, setStore } from '@/libs/storage';
 
 // 获取用户信息
 export const getUserInfoAction = ({ commit }, data) => {
@@ -10,6 +11,7 @@ export const getUserInfoAction = ({ commit }, data) => {
     getUserInfo().then(res => {
       console.log(res);
       if(res.success){
+        console.log(res.result)
         commit('SET_USER_INFO', res.result);
         resolve(res);
       }else{

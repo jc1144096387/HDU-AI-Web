@@ -6,14 +6,18 @@
         <div class="capa-overview">
           <div class="capa-overview-search">
             <div class="ui-input">
-              <input placeholder="搜索能力库" autocomplete="off" v-model="searchValue" />
+              <input
+                placeholder="搜索能力库"
+                autocomplete="off"
+                v-model="searchValue"
+              />
               <div class="ui-input-bg"></div>
             </div>
             <i class="ico-search"></i>
           </div>
           <!-- fixed吸顶 -->
           <ul
-            v-if="!isSearch"
+            v-show="!isSearch"
             class="capa-overview-nav"
             id="fixedNav"
             :class="isFixed ? 'fixed' : ''"
@@ -22,38 +26,42 @@
               v-for="(item, index) in productList"
               :key="index"
               class="capa-overview-navItem"
-              :class="{'active':index==currentNavItemIndex, 'first-item':index==0, 'even-item':index%2==1, 'last-item':index==productList.length-1}"
+              :class="{
+                active: index == currentNavItemIndex,
+                'first-item': index == 0,
+                'even-item': index % 2 == 1,
+                'last-item': index == productList.length - 1
+              }"
               @click="changeNav(index)"
             >
-              {{item.label}}
+              {{ item.label }}
             </li>
-            
           </ul>
-          <div v-if="!isSearch" class="capa-overview-content">
+          <div v-show="!isSearch" class="capa-overview-content">
             <div
               v-for="(item1, index1) in productList"
               :key="index1"
-              :class="'content-item'+index1"
+              :class="'content-item' + index1"
               class="capa-overview-item ui-paper"
             >
-              <div class="capa-overview-item__title">{{item1.label}}</div>
-              <div 
-                class="capa-overview-item__cardContent"
-              >
+              <div class="capa-overview-item__title">{{ item1.label }}</div>
+              <div class="capa-overview-item__cardContent">
                 <a
                   v-for="(item2, index2) in item1.children"
                   :key="index2"
                   _stat_click_id="apigrouplist_card"
                   class="ui-card capa-card"
-                  :class="['card-'+(index1+1), index2%3==2?'mr0':'']"
-                  
-                  @click="goToDetail(index1,index2)"
+                  :class="[
+                    'card-' + (index1 + 1),
+                    index2 % 3 == 2 ? 'mr0' : ''
+                  ]"
+                  @click="goToDetail(index1, index2)"
                 >
                   <p class="capa-card__title">
-                    {{item2.label}}
+                    {{ item2.label }}
                   </p>
                   <p class="capa-card__desc">
-                    {{item2.content?item2.content.substr(0,40):''}}
+                    {{ item2.content ? item2.content.substring(0, 40) : "" }}
                   </p>
                   <p class="capa-card__more">了解更多 &gt;</p></a
                 >
@@ -61,25 +69,30 @@
             </div>
           </div>
 
-          <div v-if="isSearch" class="capa-overview-keyword">"{{searchValue.trim()}}" 的搜索结果，共有{{searchNumber}}项能力。</div>
-          <div v-if="isSearch" class="capa-overview-content">
+          <div v-show="isSearch" class="capa-overview-keyword">
+            "{{ searchValue.trim() }}" 的搜索结果，共有{{
+              searchNumber
+            }}项能力。
+          </div>
+          <div v-show="isSearch" class="capa-overview-content">
             <div
               v-for="(item1, index1) in searchList"
               :key="index1"
-              :class="'content-item'+index1"
+              :class="'content-item' + index1"
               class="capa-overview-item ui-paper"
             >
-              <div class="capa-overview-item__title">{{item1.label}}</div>
-              <div 
-                class="capa-overview-item__cardContent"
-              >
+              <div class="capa-overview-item__title">{{ item1.label }}</div>
+              <div class="capa-overview-item__cardContent">
                 <a
                   v-for="(item2, index2) in item1.children"
                   :key="index2"
                   _stat_click_id="apigrouplist_card"
                   class="ui-card capa-card"
-                  :class="['card-'+(index1+1), index2%3==2?'mr0':'']"
-                  @click="goToDetail(index1,index2)"
+                  :class="[
+                    'card-' + (index1 + 1),
+                    index2 % 3 == 2 ? 'mr0' : ''
+                  ]"
+                  @click="goToDetail(item2.index1, item2.index2)"
                 >
                   <p class="capa-card__title" v-html="item2.label">
                     <!-- {{item2.label}} -->
@@ -92,7 +105,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -117,7 +129,7 @@ export default {
       isFixed: false,
       offsetTop: 0,
       currentNavItemIndex: 0,
-      itemOffest:[],
+      itemOffest: [],
       // productList: [
       //   {
       //     label: "基础文本分析",
@@ -387,24 +399,22 @@ export default {
       //   }
       // ],
       isSearch: false,
-      searchValue:"",
+      searchValue: "",
       searchNumber: 0,
-      searchList:[
-
-      ],
+      searchList: [],
     };
   },
   computed: {
     ...mapState(["productList"])
   },
-  watch:{
-    'searchValue': function(val){
+  watch: {
+    searchValue: function(val) {
       // 去头尾空白
       val = val.trim();
-      if(val){
+      if (val) {
         this.search(val);
         this.isSearch = true;
-      }else{
+      } else {
         this.isSearch = false;
       }
     }
@@ -412,18 +422,22 @@ export default {
   mounted() {
     // 监听滚动事件
     window.addEventListener("scroll", this.handleScroll);
-    // 在下次 DOM 更新循环结束之后执行延迟回调
-    this.$nextTick(() => {
-      // 获取导航栏的offset和各个item的offset
-      this.offsetTop = document.querySelector("#fixedNav").offsetTop;
-      let itemList = document.querySelectorAll(".capa-overview-item");
-      itemList.forEach(item=>{
-        this.itemOffest.push(item.offsetTop);
-      })
-      // console.log(this.itemOffest);
-    });
 
-    this.getProductListAction();
+    this.getProductListAction().then(res=>{
+      if(res.success){
+        // 在下次 DOM 更新循环结束之后执行延迟回调
+        this.$nextTick(() => {
+          // 获取导航栏的offset和各个item的offset
+          this.offsetTop = document.querySelector("#fixedNav").offsetTop;
+          let itemList = document.querySelectorAll(".capa-overview-item");
+          console.log(itemList);
+          itemList.forEach(item => {
+            this.itemOffest.push(item.offsetTop);
+          });
+          // console.log(this.itemOffest);
+        });
+      }
+    })
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -438,53 +452,77 @@ export default {
         document.body.scrollTop;
       this.isFixed = scrollTop > this.offsetTop ? true : false;
       this.currentNavItemIndex = 0;
-      for(let i = 0; i < this.itemOffest.length; i ++){
-        if(this.itemOffest[0]>scrollTop+250){
+      for (let i = 0; i < this.itemOffest.length; i++) {
+        if (this.itemOffest[0] > scrollTop + 250) {
           this.currentNavItemIndex = 0;
           break;
         }
-        if(this.itemOffest[i]>scrollTop+250){
-          this.currentNavItemIndex = i-1;
+        if (this.itemOffest[i] > scrollTop + 250) {
+          this.currentNavItemIndex = i - 1;
           break;
         }
       }
     },
     // 切换nav
-    changeNav(index){
-      window.scrollTo(0, this.itemOffest[index]-250);
+    changeNav(index) {
+      window.scrollTo(0, this.itemOffest[index] - 250);
       this.currentNavItemIndex = index;
     },
     // 根据输入框的内容对this.list进行模糊搜索，结果放在this.searchList中
-    search(val){
+    search(val) {
       this.searchList = [];
       this.searchNumber = 0;
-      for(let i = 0; i < this.productList.length; i ++){
+      for (let i = 0; i < this.productList.length; i++) {
         let item = JSON.parse(JSON.stringify(this.productList[i]));
         let children = [];
-        for(let j = 0; j < item.children.length; j ++){
+        if (!item.children) {
+          continue;
+        }
+        for (let j = 0; j < item.children.length; j++) {
+          console.log(item.children);
           // 检测label和content中是否包含val，若是，则放入搜索结果列表中
           let hasResult = false;
-          let index = item.children[j].label.indexOf(val);
-          if(index>-1){
-            hasResult = true;
-            // 用<span></span>包裹val，实现提示的效果
-            item.children[j].label = item.children[j].label.substring(0,index) 
-              + '<span style="color: #f17a32;">'+val+'</span>' 
-              + item.children[j].label.substring(index+val.length,item.length);
+          if (item.children[j].label) {
+            let index = item.children[j].label.indexOf(val);
+            if (index > -1) {
+              hasResult = true;
+              // 用<span></span>包裹val，实现提示的效果
+
+              item.children[j].label =
+                item.children[j].label.substring(0, index) +
+                '<span style="color: #f17a32;">' +
+                val +
+                "</span>" +
+                item.children[j].label.substring(
+                  index + val.length,
+                  item.length
+                );
+            }
           }
-          index = item.children[j].content.indexOf(val);
-          if(index>-1){
-            hasResult = true;
-            // 用<span></span>包裹val，实现提示的效果
-            item.children[j].content = item.children[j].content.substring(0,index) 
-            + '<span style="color: #f17a32;">'+val+'</span>' 
-            + item.children[j].content.substring(index+val.length,item.length);
+          if (item.children[j].content) {
+            let index = item.children[j].content.substring(0, 40).indexOf(val);
+            if (index > -1) {
+              hasResult = true;
+              // 用<span></span>包裹val，实现提示的效果
+              item.children[j].content =
+                item.children[j].content.substring(0, index) +
+                '<span style="color: #f17a32;">' +
+                val +
+                "</span>" +
+                item.children[j].content.substring(
+                  index + val.length,
+                  40
+                );
+            }
           }
-          if(hasResult){
+          if (hasResult) {
+            // 记录当前项原来的index1和index2，跳转详情时使用
+            item.children[j].index1 = i;
+            item.children[j].index2 = j;
             children.push(item.children[j]);
           }
         }
-        if(children.length>0){
+        if (children.length > 0) {
           item.children = children;
           this.searchNumber += children.length;
           this.searchList.push(item);
@@ -492,10 +530,10 @@ export default {
       }
     },
     // 跳转详情页
-    goToDetail(index1,index2){
-       this.$router.push({
+    goToDetail(index1, index2) {
+      this.$router.push({
         name: "capability-detail",
-        query:{
+        query: {
           index1: index1,
           index2: index2
         }

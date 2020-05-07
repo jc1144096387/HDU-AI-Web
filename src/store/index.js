@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userInfo: {}, // 用户信息
+    userInfo: null, // 用户信息
     
     productList: [],// 技术引擎产品列表
 

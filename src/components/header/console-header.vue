@@ -3,8 +3,8 @@
     <div class="layout">
       <!-- 导航栏左侧 -->
       <div class="header-left">
-        <a class="header-logo" _stat_click_id="consheader_logo" href="/"></a
-        ><span class="header-title">控制台</span>
+        <a class="header-logo" @click="goToFrontHome"></a>
+        <span class="header-title">控制台</span>
       </div>
       <!-- 导航栏中间 -->
       <div class="header-center">
@@ -63,9 +63,7 @@
       <div class="header-right">
         <a
           class="header-doc"
-          target="_blank"
-          href="/doc"
-          _stat_click_id="consheader_doc"
+          @click="goToDoc"
         ></a>
         <div class="header-user">
           <div class="header-user-name nav-more user-nav">
@@ -179,6 +177,18 @@ export default {
       setStore('accessToken', '');
       this.$router.push({
         name: "home"
+      });
+    },
+    // 前往前端首页
+    goToFrontHome(){
+      this.$router.push({
+        name: "home"
+      });
+    },
+    // 跳转文档中心
+    goToDoc() {
+      this.$router.push({
+        name: "doc"
       });
     },
     // 前往账号信息页面

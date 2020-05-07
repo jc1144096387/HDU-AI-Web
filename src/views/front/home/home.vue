@@ -73,7 +73,7 @@
                   v-if="index2<5" :key="index2"
                   _stat_click_id="capa_ocridentify"
                   class="capability-group-wrap__item"
-                  @click="goToProductDetail(item1.value, item2.value, index2)"
+                  @click="goToProductDetail(index1, index2)"
                 >{{item2.label}}</a>
                 </template>
 
@@ -97,7 +97,7 @@
                       v-if="index2>=5" :key="index2"
                       _stat_click_id="capa_ocridentify"
                       class="capability-group-wrap__item"
-                      @click="goToProductDetail(item1.value, item2.value, index2)"
+                      @click="goToProductDetail(index1, index2)"
                     >{{item2.label}}</a>
                   </template>
 
@@ -135,7 +135,7 @@
                   v-if="index2<5" :key="index2"
                   _stat_click_id="capa_ocridentify"
                   class="capability-group-wrap__item"
-                  @click="goToProductDetail(item1.value, item2.value, index2)"
+                  @click="goToProductDetail(index1, index2)"
                 >{{item2.label}}</a>
                 </template>
 
@@ -159,7 +159,7 @@
                       v-if="index2>=5" :key="index2"
                       _stat_click_id="capa_ocridentify"
                       class="capability-group-wrap__item"
-                      @click="goToProductDetail(item1.value, item2.value, index2)"
+                      @click="goToProductDetail(index1, index2)"
                     >{{item2.label}}</a>
                   </template>
 
@@ -197,7 +197,7 @@
                   v-if="index2<5" :key="index2"
                   _stat_click_id="capa_ocridentify"
                   class="capability-group-wrap__item"
-                  @click="goToProductDetail(item1.value, item2.value, index2)"
+                  @click="goToProductDetail(index1, index2)"
                 >{{item2.label}}</a>
                 </template>
 
@@ -221,7 +221,7 @@
                       v-if="index2>=5" :key="index2"
                       _stat_click_id="capa_ocridentify"
                       class="capability-group-wrap__item"
-                      @click="goToProductDetail(item1.value, item2.value, index2)"
+                      @click="goToProductDetail(index1, index2)"
                     >{{item2.label}}</a>
                   </template>
 
@@ -791,13 +791,12 @@ export default {
       this.isLoadMore = arr;
     },
     // 跳转技术引擎详情页
-    goToProductDetail(type1,type2,currentTab){
+    goToProductDetail(index1,index2){
       this.$router.push({
         path: 'product', 
         query: { 
-          type1: type1,
-          type2: type2,
-          currentTab: currentTab
+          index1: index1,
+          index2: index2
         }
       })
     }

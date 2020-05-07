@@ -26,7 +26,7 @@ axios.interceptors.response.use(response => {
             Cookies.set('userInfo', '');
             setStore('userInfo', '');
             setStore('accessToken', '');
-
+            
             if (router.history.current.name != "login") {
                 if (data.message !== null) {
                     Message.error(data.message);

@@ -230,17 +230,17 @@ export default {
   },
   mounted() {
     // 获取账号信息
-    this.getUserInfoAction().then(
-      res => {},
-      err => {
-        // 未登录重新登陆
-        if (!this.userInfo) {
-          this.$router.push({
-            name: "login"
-          });
-        }
-      }
-    );
+    // this.getUserInfoAction().then(
+    //   res => {},
+    //   err => {
+    //     // 未登录重新登陆
+    //     if (!this.userInfo) {
+    //       this.$router.push({
+    //         name: "login"
+    //       });
+    //     }
+    //   }
+    // );
 
     // 获取应用信息
     this.getApplicationListAction();

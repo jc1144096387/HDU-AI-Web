@@ -302,7 +302,7 @@
                       _stat_click_id="header_demonav"
                       _stat_action_obj="ocr_identify"
                       @click="
-                        goToProductDetail(item1.value, item2.value, index2)
+                        goToProductDetail(index1, index2)
                       "
                       >{{ item2.label }}</a
                     >
@@ -353,7 +353,7 @@
                       _stat_click_id="header_demonav"
                       _stat_action_obj="ocr_identify"
                       @click="
-                        goToProductDetail(item1.value, item2.value, index2)
+                        goToProductDetail(index1, index2)
                       "
                       >{{ item2.label }}</a
                     >
@@ -404,7 +404,7 @@
                       _stat_click_id="header_demonav"
                       _stat_action_obj="ocr_identify"
                       @click="
-                        goToProductDetail(item1.value, item2.value, index2)
+                        goToProductDetail(index1, index2)
                       "
                       >{{ item2.label }}</a
                     >
@@ -455,7 +455,7 @@
                       _stat_click_id="header_demonav"
                       _stat_action_obj="ocr_identify"
                       @click="
-                        goToProductDetail(item1.value, item2.value, index2)
+                        goToProductDetail(index1, index2)
                       "
                       >{{ item2.label }}</a
                     >
@@ -1098,18 +1098,24 @@ export default {
     ...mapState(["userInfo", "productList"])
   },
   created() {
-    this.getUserInfoAction().then(res => {
-      if (!this.userInfo) {
-        this.$router.push({
-          name: "login"
-        });
-      }
-    });
-
+    // this.getUserInfoAction().then(res => {
+      // if (!this.userInfo) {
+      //   this.$router.push({
+      //     name: "login"
+      //   });
+      // }
+    // });
+    let userInfo = getStore("userInfo");
+    if(userInfo){
+      this.$store.commit("SET_USER_INFO",JSON.parse(userInfo));
+    }
+    
+  console.log(this.userInfo)
     this.getProductListAction();
   },
   methods: {
     ...mapActions(["getUserInfoAction", "getProductListAction"]),
+    ...mapMutations('SET_USER_INFO'),
     //登出
     logout(){
       console.log("登出");
@@ -1162,13 +1168,12 @@ export default {
       });
     },
     // 跳转技术引擎详情页
-    goToProductDetail(type1, type2, currentTab) {
+    goToProductDetail(index1, index2) {
       this.$router.push({
         path: "product",
         query: {
-          type1: type1,
-          type2: type2,
-          currentTab: currentTab
+          index1: index1,
+          index2: index2
         }
       });
     },
