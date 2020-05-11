@@ -41,6 +41,20 @@ export const deleteApplication = (params) => {
   return postRequest('/application/delete-app', params)
 }
 
+// 获取某个应用的已接入能力列表
+export const getApplicationCapability = (appid, params) => {
+  return getRequest('/application/'+appid+'/capability', params)
+}
+// 为某个应用接入能力
+export const accessCapability = (appid, params) => {
+  return postRequest('/application/'+appid+'/capability', params)
+}
+
+// 控制台首页的已接入能力表格（未分页）
+export const getApplication = (params) => {
+  return getRequest('/application/myCapability', params)
+}
+
 
 // 获取账号信息
 export const getUserInfo = (appid, params) => {
