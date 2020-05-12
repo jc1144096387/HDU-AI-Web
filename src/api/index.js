@@ -51,8 +51,8 @@ export const accessCapability = (appid, params) => {
 }
 
 // 控制台首页的已接入能力表格（未分页）
-export const getApplication = (params) => {
-  return getRequest('/application/myCapability', params)
+export const getApplicationMyCapability = (params) => {
+  return getRequest('/application/myCapabilityList', params)
 }
 
 

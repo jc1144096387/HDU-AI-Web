@@ -41,9 +41,9 @@
                     <div class="myapp-app-invokeValue">0</div>
                   </div>
                   <div class="myapp-app-change">
-                    <p>
+                    <!-- <p>
                       昨日调用量变化<span class="zero">0%&nbsp;&nbsp;--</span>
-                    </p>
+                    </p> -->
                   </div>
                 </a>
               </div>
@@ -94,80 +94,20 @@
                     </tr>
                   </thead>
                   <tbody class="ui-table__body">
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">分词</td>
-                      <td class="ui-table__cell">0</td>
+                    <tr
+                      v-for="(item, index) in myCapabilityList.slice(currentPage*10-10, currentPage*10)"
+                      :key="index"
+                      class="ui-table__row ui-table__row_border"
+                    >
+                      <td class="ui-table__cell">{{item.label}}</td>
+                      <td class="ui-table__cell">{{item.label}}</td>
+                      <td class="ui-table__cell">{{item.monthCount}}</td>
                       <td class="ui-table__cell">无限额</td>
                       <td class="ui-table__cell">不保证并发</td>
                       <td class="ui-table__cell">免费使用</td>
                       <td class="ui-table__cell">
                         <a
                           href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">词性</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">专有名词</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">基础文本分析</td>
-                      <td class="ui-table__cell">同义词</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
-                          >查看文档</a
-                        >
-                      </td>
-                    </tr>
-                    <tr class="ui-table__row ui-table__row_border">
-                      <td class="ui-table__cell">智能闲聊</td>
-                      <td class="ui-table__cell">智能闲聊</td>
-                      <td class="ui-table__cell">0</td>
-                      <td class="ui-table__cell">无限额</td>
-                      <td class="ui-table__cell">不保证并发</td>
-                      <td class="ui-table__cell">免费使用</td>
-                      <td class="ui-table__cell">
-                        <a
-                          href="/doc/nlpchat.shtml"
                           target="_blank"
                           _stat_click_id="table_doc"
                           >查看文档</a
@@ -181,14 +121,16 @@
                     <div class="ui-pagination__cont">
                       <div
                         class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                        @click="changeCurrentPage(-1)"
                       >
                         <div
                           class="ui-pagination__left ui-pagination__left_disabled"
                         ></div>
                       </div>
-                      <div class="ui-pagination__text">1 / 1</div>
+                      <div class="ui-pagination__text">{{currentPage}} / {{pageCount}}</div>
                       <div
                         class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                        @click="changeCurrentPage(1)"
                       >
                         <div
                           class="ui-pagination__right ui-pagination__right_disabled"
@@ -212,6 +154,7 @@
 import consoleHeader from "@/components/header/console-header.vue";
 import consoleFooter from "@/components/footer/console-footer.vue";
 
+import { getApplicationMyCapability } from"@/api/index";
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -223,10 +166,13 @@ export default {
   data() {
     return {
       // isNavShow: false,
+      myCapabilityList:[],
+      currentPage: 1,
+      pageCount: 1,
     };
   },
   computed: {
-    ...mapState(["userInfo", "appList"])
+    ...mapState(["userInfo", "appList"]),
   },
   mounted() {
     // 获取账号信息
@@ -244,6 +190,9 @@ export default {
 
     // 获取应用信息
     this.getApplicationListAction();
+
+    // 获取已接入能力列表
+    this.getAccessCapability();
   },
   methods: {
     ...mapActions(["getUserInfoAction", "getApplicationListAction"]),
@@ -263,6 +212,26 @@ export default {
           name: "overview"
         }
       });
+    },
+
+    // 获取已接入能力列表
+    getAccessCapability(){
+      getApplicationMyCapability().then(res=>{
+        console.log(res);
+        if(res.success){
+          this.myCapabilityList = res.result;
+          this.pageCount = parseInt(this.myCapabilityList.length/10)+1;
+          console.log(this.pageCount);
+        }
+      })
+    },
+    changeCurrentPage(num){
+      if(num < 0 && this.currentPage+num>=1){
+        this.currentPage = this.currentPage+num;
+      }else if(num > 0 && this.currentPage+num<=this.pageCount){
+        this.currentPage = this.currentPage+num;
+      }
+
     }
   }
 };
