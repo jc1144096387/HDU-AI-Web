@@ -614,8 +614,23 @@ list: [
 ### 第12周
 - 控制台
   + 对接后台应用接入能力
-  + 对接控制台首页已接入能力表格（todo）
-- 文档详情页
+  + 对接控制台首页已接入能力表格
+- 文档详情页(todo)
+  + 文档内容用md字符串存入数据库
+  + （备选方案）文档内容用md文件，文件名与目录项label对应，放在前端项目的静态资源中
+  + 参考博客
+    - https://blog.csdn.net/qq_38735931/article/details/103242525
+    - https://blog.csdn.net/qq_38735931/article/details/103389123
+    - 注意点：
+      1. markdown-loader
+        + For Vue1
+          npm i vue-markdown-loader@0 -D
+        + For Vue2
+          npm i vue-markdown-loader -D
+      2. 缺少babel-runtime/core-js/get-iterator 和 babel-runtime/core-js/object/keys
+        + 重新安装一下babel-runtime，若不行，再安装@babel-runtime
+    
+- 其他页面跳转文档详情页(todo)
 
 
 

@@ -104,6 +104,12 @@ const routes = [
     name: 'doc',
     component:  () => import('@/views/front/doc/home.vue')
   },
+  // 文档详情页
+  {
+    path: '/doc/detail',
+    name: 'doc-detail',
+    component:  () => import('@/views/front/doc/detail.vue')
+  },
 
   // 控制台首页
   {

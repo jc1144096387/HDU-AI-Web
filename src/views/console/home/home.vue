@@ -225,13 +225,13 @@ export default {
         }
       })
     },
+    // 切换已接入能力表格页码
     changeCurrentPage(num){
       if(num < 0 && this.currentPage+num>=1){
         this.currentPage = this.currentPage+num;
       }else if(num > 0 && this.currentPage+num<=this.pageCount){
         this.currentPage = this.currentPage+num;
       }
-
     }
   }
 };

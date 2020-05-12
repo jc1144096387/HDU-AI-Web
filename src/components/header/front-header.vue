@@ -1164,13 +1164,13 @@ export default {
     // 返回首页
     goToHome() {
       this.$router.push({
-        path: "/"
+        name: "home"
       });
     },
     // 跳转技术引擎详情页
     goToProductDetail(index1, index2) {
       this.$router.push({
-        path: "product",
+        name: "product",
         query: {
           index1: index1,
           index2: index2
@@ -1180,13 +1180,13 @@ export default {
     // 跳转文档中心
     goToDoc() {
       this.$router.push({
-        path: "doc"
+        name: "doc"
       });
     },
     // 跳转登录页
     goToLogin() {
       this.$router.push({
-        path: "login"
+        name: "login"
       });
     }
   }
