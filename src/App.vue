@@ -14,6 +14,7 @@ export default {
 </script>
 
 <style>
+
 html,
 body {
   width: 100%;
@@ -988,5 +989,16 @@ iframe.class_qidian_wpa {
 }
 html[lang="en"] body {
   font-family: Arial, sans-serif;
+}
+
+
+/* 覆盖markdown样式 */
+.markdown-body ul,li{
+  list-style: disc outside none;
+}
+.markdown-body h1, .markdown-body h2 {
+    padding-bottom: .3em;
+    /* border-bottom: 1px solid #eaecef; */
+    border-bottom: none;
 }
 </style>

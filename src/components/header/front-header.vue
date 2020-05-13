@@ -32,7 +32,7 @@
                 </div>
                 <div class="cat-item-sub">
                   <div class="cat-item-row">
-                    <a href="#">
+                    <a href="javascript:;">
                       意图/成分
                       <i
                         :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
@@ -44,7 +44,7 @@
               </li>
               <li class="cat-item">
                 <div class="cat-item-main">
-                  <a href="#">情感分析</a>
+                  <a href="javascript:;">情感分析</a>
                 </div>
               </li>
               <li class="cat-item">
@@ -53,15 +53,15 @@
                 </div>
                 <div class="cat-item-sub">
                   <div class="cat-item-row">
-                    <a href="#">文本翻译</a>
-                    <a href="#">
+                    <a href="javascript:;">文本翻译</a>
+                    <a href="javascript:;">
                       图片翻译
                       <i
                         :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
                         class="cat-tag is-new"
                       ></i>
                     </a>
-                    <a href="#">
+                    <a href="javascript:;">
                       语音翻译
                       <i
                         :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
@@ -73,7 +73,7 @@
               </li>
               <li class="cat-item">
                 <div class="cat-item-main">
-                  <a href="#">
+                  <a href="javascript:;">
                     智能闲聊
                     <i
                       :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
@@ -190,25 +190,25 @@
                 </div>
                 <div class="cat-item-sub">
                   <div class="cat-item-row">
-                    <a href="#">人脸融合</a>
-                    <a href="#">滤镜</a>
-                    <a href="#">人脸美妆</a>
+                    <a href="javascript:;">人脸融合</a>
+                    <a href="javascript:;">滤镜</a>
+                    <a href="javascript:;">人脸美妆</a>
                   </div>
                   <div class="cat-item-row">
-                    <a href="#">人脸变妆</a>
-                    <a href="#">大头贴</a>
-                    <a href="#">颜龄检测</a>
+                    <a href="javascript:;">人脸变妆</a>
+                    <a href="javascript:;">大头贴</a>
+                    <a href="javascript:;">颜龄检测</a>
                   </div>
                 </div>
               </li>
               <li class="cat-item">
                 <div class="cat-item-main">
-                  <a href="#">智能鉴黄</a>
+                  <a href="javascript:;">智能鉴黄</a>
                 </div>
               </li>
               <li class="cat-item">
                 <div class="cat-item-main">
-                  <a href="#">暴恐识别</a>
+                  <a href="javascript:;">暴恐识别</a>
                 </div>
               </li>
             </ul>
@@ -229,15 +229,15 @@
                 </div>
                 <div class="cat-item-sub">
                   <div class="cat-item-row">
-                    <a href="#">语音识别</a>
-                    <a href="#">
+                    <a href="javascript:;">语音识别</a>
+                    <a href="javascript:;">
                       长语音识别
                       <i
                         :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
                         class="cat-tag is-new"
                       ></i>
                     </a>
-                    <a href="#">
+                    <a href="javascript:;">
                       关键词检索
                       <i
                         :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
@@ -249,7 +249,7 @@
               </li>
               <li class="cat-item">
                 <div class="cat-item-main">
-                  <a href="#">
+                  <a href="javascript:;">
                     语音合成
                     <i
                       :style="{backgroundImage:'url('+require('../../assets/header/cpimg/sprite.png')+')'}"
@@ -967,7 +967,7 @@
             @mouseleave="sliderOut()"
           >
             <h2>
-              <a href="#">AI加速器</a>
+              <a href="javascript:;">AI加速器</a>
             </h2>
           </li>
           <li
@@ -977,7 +977,7 @@
             @mouseleave="sliderOut()"
           >
             <h2>
-              <a href="#">资讯动态</a>
+              <a href="javascript:;">资讯动态</a>
             </h2>
           </li>
           <li
@@ -987,7 +987,7 @@
             @mouseleave="sliderOut()"
           >
             <h2>
-              <a href="#">AI在腾讯</a>
+              <a href="javascript:;">AI在腾讯</a>
             </h2>
           </li>
           <li
@@ -997,7 +997,7 @@
             @mouseleave="sliderOut()"
           >
             <h2>
-              <a href="#">加入我们</a>
+              <a href="javascript:;">加入我们</a>
             </h2>
           </li>
           <li
@@ -1008,7 +1008,7 @@
             @click="goToDoc()"
           >
             <h2>
-              <a href="#">文档中心</a>
+              <a href="javascript:;">文档中心</a>
             </h2>
           </li>
         </ul>
@@ -1194,6 +1194,11 @@ export default {
 </script>
 
 <style scoped>
+dd,
+li,
+ul {
+  list-style: none;
+}
 a {
   text-decoration: none;
   cursor: pointer;

@@ -7,8 +7,8 @@
     <div class="layout main-cont">
       <div
         class="jmod-doc-sidebar doc-sidebar"
-        style="top: 92px; margin-left: 20px;"
-        :style="{left: sidebarLeft+'px'}"
+        style=" margin-left: 20px;"
+        :style="{left: sidebarLeft+'px', top:sidebarTop+'px'}"
       >
         <div class="doc-sidebar-iconwrap jmod-hide-sidebar">
           <i class="doc-sidebar-icon"></i>
@@ -46,7 +46,7 @@
 
       <div class="main markdown-body jmod-doc-main doc-main">
         <div class="doc-bread jmod-doc-bread">
-          <a @click="goToDoc()">文档中心</a><span>&gt;</span
+          <a @click="goToDoc()" href="javascript:;">文档中心</a><span>&gt;</span
           ><span>{{productList[currentIndex1].label}}</span><span>&gt;</span><span>{{productList[currentIndex1].children[currentIndex2].label}}</span>
         </div>
 
@@ -76,8 +76,10 @@ export default {
 
       // 侧边栏left
       sidebarLeft: 0,
+      sidebarTop: 92,
       // markdown字符串
-      msg:'```html \n<form method="GET" action="/transferFunds ">\n cash: <input type="text" name="cash"> \n to: <input type=" text " name=“to"> \n<input type="submit" name="action" value=""> \n</form> \n```'
+      // msg:'```html \n<form method="GET" action="/transferFunds ">\n cash: <input type="text" name="cash"> \n to: <input type=" text " name=“to"> \n<input type="submit" name="action" value=""> \n</form> \n```'
+      msg:'# hdu-ai-web\nHDU AI平台（仿腾讯AI）\n## 需求分析（腾讯AI）\n - 首页https://ai.qq.com/ \n    + 111 \n    + 222\n - ddd \n ## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n'
     };
   },
   computed: {
@@ -88,17 +90,43 @@ export default {
 
     // 监听窗口变化事件
     window.addEventListener("resize", this.handleResize);
-    this.sidebarLeft = (window.innerWidth-1300)/2;
+    this.sidebarLeft = (window.innerWidth-1200)/2;
+
+    // 监听滚动事件
+    window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
     ...mapActions([ "getProductListAction"]),
     // 窗口变化
     handleResize(){
       console.log(window.innerWidth);
-      if(window.innerWidth > 1300){
-        this.sidebarLeft = (window.innerWidth-1300)/2;
+      if(window.innerWidth > 1200){
+        this.sidebarLeft = (window.innerWidth-1200)/2;
       }else{
         this.sidebarLeft = 0;
+      }
+    },
+    // 窗口滚动
+    handleScroll(){
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      let scrollLeft = 
+        window.pageXOffset ||
+        document.documentElement.scrollLeft ||
+        document.body.scrollLeft;
+      console.log(scrollTop,scrollLeft);
+      if(scrollTop<92){
+        this.sidebarTop = 122-scrollTop;
+        console.log(this.sidebarTop)
+      }else{
+        this.sidebarTop = 30;
+      }
+      if(scrollLeft>0){
+        this.sidebarLeft = -scrollLeft;
+      }else{
+        this.handleResize();
       }
     },
     // 跳转文档中心
@@ -119,6 +147,7 @@ export default {
 .container {
   background-color: #ffffff;
   height: auto;
+  min-width: 1200px;
 }
 .header {
   width: 100%;
@@ -129,12 +158,12 @@ export default {
   padding: 30px 0;
   overflow: hidden;
   max-width: 1397px;
-  min-width: 1300px;
+  min-width: 1200px;
   width: auto;
   position: relative;
 }
 .layout {
-  width: 1300px;
+  width: 1200px;
   margin: 0 auto;
 }
 
@@ -175,7 +204,8 @@ export default {
 
 .main {
   max-width: 952px;
-  min-width: 755px;
+  /* min-width: 755px; */
+  min-width: 952px;
   background-color: #fff;
   box-sizing: border-box;
   margin-left: 270px;
@@ -200,14 +230,15 @@ export default {
 .markdown-body > :first-child {
   margin-top: 0 !important;
 }
+
+
+
+
 .doc-bread {
   font-size: 14px;
   line-height: 24px;
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
-}
-.markdown-body * {
-  box-sizing: border-box;
 }
 .doc-bread span {
   display: inline-block;
