@@ -6,9 +6,13 @@
       </div>
       <div class="sec-content">
         <div class="api-chart__line">
-          <chart chartId="mychart" :xData="dateArray" :itemData="numArray" :series="series"></chart>
+          <chart
+            chartId="mychart"
+            :xData="dateArray"
+            :itemData="numArray"
+            :series="series"
+          ></chart>
         </div>
-
       </div>
     </div>
 
@@ -38,158 +42,47 @@
               </tr>
             </thead>
             <tbody class="ui-table__body">
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">基础文本分析</td>
+              <tr
+                v-for="(item, index) in tableList.slice(currentPage*10-10, currentPage*10)"
+                :key="index"
+                class="ui-table__row ui-table__row_border"
+              >
+                <td class="ui-table__cell">{{ item.productName }}</td>
                 <td class="ui-table__cell">
                   <a
                     class="link"
                     href="/console/application/2129141900/data-analysis#api_id=101"
-                    >分词</a
+                    >{{ item.productName }}</a
                   >
                 </td>
-                <td class="ui-table__cell">4</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">74</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">基础文本分析</td>
+                <td class="ui-table__cell">{{ item.success + item.fail }}</td>
+                <td class="ui-table__cell">{{ item.fail }}</td>
                 <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=102"
-                    >词性</a
-                  >
+                  {{
+                    ((item.fail / (item.success + item.fail)) * 100).toFixed(
+                      2
+                    ) + "%"
+                  }}
                 </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">基础文本分析</td>
-                <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=103"
-                    >专有名词</a
-                  >
-                </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">基础文本分析</td>
-                <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=104"
-                    >同义词</a
-                  >
-                </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">意图成分</td>
-                <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=301"
-                    >意图成分</a
-                  >
-                </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">情感分析</td>
-                <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=501"
-                    >情感分析</a
-                  >
-                </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">智能闲聊</td>
-                <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=801"
-                    >智能闲聊</a
-                  >
-                </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">图片鉴黄</td>
-                <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=1301"
-                    >图片鉴黄</a
-                  >
-                </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">暴恐识别</td>
-                <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=1401"
-                    >暴恐识别</a
-                  >
-                </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">身份证OCR</td>
-                <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=1901"
-                    >身份证OCR</a
-                  >
-                </td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
+                <td class="ui-table__cell">{{ item.cost }}</td>
               </tr>
             </tbody>
           </table>
           <div class="table-pagination">
             <div class="ui-pagination">
               <div class="ui-pagination__cont">
-                <div class="ui-pagination__arrow ui-pagination__arrow_disabled">
+                <div
+                  class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                  @click="changeCurrentPage(-1)"
+                >
                   <div
                     class="ui-pagination__left ui-pagination__left_disabled"
                   ></div>
                 </div>
-                <div class="ui-pagination__text">1 / 2</div>
-                <div class="ui-pagination__arrow">
+                <div class="ui-pagination__text">
+                  {{ currentPage }} / {{ pageCount }}
+                </div>
+                <div class="ui-pagination__arrow" @click="changeCurrentPage(1)">
                   <div class="ui-pagination__right"></div>
                 </div>
               </div>
@@ -201,65 +94,43 @@
   </div>
 </template>
 <script>
-
-
+import {
+  getApplicationOverviewCapabilityCalling,
+  getApplicationOverviewTotalCalling
+} from "@/api/index.js";
 // 引入日期相关工具
 import dateUtil from "@/libs/dateUtil.js";
 
 // 引入折线图组件
 import chart from "@/components/chart.vue";
 
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "",
-  components:{
+  components: {
     chart
   },
   data() {
     return {
+      index: 0,
       item: {},
-      numArray: [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      dateArray:dateUtil.getDateArray(
+      numArray: [],
+      dateArray: dateUtil.getDateArray(
         new Date().setTime(new Date().getTime() - 3600 * 1000 * 24 * 29),
         new Date(),
         3600 * 1000 * 24 * 1,
         "yyyy-MM-dd"
       ),
-      
+
+      tableList: [],
+      currentPage: 1,
+      pageCount: 1
     };
   },
-  computed:{
-    series:function(){
+  computed: {
+    ...mapState(["appList"]),
+    series: function() {
       let arr = [
         {
           name: "总调用",
@@ -270,13 +141,21 @@ export default {
         }
       ];
       return arr;
-    } 
+    }
+  },
+  watch: {
+    "$route.query": function(newVal, oldVal) {
+      this.index = newVal.index;
+      this.item = this.appList[this.index];
+      this.getTableData();
+      this.getChartData();
+    }
   },
   mounted() {
-    console.log(this.$route.query.item);
-    if (this.$route.query.item) {
-      this.item = this.$route.query.item;
-    }
+    this.index = this.$route.query.index;
+    this.item = this.appList[this.index];
+    this.getTableData();
+    this.getChartData();
   },
   methods: {
     // 跳转侧边栏
@@ -286,11 +165,45 @@ export default {
       this.$router.push({
         name: name,
         query: {
-          item: this.item,
+          index: this.index,
           name: name
         }
       });
       console.log(name, this.currentSide);
+    },
+    // 获取表格数据
+    getTableData() {
+      // 表格：能力运行概况（近30天）
+      getApplicationOverviewCapabilityCalling(this.item.id).then(res => {
+        console.log(res);
+        if (res.success) {
+          this.tableList = res.result;
+
+          this.pageCount = parseInt(this.tableList.length / 10) + 1;
+        }
+      });
+    },
+    // 切换已接入能力表格页码
+    changeCurrentPage(num) {
+      if (num < 0 && this.currentPage + num >= 1) {
+        this.currentPage = this.currentPage + num;
+      } else if (num > 0 && this.currentPage + num <= this.pageCount) {
+        this.currentPage = this.currentPage + num;
+      }
+    },
+
+    // 获取图表数据
+    getChartData() {
+      // 图表: 调用总量（近30天）
+      getApplicationOverviewTotalCalling(this.item.id).then(res => {
+        if (res.success) {
+          let numArray = [];
+          for (let i = 0; i < res.result.length; i++) {
+            numArray.push(res.result[i].count);
+          }
+          this.numArray = numArray;
+        }
+      });
     }
   }
 };

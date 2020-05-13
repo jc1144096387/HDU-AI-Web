@@ -187,6 +187,7 @@ export default {
   data() {
     return {
       isEdit: false,
+      index: 0,
       item: {},
       form: {
         id: "",
@@ -217,11 +218,12 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapState(["appList"]),
+  },
   mounted() {
-    console.log("应用: " + this.$route.query.item);
-    if (this.$route.query.item) {
-      this.item = this.$route.query.item;
-    }
+    this.index = this.$route.query.index;
+    this.item = this.appList[this.index];
   },
   methods: {
     ...mapActions(["getApplicationListAction"]),

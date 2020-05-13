@@ -4,10 +4,18 @@
       <Form :label-width="80">
         <Row>
           <Col span="4">
-            <Select v-model="select" size="large">
-              <Option value="全部能力">全部能力</Option>
-              <Option value="分词">分词</Option>
-              <Option value="词性">词性</Option>
+            <Select
+              v-model="select"
+              size="large"
+              @on-change="handleSelectChange"
+            >
+              <Option value="all">全部能力</Option>
+              <Option
+                v-for="(item, index) in item.products"
+                :key="index"
+                :value="item.id"
+                >{{ item.label }}</Option
+              >
             </Select>
           </Col>
           <Col span="8" style="width:400px;text-align:center" offset="1">
@@ -33,12 +41,13 @@
               type="daterange"
               placement="bottom-end"
               placeholder="选择日期"
+              :options="datePickerOption"
             ></DatePicker>
           </Col>
         </Row>
       </Form>
     </div>
-    <div v-if="select == '全部能力'" class="sec api-overview is-normal">
+    <div v-if="select == 'all'" class="sec api-overview is-normal">
       <div class="sec-header">
         <div class="sec-header__title">能力运行概况</div>
       </div>
@@ -260,7 +269,7 @@
           </div>
         </div>
       </div>
-      <div class="sec error-code-info">
+      <!-- <div class="sec error-code-info">
         <div class="sec-header">
           <div class="sec-header__title">
             <div>
@@ -286,11 +295,14 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 <script>
+import { getApplicationDataCalling } from "@/api/index.js";
+
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 // 引入日期相关工具
 import dateUtil from "@/libs/dateUtil.js";
 
@@ -304,13 +316,19 @@ export default {
   },
   data() {
     return {
+      index: 0,
       item: {},
-      select: "全部能力",
+      select: "all",
       dateRadio: "近30天",
       datePicker: [
         new Date(new Date().getTime() - 3600 * 1000 * 24 * 29),
         new Date()
       ],
+      datePickerOption: {
+        disabledDate(date) {
+          return date && date.valueOf() > Date.now();
+        }
+      },
       numLegend: {
         bottom: 0,
         itemGap: 25,
@@ -320,156 +338,30 @@ export default {
           {
             name: "总次数",
             // 强制设置图形为圆。
-            icon: "circle",
-
+            icon: "circle"
           },
           {
             name: "成功次数",
             // 强制设置图形为圆。
-            icon: "circle",
-
+            icon: "circle"
           },
           {
             name: "失败次数",
             // 强制设置图形为圆。
-            icon: "circle",
-
+            icon: "circle"
           }
         ]
       },
       numArray: {
-        all: [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
-        success: [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ],
-        fail: [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ]
+        all: [],
+        success: [],
+        fail: []
       },
-      costArray: [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ]
+      costArray: []
     };
   },
   computed: {
+    ...mapState(["appList"]),
     dateArray: function() {
       return dateUtil.getDateArray(
         this.datePicker[0],
@@ -533,10 +425,10 @@ export default {
     }
   },
   mounted() {
-    console.log("应用: " + this.$route.query.item);
-    if (this.$route.query.item) {
-      this.item = this.$route.query.item;
-    }
+    this.index = this.$route.query.index;
+    this.item = this.appList[this.index];
+    console.log(this.datePicker);
+    this.getChartData();
   },
   methods: {
     dateRadioChange() {
@@ -544,28 +436,84 @@ export default {
       if (this.dateRadio == "今天") {
         const end = new Date();
         const start = new Date();
-        this.datePicker = [start, end];
+        this.datePicker = [
+          dateUtil.format(start, "yyyy-MM-dd"),
+          dateUtil.format(end, "yyyy-MM-dd")
+        ];
+        this.getChartData();
       } else if (this.dateRadio == "昨天") {
         const end = new Date();
         const start = new Date();
         end.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
-        this.datePicker = [start, end];
+        this.datePicker = [
+          dateUtil.format(start, "yyyy-MM-dd"),
+          dateUtil.format(end, "yyyy-MM-dd")
+        ];
+        this.getChartData();
       } else if (this.dateRadio == "近7天") {
         const end = new Date();
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
-        this.datePicker = [start, end];
+        this.datePicker = [
+          dateUtil.format(start, "yyyy-MM-dd"),
+          dateUtil.format(end, "yyyy-MM-dd")
+        ];
+        this.getChartData();
       } else if (this.dateRadio == "近30天") {
         const end = new Date();
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
-        this.datePicker = [start, end];
+        this.datePicker = [
+          dateUtil.format(start, "yyyy-MM-dd"),
+          dateUtil.format(end, "yyyy-MM-dd")
+        ];
+        this.getChartData();
       }
     },
     datePickerChange(date) {
       console.log(date, this.datePicker, this.dateArray);
       this.datePicker = date;
+      this.dateRadio = "";
+      this.getChartData();
+    },
+    handleSelectChange() {
+      console.log(this.select);
+      this.getChartData();
+    },
+
+    // 获取图表数据
+    getChartData() {
+      console.log("当前datePicker", this.datePicker);
+      let params = {
+        productId: this.select,
+        startDate: this.datePicker[0],
+        endDate: this.datePicker[1]
+      };
+      if(this.select == 'all'){
+        delete params.productId;
+      }
+      console.log(this.item.id);
+      getApplicationDataCalling(this.item.id, params).then(res => {
+        console.log(res);
+        if (res.success) {
+          let cost = [];
+          let total = [];
+          let success = [];
+          let fail = [];
+          for (let i = 0; i < res.result.total.length; i++) {
+            cost.push(res.result.cost[i].count);
+            total.push(res.result.total[i].count);
+            success.push(res.result.success[i].count);
+            fail.push(res.result.fail[i].count);
+          }
+          this.numArray.all = total;
+          this.numArray.success = success;
+          this.numArray.fail = fail;
+          this.costArray = cost;
+          console.log(this.numArray, this.costArray);
+        }
+      });
     }
   }
 };

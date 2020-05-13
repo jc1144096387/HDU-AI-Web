@@ -35,6 +35,7 @@
                   v-for="(item2, index2) in item1.children"
                   :key="index2"
                   :name="item2.value"
+                  class="menuItem"
                   >{{ item2.label }}</MenuItem
                 >
               </Submenu>
@@ -213,5 +214,13 @@ export default {
   min-width: 25px;
   text-align: center;
   color: gray;
+}
+.menuItem:hover{
+  background-color: #e7edf7;
+  color: #0052d9;
+}
+.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
+  background-color: #e7edf7;
+  color: #0052d9;
 }
 </style>

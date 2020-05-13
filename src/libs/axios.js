@@ -4,7 +4,7 @@ import router from '../router/index.js';
 import { Message } from 'view-design';
 import Cookies from 'js-cookie';
 // 统一请求路径前缀
-let base = '';
+let base = '/api';
 // 超时设定
 axios.defaults.timeout = 15000;
 

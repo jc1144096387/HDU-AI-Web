@@ -96,6 +96,8 @@
 import consoleHeader from "@/components/header/console-header.vue";
 import consoleFooter from "@/components/footer/console-footer.vue";
 
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "",
   components: {
@@ -104,35 +106,36 @@ export default {
   },
   data() {
     return {
+      index: 0,
       item: {},
       currentSide: "overview"
     };
   },
+  computed: {
+    ...mapState(["appList"]),
+  },
   watch: {
     "$route.query": function(newVal, oldVal) {
-      this.item = newVal.item;
+      this.index = newVal.index;
+      this.item = this.appList[this.index];
       this.currentSide = newVal.name;
     }
   },
   mounted() {
-    console.log("应用: " + this.$route.query.item);
-    if (this.$route.query.item) {
-      this.item = this.$route.query.item;
-    }
+    this.index = this.$route.query.index;
+    this.item = this.appList[this.index];
   },
   methods: {
     // 跳转侧边栏
     goToSide(name) {
       this.currentSide = name;
-      console.log(name, this.currentSide);
       this.$router.push({
         name: name,
         query: {
-          item: this.item,
+          index: this.index,
           name: name
         }
       });
-      console.log(name, this.currentSide);
     }
   }
 };

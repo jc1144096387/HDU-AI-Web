@@ -29,7 +29,7 @@
                   v-for="(item, index) in appList"
                   :key="index"
                   class="ui-card myapp-app"
-                  @click="goToDetail(item)"
+                  @click="goToDetail(index)"
                   :style="{ marginRight: index % 3 == 2 ? '0px' : '30px' }"
                   ><div class="myapp-app-header">
                     <p class="text-overflow" :title="item.name">
@@ -203,12 +203,11 @@ export default {
       });
     },
     // 跳转应用详情页
-    goToDetail(item) {
-      console.log(item);
+    goToDetail(index) {
       this.$router.push({
         name: "application-detail",
         query: {
-          item: item,
+          index: index,
           name: "overview"
         }
       });

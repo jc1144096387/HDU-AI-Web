@@ -29,7 +29,7 @@
                 <!-- 我的应用列表 -->
                 <li v-for="(item,index) in appList" :key="index" class="app-nav-item">
                   <a
-                    @click="goToDetail(item)"
+                    @click="goToDetail(index)"
                     ><span class="text-overflow" :title="item.name">{{item.name}}</span></a
                   ><i
                     class="ico-delete-app"
@@ -235,12 +235,11 @@ export default {
     },
 
     // 跳转应用详情页
-    goToDetail(item){
-      console.log(item);
+    goToDetail(index){
       this.$router.push({
         name: "application-detail",
         query:{
-          item: item,
+          index: index,
           name: 'overview'
         }
       });

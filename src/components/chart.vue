@@ -21,7 +21,9 @@ export default {
     legend: Object
   },
   data() {
-    return {};
+    return {
+      myChart:null
+    };
   },
   watch: {
     // xData: function(val){
@@ -32,15 +34,21 @@ export default {
     }
   },
   mounted() {
+    // 监听窗口变化事件
+    window.addEventListener("resize", this.resizeChart);
+
     this.renderChart();
   },
   methods: {
+    resizeChart(){
+      this.myChart.resize();
+    },
     // 渲染折线图
     renderChart() {
       // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(document.getElementById(this.chartId));
+      this.myChart = echarts.init(document.getElementById(this.chartId));
       // 绘制图表
-      myChart.setOption({
+      this.myChart.setOption({
         // title: {
         //   text: "调用总量（近30天）",
         //   textStyle: {

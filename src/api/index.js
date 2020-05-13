@@ -55,6 +55,24 @@ export const getApplicationMyCapability = (params) => {
   return getRequest('/application/myCapabilityList', params)
 }
 
+// 应用概览里的调用总量（近30天）
+export const getApplicationOverviewCapabilityCalling = (appid, params) => {
+  return getRequest('/application/'+appid+'/overview/capability-calling', params)
+}
+// 应用概览里的调用总量（近30天）
+export const getApplicationOverviewTotalCalling = (appid, params) => {
+  return getRequest('/application/'+appid+'/overview/total-calling', params)
+}
+// 数据分析里的某个能力某段时间的调用次数和耗时
+export const getApplicationDataCalling = (appid, params) => {
+  return getRequest('/application/'+appid+'/data-calling', params)
+}
+
+// 某个能力已接入的应用的列表
+export const getApplicationAccessList = (productId, params) => {
+  return getRequest('/application/'+productId+'/applicationList', params)
+}
+
 
 // 获取账号信息
 export const getUserInfo = (appid, params) => {
