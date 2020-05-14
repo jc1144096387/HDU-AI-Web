@@ -55,15 +55,17 @@ export const getApplicationMyCapability = (params) => {
   return getRequest('/application/myCapabilityList', params)
 }
 
-// 应用概览里的调用总量（近30天）
+// 应用概览里的能力运行概览（近30天）表格 和数据统计里的表格
+// params: startDate开始日期、endDate结束日期、productId能力id（不填则查询全部）
 export const getApplicationOverviewCapabilityCalling = (appid, params) => {
   return getRequest('/application/'+appid+'/overview/capability-calling', params)
 }
-// 应用概览里的调用总量（近30天）
+// 应用概览里的调用总量（近30天）图表
 export const getApplicationOverviewTotalCalling = (appid, params) => {
   return getRequest('/application/'+appid+'/overview/total-calling', params)
 }
-// 数据分析里的某个能力某段时间的调用次数和耗时
+// 数据分析里的某个能力某段时间的调用次数和耗时 图表
+// params: startDate开始日期、endDate结束日期、productId能力id（不填则查询全部）
 export const getApplicationDataCalling = (appid, params) => {
   return getRequest('/application/'+appid+'/data-calling', params)
 }
@@ -81,6 +83,12 @@ export const getUserInfo = (appid, params) => {
 // 编辑账号信息
 export const editUserInfo = (params) => {
   return postRequest('/user/account-info', params)
+}
+
+
+// 获取md文件
+export const getMdFile = ( url, params) => {
+  return getRequest(url, params)
 }
 
 // /*

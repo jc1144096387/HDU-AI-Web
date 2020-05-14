@@ -3,6 +3,9 @@ module.exports = {
     host: '127.0.0.1',
     port: 9997,
     proxy: {
+      '/api/md':{
+        target: 'http://106.54.192.188', // 接口请求地址
+      },
       '/api': {
         target: 'http://47.99.47.230:8090', // 接口请求地址
       },

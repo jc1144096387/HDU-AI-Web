@@ -65,98 +65,50 @@
               </tr>
             </thead>
             <tbody class="ui-table__body">
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">基础文本分析</td>
-                <td class="ui-table__cell">分词</td>
-                <td class="ui-table__cell">4</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">74</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">基础文本分析</td>
-                <td class="ui-table__cell">词性</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">基础文本分析</td>
-                <td class="ui-table__cell">专有名词</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">基础文本分析</td>
-                <td class="ui-table__cell">同义词</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">意图成分</td>
-                <td class="ui-table__cell">意图成分</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">情感分析</td>
-                <td class="ui-table__cell">情感分析</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">智能闲聊</td>
-                <td class="ui-table__cell">智能闲聊</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">图片鉴黄</td>
-                <td class="ui-table__cell">图片鉴黄</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">暴恐识别</td>
-                <td class="ui-table__cell">暴恐识别</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-              </tr>
-              <tr class="ui-table__row ui-table__row_border">
-                <td class="ui-table__cell">身份证OCR</td>
-                <td class="ui-table__cell">身份证OCR</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
-                <td class="ui-table__cell">0</td>
+              <tr
+                v-for="(item, index) in tableList.slice(
+                  currentPage * 10 - 10,
+                  currentPage * 10
+                )"
+                :key="index"
+                class="ui-table__row ui-table__row_border"
+              >
+                <td class="ui-table__cell">{{ item.productName }}</td>
+                <td class="ui-table__cell">
+                  <a
+                    class="link"
+                    href="/console/application/2129141900/data-analysis#api_id=101"
+                    >{{ item.productName }}</a
+                  >
+                </td>
+                <td class="ui-table__cell">{{ item.success + item.fail }}</td>
+                <td class="ui-table__cell">{{ item.fail }}</td>
+                <td class="ui-table__cell">
+                  {{
+                    ((item.fail / (item.success + item.fail)) * 100).toFixed(
+                      2
+                    ) + "%"
+                  }}
+                </td>
+                <td class="ui-table__cell">{{ item.cost }}</td>
               </tr>
             </tbody>
           </table>
           <div class="table-pagination">
             <div class="ui-pagination">
               <div class="ui-pagination__cont">
-                <div class="ui-pagination__arrow ui-pagination__arrow_disabled">
+                <div
+                  class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                  @click="changeCurrentPage(-1)"
+                >
                   <div
                     class="ui-pagination__left ui-pagination__left_disabled"
                   ></div>
                 </div>
-                <div class="ui-pagination__text">1 / 2</div>
-                <div class="ui-pagination__arrow">
+                <div class="ui-pagination__text">
+                  {{ currentPage }} / {{ pageCount }}
+                </div>
+                <div class="ui-pagination__arrow" @click="changeCurrentPage(1)">
                   <div class="ui-pagination__right"></div>
                 </div>
               </div>
@@ -184,13 +136,32 @@
                 </tr>
               </thead>
               <tbody class="ui-table__body">
-                <tr class="ui-table__row ui-table__row_border">
-                  <td class="ui-table__cell">基础文本分析</td>
-                  <td class="ui-table__cell">分词</td>
-                  <td class="ui-table__cell">4</td>
-                  <td class="ui-table__cell">0</td>
-                  <td class="ui-table__cell">0</td>
-                  <td class="ui-table__cell">74</td>
+                <tr
+                  v-for="(item, index) in tableList.slice(
+                    currentPage * 10 - 10,
+                    currentPage * 10
+                  )"
+                  :key="index"
+                  class="ui-table__row ui-table__row_border"
+                >
+                  <td class="ui-table__cell">{{ item.productName }}</td>
+                  <td class="ui-table__cell">
+                    <a
+                      class="link"
+                      href="/console/application/2129141900/data-analysis#api_id=101"
+                      >{{ item.productName }}</a
+                    >
+                  </td>
+                  <td class="ui-table__cell">{{ item.success + item.fail }}</td>
+                  <td class="ui-table__cell">{{ item.fail }}</td>
+                  <td class="ui-table__cell">
+                    {{
+                      ((item.fail / (item.success + item.fail)) * 100).toFixed(
+                        2
+                      ) + "%"
+                    }}
+                  </td>
+                  <td class="ui-table__cell">{{ item.cost }}</td>
                 </tr>
               </tbody>
             </table>
@@ -199,18 +170,20 @@
                 <div class="ui-pagination__cont">
                   <div
                     class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                    @click="changeCurrentPage(-1)"
                   >
                     <div
                       class="ui-pagination__left ui-pagination__left_disabled"
                     ></div>
                   </div>
-                  <div class="ui-pagination__text">1 / 1</div>
+                  <div class="ui-pagination__text">
+                    {{ currentPage }} / {{ pageCount }}
+                  </div>
                   <div
-                    class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                    class="ui-pagination__arrow"
+                    @click="changeCurrentPage(1)"
                   >
-                    <div
-                      class="ui-pagination__right ui-pagination__right_disabled"
-                    ></div>
+                    <div class="ui-pagination__right"></div>
                   </div>
                 </div>
               </div>
@@ -300,7 +273,10 @@
   </div>
 </template>
 <script>
-import { getApplicationDataCalling } from "@/api/index.js";
+import {
+  getApplicationDataCalling,
+  getApplicationOverviewCapabilityCalling
+} from "@/api/index.js";
 
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 // 引入日期相关工具
@@ -357,7 +333,11 @@ export default {
         success: [],
         fail: []
       },
-      costArray: []
+      costArray: [],
+
+      tableList: [],
+      currentPage: 1,
+      pageCount: 1
     };
   },
   computed: {
@@ -427,7 +407,8 @@ export default {
   mounted() {
     this.index = this.$route.query.index;
     this.item = this.appList[this.index];
-    console.log(this.datePicker);
+
+    this.getTableData();
     this.getChartData();
   },
   methods: {
@@ -440,6 +421,7 @@ export default {
           dateUtil.format(start, "yyyy-MM-dd"),
           dateUtil.format(end, "yyyy-MM-dd")
         ];
+        this.getTableData();
         this.getChartData();
       } else if (this.dateRadio == "昨天") {
         const end = new Date();
@@ -450,6 +432,7 @@ export default {
           dateUtil.format(start, "yyyy-MM-dd"),
           dateUtil.format(end, "yyyy-MM-dd")
         ];
+        this.getTableData();
         this.getChartData();
       } else if (this.dateRadio == "近7天") {
         const end = new Date();
@@ -459,6 +442,7 @@ export default {
           dateUtil.format(start, "yyyy-MM-dd"),
           dateUtil.format(end, "yyyy-MM-dd")
         ];
+        this.getTableData();
         this.getChartData();
       } else if (this.dateRadio == "近30天") {
         const end = new Date();
@@ -468,6 +452,7 @@ export default {
           dateUtil.format(start, "yyyy-MM-dd"),
           dateUtil.format(end, "yyyy-MM-dd")
         ];
+        this.getTableData();
         this.getChartData();
       }
     },
@@ -475,10 +460,12 @@ export default {
       console.log(date, this.datePicker, this.dateArray);
       this.datePicker = date;
       this.dateRadio = "";
+      this.getTableData();
       this.getChartData();
     },
     handleSelectChange() {
       console.log(this.select);
+      this.getTableData();
       this.getChartData();
     },
 
@@ -486,15 +473,17 @@ export default {
     getChartData() {
       console.log("当前datePicker", this.datePicker);
       let params = {
+        // applicationId: this.item.id,
         productId: this.select,
         startDate: this.datePicker[0],
         endDate: this.datePicker[1]
       };
-      if(this.select == 'all'){
+      if (this.select == "all") {
         delete params.productId;
       }
       console.log(this.item.id);
       getApplicationDataCalling(this.item.id, params).then(res => {
+        console.log(this.item.id);
         console.log(res);
         if (res.success) {
           let cost = [];
@@ -511,11 +500,42 @@ export default {
           this.numArray.success = success;
           this.numArray.fail = fail;
           this.costArray = cost;
-          console.log(this.numArray, this.costArray);
+          console.log(this.numArray.all, this.costArray);
         }
       });
+    },
+    // 获取表格数据
+    getTableData() {
+      // 表格：能力运行概况（近30天）
+      let params = {
+        productId: this.select,
+        startDate: this.datePicker[0],
+        endDate: this.datePicker[1]
+      };
+      if (this.select == "all") {
+        delete params.productId;
+      }
+
+      getApplicationOverviewCapabilityCalling(this.item.id, params).then(
+        res => {
+          console.log(res);
+          if (res.success) {
+            this.tableList = res.result;
+
+            this.pageCount = parseInt(this.tableList.length / 10) + 1;
+          }
+        }
+      );
+    },
+    // 切换已接入能力表格页码
+    changeCurrentPage(num) {
+      if (num < 0 && this.currentPage + num >= 1) {
+        this.currentPage = this.currentPage + num;
+      } else if (num > 0 && this.currentPage + num <= this.pageCount) {
+        this.currentPage = this.currentPage + num;
+      }
     }
-  }
+  } // end: methods
 };
 </script>
 <style scoped>

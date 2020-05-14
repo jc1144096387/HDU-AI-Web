@@ -43,7 +43,10 @@
             </thead>
             <tbody class="ui-table__body">
               <tr
-                v-for="(item, index) in tableList.slice(currentPage*10-10, currentPage*10)"
+                v-for="(item, index) in tableList.slice(
+                  currentPage * 10 - 10,
+                  currentPage * 10
+                )"
                 :key="index"
                 class="ui-table__row ui-table__row_border"
               >
@@ -174,14 +177,23 @@ export default {
     // 获取表格数据
     getTableData() {
       // 表格：能力运行概况（近30天）
-      getApplicationOverviewCapabilityCalling(this.item.id).then(res => {
-        console.log(res);
-        if (res.success) {
-          this.tableList = res.result;
+      const end = new Date();
+      const start = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
+      let params = {
+        startDate: dateUtil.format(start, "yyyy-MM-dd"),
+        endDate: dateUtil.format(end, "yyyy-MM-dd")
+      };
+      getApplicationOverviewCapabilityCalling(this.item.id, params).then(
+        res => {
+          console.log(res);
+          if (res.success) {
+            this.tableList = res.result;
 
-          this.pageCount = parseInt(this.tableList.length / 10) + 1;
+            this.pageCount = parseInt(this.tableList.length / 10) + 1;
+          }
         }
-      });
+      );
     },
     // 切换已接入能力表格页码
     changeCurrentPage(num) {

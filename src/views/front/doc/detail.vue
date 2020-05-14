@@ -8,7 +8,7 @@
       <div
         class="jmod-doc-sidebar doc-sidebar"
         style=" margin-left: 20px;"
-        :style="{left: sidebarLeft+'px', top:sidebarTop+'px'}"
+        :style="{ left: sidebarLeft + 'px', top: sidebarTop + 'px' }"
       >
         <div class="doc-sidebar-iconwrap jmod-hide-sidebar">
           <i class="doc-sidebar-icon"></i>
@@ -19,7 +19,9 @@
             <Menu
               style="z-index:2;background-color: #f7f7f7;"
               v-if="productList"
-              :active-name="productList[currentIndex1].children[currentIndex2].value"
+              :active-name="
+                productList[currentIndex1].children[currentIndex2].value
+              "
               :open-names="[productList[currentIndex1].value]"
             >
               <Submenu
@@ -47,85 +49,99 @@
       <div class="main markdown-body jmod-doc-main doc-main">
         <div class="doc-bread jmod-doc-bread">
           <a @click="goToDoc()" href="javascript:;">文档中心</a><span>&gt;</span
-          ><span>{{productList[currentIndex1].label}}</span><span>&gt;</span><span>{{productList[currentIndex1].children[currentIndex2].label}}</span>
+          ><span>{{ productList[currentIndex1].label }}</span
+          ><span>&gt;</span
+          ><span>{{
+            productList[currentIndex1].children[currentIndex2].label
+          }}</span>
         </div>
 
-        <vue-markdown  :source="msg"></vue-markdown>
-
+        <vue-markdown :source="msg"></vue-markdown>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 import frontHeader from "@/components/header/front-header.vue";
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
-import VueMarkdown from 'vue-markdown';
+import VueMarkdown from "vue-markdown";
+
+import { getMdFile } from "@/api/index.js";
 
 export default {
   name: "",
   components: {
     frontHeader,
-    VueMarkdown,
+    VueMarkdown
   },
   data() {
     return {
       // 记录当前激活侧边栏序号
-      currentIndex1:0,
-      currentIndex2:0,
+      currentIndex1: 0,
+      currentIndex2: 0,
 
       // 侧边栏left
       sidebarLeft: 0,
       sidebarTop: 92,
       // markdown字符串
       // msg:'```html \n<form method="GET" action="/transferFunds ">\n cash: <input type="text" name="cash"> \n to: <input type=" text " name=“to"> \n<input type="submit" name="action" value=""> \n</form> \n```'
-      msg:'# hdu-ai-web\nHDU AI平台（仿腾讯AI）\n## 需求分析（腾讯AI）\n - 首页https://ai.qq.com/ \n    + 111 \n    + 222\n - ddd \n ## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n'
+      msg:
+        "# hdu-ai-web\nHDU AI平台（仿腾讯AI）\n## 需求分析（腾讯AI）\n - 首页https://ai.qq.com/ \n    + 111 \n    + 222\n - ddd \n ## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n## 项目页面\n"
     };
   },
   computed: {
     ...mapState(["productList"])
   },
-  created(){
+  created() {
+    // test 读取文件内容渲染
+    getMdFile("/md/test.txt").then(res => {
+      console.log(res);
+      this.msg = res;
+    });
+
+
     this.getProductListAction();
 
     // 监听窗口变化事件
     window.addEventListener("resize", this.handleResize);
-    this.sidebarLeft = (window.innerWidth-1200)/2;
+    this.sidebarLeft = (window.innerWidth - 1200) / 2;
 
     // 监听滚动事件
     window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
-    ...mapActions([ "getProductListAction"]),
+    ...mapActions(["getProductListAction"]),
     // 窗口变化
-    handleResize(){
+    handleResize() {
       console.log(window.innerWidth);
-      if(window.innerWidth > 1200){
-        this.sidebarLeft = (window.innerWidth-1200)/2;
-      }else{
+      if (window.innerWidth > 1200) {
+        this.sidebarLeft = (window.innerWidth - 1200) / 2;
+      } else {
         this.sidebarLeft = 0;
       }
     },
     // 窗口滚动
-    handleScroll(){
+    handleScroll() {
       let scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-      let scrollLeft = 
+      let scrollLeft =
         window.pageXOffset ||
         document.documentElement.scrollLeft ||
         document.body.scrollLeft;
-      console.log(scrollTop,scrollLeft);
-      if(scrollTop<92){
-        this.sidebarTop = 122-scrollTop;
-        console.log(this.sidebarTop)
-      }else{
+      console.log(scrollTop, scrollLeft);
+      if (scrollTop < 92) {
+        this.sidebarTop = 122 - scrollTop;
+        console.log(this.sidebarTop);
+      } else {
         this.sidebarTop = 30;
       }
-      if(scrollLeft>0){
+      if (scrollLeft > 0) {
         this.sidebarLeft = -scrollLeft;
-      }else{
+      } else {
         this.handleResize();
       }
     },
@@ -136,10 +152,10 @@ export default {
       });
     },
     //切换侧边栏二级菜单当前元素
-    changeSideBar2(index1,index2){
+    changeSideBar2(index1, index2) {
       this.currentIndex1 = index1;
       this.currentIndex2 = index2;
-    },
+    }
   }
 };
 </script>
@@ -205,7 +221,7 @@ export default {
 .main {
   max-width: 952px;
   /* min-width: 755px; */
-  min-width: 952px;
+  min-width: 900px;
   background-color: #fff;
   box-sizing: border-box;
   margin-left: 270px;
@@ -231,9 +247,6 @@ export default {
   margin-top: 0 !important;
 }
 
-
-
-
 .doc-bread {
   font-size: 14px;
   line-height: 24px;
@@ -246,11 +259,11 @@ export default {
   text-align: center;
   color: gray;
 }
-.menuItem:hover{
+.menuItem:hover {
   background-color: #e7edf7;
   color: #0052d9;
 }
-.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
+.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
   background-color: #e7edf7;
   color: #0052d9;
 }
