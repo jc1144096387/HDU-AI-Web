@@ -75,11 +75,11 @@
             <div class="ui-pagination">
               <div class="ui-pagination__cont">
                 <div
-                  class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                  class="ui-pagination__arrow"
                   @click="changeCurrentPage(-1)"
                 >
                   <div
-                    class="ui-pagination__left ui-pagination__left_disabled"
+                    class="ui-pagination__left"
                   ></div>
                 </div>
                 <div class="ui-pagination__text">
@@ -214,6 +214,7 @@ export default {
             numArray.push(res.result[i].count);
           }
           this.numArray = numArray;
+          console.log(this.numArray);
         }
       });
     }

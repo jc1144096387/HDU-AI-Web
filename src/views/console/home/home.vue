@@ -120,20 +120,20 @@
                   <div class="ui-pagination mt30">
                     <div class="ui-pagination__cont">
                       <div
-                        class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                        class="ui-pagination__arrow"
                         @click="changeCurrentPage(-1)"
                       >
                         <div
-                          class="ui-pagination__left ui-pagination__left_disabled"
+                          class="ui-pagination__left"
                         ></div>
                       </div>
                       <div class="ui-pagination__text">{{currentPage}} / {{pageCount}}</div>
                       <div
-                        class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                        class="ui-pagination__arrow"
                         @click="changeCurrentPage(1)"
                       >
                         <div
-                          class="ui-pagination__right ui-pagination__right_disabled"
+                          class="ui-pagination__right"
                         ></div>
                       </div>
                     </div>

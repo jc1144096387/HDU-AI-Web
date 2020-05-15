@@ -632,8 +632,13 @@ list: [
       2. 缺少babel-runtime/core-js/get-iterator 和 babel-runtime/core-js/object/keys
         + 重新安装一下babel-runtime，若不行，再安装@babel-runtime
     
-- 其他页面跳转文档详情页(todo)
-  + 考虑一下方案
+
+### 第13周
+- 其他页面跳转文档详情页
+  + 因为目前的文档和product保持一致，vuex中有product目录即文档目录，跳转用url传参index1和index2即可（todo）
+- 完善一些细节
+  + 调用后台接口获取数据的等待期间 显示iview的loading组件（todo）
+  + 解决vuex在页面刷新后数据丢失的问题（todo）
 
 
 

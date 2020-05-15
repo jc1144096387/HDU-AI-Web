@@ -98,11 +98,11 @@
             <div class="ui-pagination">
               <div class="ui-pagination__cont">
                 <div
-                  class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                  class="ui-pagination__arrow"
                   @click="changeCurrentPage(-1)"
                 >
                   <div
-                    class="ui-pagination__left ui-pagination__left_disabled"
+                    class="ui-pagination__left"
                   ></div>
                 </div>
                 <div class="ui-pagination__text">
@@ -169,11 +169,11 @@
               <div class="ui-pagination">
                 <div class="ui-pagination__cont">
                   <div
-                    class="ui-pagination__arrow ui-pagination__arrow_disabled"
+                    class="ui-pagination__arrow"
                     @click="changeCurrentPage(-1)"
                   >
                     <div
-                      class="ui-pagination__left ui-pagination__left_disabled"
+                      class="ui-pagination__left"
                     ></div>
                   </div>
                   <div class="ui-pagination__text">
@@ -297,8 +297,8 @@ export default {
       select: "all",
       dateRadio: "近30天",
       datePicker: [
-        new Date(new Date().getTime() - 3600 * 1000 * 24 * 29),
-        new Date()
+        dateUtil.format(new Date(new Date().getTime() - 3600 * 1000 * 24 * 29), "yyyy-MM-dd"),
+        dateUtil.format(new Date(), "yyyy-MM-dd")
       ],
       datePickerOption: {
         disabledDate(date) {
