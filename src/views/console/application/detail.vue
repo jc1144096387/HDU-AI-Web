@@ -119,11 +119,17 @@ export default {
       this.index = newVal.index;
       this.item = this.appList[this.index];
       this.currentSide = newVal.name;
+    },
+    "appList": function(newVal, oldVal){
+      this.index = this.$route.query.index;
+      this.item = this.appList[this.index];
+      this.currentSide = this.$route.query.name;
     }
   },
   mounted() {
     this.index = this.$route.query.index;
     this.item = this.appList[this.index];
+    this.currentSide = this.$route.query.name;
   },
   methods: {
     // 跳转侧边栏
@@ -133,7 +139,8 @@ export default {
         name: name,
         query: {
           index: this.index,
-          name: name
+          name: name,
+          id: "all"
         }
       });
     }

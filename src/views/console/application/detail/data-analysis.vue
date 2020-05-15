@@ -5,8 +5,11 @@
         <Row>
           <Col span="4">
             <Select
+              v-if="item"
               v-model="select"
               size="large"
+              remote
+              :label="initLabel"
               @on-change="handleSelectChange"
             >
               <Option value="all">全部能力</Option>
@@ -75,11 +78,7 @@
               >
                 <td class="ui-table__cell">{{ item.productName }}</td>
                 <td class="ui-table__cell">
-                  <a
-                    class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=101"
-                    >{{ item.productName }}</a
-                  >
+                  {{ item.productName }}
                 </td>
                 <td class="ui-table__cell">{{ item.success + item.fail }}</td>
                 <td class="ui-table__cell">{{ item.fail }}</td>
@@ -146,11 +145,7 @@
                 >
                   <td class="ui-table__cell">{{ item.productName }}</td>
                   <td class="ui-table__cell">
-                    <a
-                      class="link"
-                      href="/console/application/2129141900/data-analysis#api_id=101"
-                      >{{ item.productName }}</a
-                    >
+                    {{ item.productName }}
                   </td>
                   <td class="ui-table__cell">{{ item.success + item.fail }}</td>
                   <td class="ui-table__cell">{{ item.fail }}</td>
@@ -294,7 +289,8 @@ export default {
     return {
       index: 0,
       item: {},
-      select: "all",
+      select: "",
+      initLabel:"",
       dateRadio: "近30天",
       datePicker: [
         dateUtil.format(new Date(new Date().getTime() - 3600 * 1000 * 24 * 29), "yyyy-MM-dd"),
@@ -393,20 +389,31 @@ export default {
     }
   },
   watch: {
-    datePicker: function(newVal, oldVal) {
-      console.log(newVal);
-      // this.dateArray = dateUtil.getDateArray(
-      //   this.datePicker[0],
-      //   this.datePicker[1],
-      //   3600 * 1000 * 24 * 1,
-      //   "yyyy-MM-dd"
-      // )
-      // console.log(this.dateArray)
+    "appList": function(newVal, oldVal){
+      this.index = this.$route.query.index;
+      this.item = this.appList[this.index];
+      this.select = this.$route.query.id;
+      if(this.item){
+        for(let i = 0; i < this.item.products.length; i ++){
+          if(this.item.products[i].id == this.select){
+            this.initLabel = this.item.products[i].label;
+          }
+        }
+      }
+      this.getTableData();
+      this.getChartData();
     }
   },
   mounted() {
     this.index = this.$route.query.index;
     this.item = this.appList[this.index];
+
+    this.select = this.$route.query.id;
+    for(let i = 0; i < this.item.products.length; i ++){
+      if(this.item.products[i].id == this.select){
+        this.initLabel = this.item.products[i].label;
+      }
+    }
 
     this.getTableData();
     this.getChartData();
@@ -457,7 +464,6 @@ export default {
       }
     },
     datePickerChange(date) {
-      console.log(date, this.datePicker, this.dateArray);
       this.datePicker = date;
       this.dateRadio = "";
       this.getTableData();
@@ -471,7 +477,6 @@ export default {
 
     // 获取图表数据
     getChartData() {
-      console.log("当前datePicker", this.datePicker);
       let params = {
         // applicationId: this.item.id,
         productId: this.select,
@@ -481,10 +486,7 @@ export default {
       if (this.select == "all") {
         delete params.productId;
       }
-      console.log(this.item.id);
       getApplicationDataCalling(this.item.id, params).then(res => {
-        console.log(this.item.id);
-        console.log(res);
         if (res.success) {
           let cost = [];
           let total = [];
@@ -500,7 +502,6 @@ export default {
           this.numArray.success = success;
           this.numArray.fail = fail;
           this.costArray = cost;
-          console.log(this.numArray.all, this.costArray);
         }
       });
     },
@@ -518,7 +519,6 @@ export default {
 
       getApplicationOverviewCapabilityCalling(this.item.id, params).then(
         res => {
-          console.log(res);
           if (res.success) {
             this.tableList = res.result;
 

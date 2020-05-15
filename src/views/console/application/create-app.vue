@@ -417,7 +417,7 @@
                 <input
                   type="button"
                   class="ui-button ui-button-primary is-blue"
-                  _stat_click_id="success_addapi"
+                  @click="goToPageByName('capability-overview')"
                   value="接入能力"
                 />
               </div>
@@ -501,6 +501,12 @@ export default {
             }
           });
         }
+      });
+    },
+
+    goToPageByName(name){
+      this.$router.push({
+        name: name,
       });
     }
   }

@@ -227,6 +227,7 @@ export default {
           this.$Message.success("删除成功");
           this.isDeleteModalShow = false;
           this.getApplicationListAction();
+          this.goToPageByName('console-home');
         }else{
           this.$Message.success("删除失败");
           // this.isDeleteModalShow = false;

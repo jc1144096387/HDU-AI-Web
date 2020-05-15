@@ -23,7 +23,7 @@
           <a
             class="link"
             _stat_click_id="table_more"
-            @click="goToSide('data-analysis')"
+            @click="goToSide('data-analysis', 'all')"
             >更多数据</a
           >
         </div>
@@ -54,7 +54,7 @@
                 <td class="ui-table__cell">
                   <a
                     class="link"
-                    href="/console/application/2129141900/data-analysis#api_id=101"
+                    @click="goToSide('data-analysis', item.productId)"
                     >{{ item.productName }}</a
                   >
                 </td>
@@ -152,6 +152,12 @@ export default {
       this.item = this.appList[this.index];
       this.getTableData();
       this.getChartData();
+    },
+    "appList": function(newVal, oldVal){
+      this.index = this.$route.query.index;
+      this.item = this.appList[this.index];
+      this.getTableData();
+      this.getChartData();
     }
   },
   mounted() {
@@ -162,14 +168,15 @@ export default {
   },
   methods: {
     // 跳转侧边栏
-    goToSide(name) {
+    goToSide(name, id) {
       this.currentSide = name;
       console.log(name, this.currentSide);
       this.$router.push({
         name: name,
         query: {
           index: this.index,
-          name: name
+          name: name,
+          id: id
         }
       });
       console.log(name, this.currentSide);

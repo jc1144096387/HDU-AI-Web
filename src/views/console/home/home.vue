@@ -38,7 +38,7 @@
                   </div>
                   <div class="myapp-app-invoke">
                     <div class="myapp-app-invokeTitle">近30日调用总量</div>
-                    <div class="myapp-app-invokeValue">0</div>
+                    <div class="myapp-app-invokeValue">{{item.monthCount}}</div>
                   </div>
                   <div class="myapp-app-change">
                     <!-- <p>

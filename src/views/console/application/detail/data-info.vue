@@ -219,7 +219,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["appList"]),
+    ...mapState(["appList"])
+  },
+  watch: {
+    appList: function(newVal, oldVal) {
+      this.index = this.$route.query.index;
+      this.item = this.appList[this.index];
+    }
   },
   mounted() {
     this.index = this.$route.query.index;
@@ -258,22 +264,20 @@ export default {
       });
     },
     copy(id) {
-      var clipboard = new Clipboard("#"+id);
+      var clipboard = new Clipboard("#" + id);
       clipboard.on("success", e => {
         console.log("复制成功");
-         this.$Message.success("复制成功！");
+        this.$Message.success("复制成功！");
         // 释放内存
         clipboard.destroy();
       });
       clipboard.on("error", e => {
         // 不支持复制
         console.log("该浏览器不支持自动复制");
-         this.$Message.error("该浏览器不支持自动复制");
+        this.$Message.error("该浏览器不支持自动复制");
         // 释放内存
         clipboard.destroy();
       });
-
-     
     }
   }
 };
