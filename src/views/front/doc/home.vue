@@ -7,10 +7,10 @@
       class="banner"
       style="background-image: url('//cdn.ai.qq.com/ai/page/doc/home/img/banner-95720c5dbe.jpg?max_age=31536000');"
     >
-      <p>腾讯AI开放平台文档中心</p>
+      <p>HDU AI开放平台文档中心</p>
     </div>
 
-    <div class="sec sec-new">
+    <!-- <div class="sec sec-new">
       <div class="layout">
         <div class="sec-tit">新手指南</div>
         <div class="sec-cont">
@@ -32,7 +32,7 @@
           </a>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="sec sec-capability">
       <div class="layout">
@@ -406,7 +406,7 @@
 
      <div class="sec sec-capability">
       <div class="layout">
-        <h2 class="sec-tit">接入腾讯AI能力 打造极致产品</h2>
+        <h2 class="sec-tit">接入HDU AI能力 打造极致产品</h2>
         <div class="sec-cont">
 
           <div class="capability-row">
@@ -415,7 +415,7 @@
               <div class="capability-group-logo" >
                 <i
                   class="capa-1"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -425,7 +425,7 @@
                   v-if="index2<5" :key="index2"
                   _stat_click_id="capa_ocridentify"
                   class="capability-group-wrap__item"
-                  @click="goToProductDetail(item1.value, item2.value, index2)"
+                  @click="goToDetail(item2.value)"
                 >{{item2.label}}</a>
                 </template>
 
@@ -440,7 +440,7 @@
                 >
                   <i
                     class="ico-more"
-                    :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                    :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                   ></i>展开更多
                 </a>
                 <div v-if="item1.children.length>5" class="hide-wrap" :style="{display: isLoadMore[index1]?'block':'none'}">
@@ -449,7 +449,7 @@
                       v-if="index2>=5" :key="index2"
                       _stat_click_id="capa_ocridentify"
                       class="capability-group-wrap__item"
-                      @click="goToProductDetail(item1.value, item2.value, index2)"
+                      @click="goToDetail(item2.value)"
                     >{{item2.label}}</a>
                   </template>
 
@@ -463,7 +463,7 @@
                     <i
                       class="ico-more"
                       style="transform: rotate(180deg);"
-                      :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                      :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                     ></i>收起
                   </a>
                 </div>
@@ -477,7 +477,7 @@
               <div class="capability-group-logo" >
                 <i
                   class="capa-1"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -487,7 +487,7 @@
                   v-if="index2<5" :key="index2"
                   _stat_click_id="capa_ocridentify"
                   class="capability-group-wrap__item"
-                  @click="goToProductDetail(item1.value, item2.value, index2)"
+                  @click="goToDetail(item2.value)"
                 >{{item2.label}}</a>
                 </template>
 
@@ -502,7 +502,7 @@
                 >
                   <i
                     class="ico-more"
-                    :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                    :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                   ></i>展开更多
                 </a>
                 <div v-if="item1.children.length>5" class="hide-wrap" :style="{display: isLoadMore?'block':'none'}">
@@ -511,7 +511,7 @@
                       v-if="index2>=5" :key="index2"
                       _stat_click_id="capa_ocridentify"
                       class="capability-group-wrap__item"
-                      @click="goToProductDetail(item1.value, item2.value, index2)"
+                      @click="goToDetail(item2.value)"
                     >{{item2.label}}</a>
                   </template>
 
@@ -525,7 +525,7 @@
                     <i
                       class="ico-more"
                       style="transform: rotate(180deg);"
-                      :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                      :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                     ></i>收起
                   </a>
                 </div>
@@ -539,7 +539,7 @@
               <div class="capability-group-logo" >
                 <i
                   class="capa-1"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -549,7 +549,7 @@
                   v-if="index2<5" :key="index2"
                   _stat_click_id="capa_ocridentify"
                   class="capability-group-wrap__item"
-                  @click="goToProductDetail(item1.value, item2.value, index2)"
+                  @click="goToDetail(item2.value)"
                 >{{item2.label}}</a>
                 </template>
 
@@ -564,7 +564,7 @@
                 >
                   <i
                     class="ico-more"
-                    :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                    :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                   ></i>展开更多
                 </a>
                 <div v-if="item1.children.length>5" class="hide-wrap" :style="{display: isLoadMore[index1]?'block':'none'}">
@@ -573,7 +573,7 @@
                       v-if="index2>=5" :key="index2"
                       _stat_click_id="capa_ocridentify"
                       class="capability-group-wrap__item"
-                      @click="goToProductDetail(item1.value, item2.value, index2)"
+                      @click="goToDetail(item2.value)"
                     >{{item2.label}}</a>
                   </template>
 
@@ -587,7 +587,7 @@
                     <i
                       class="ico-more"
                       style="transform: rotate(180deg);"
-                      :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                      :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                     ></i>收起
                   </a>
                 </div>
@@ -602,7 +602,7 @@
               <div class="capability-group-logo">
                 <i
                   class="capa-5"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -633,7 +633,7 @@
               <div class="capability-group-logo">
                 <i
                   class="capa-6"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -649,7 +649,7 @@
               <div class="capability-group-logo">
                 <i
                   class="capa-7"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -675,7 +675,7 @@
               <div class="capability-group-logo">
                 <i
                   class="capa-8"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -703,7 +703,7 @@
               <div class="capability-group-logo">
                 <i
                   class="capa-9"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -724,7 +724,7 @@
               <div class="capability-group-logo">
                 <i
                   class="capa-10"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -750,7 +750,7 @@
               <div class="capability-group-logo">
                 <i
                   class="capa-11"
-                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  :style="{backgroundImage:'url('+require('@/assets/doc-home1.png')+')'}"
                 ></i>
               </div>
               <div class="capability-group-wrap">
@@ -835,8 +835,7 @@
 </template>
 
 <script>
-import product from "@/mock/product.js";
-
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 import frontHeader from "@/components/header/front-header.vue";
 
 export default {
@@ -847,8 +846,10 @@ export default {
   data() {
     return {
       isLoadMore:[],
-      productList: product.productList
     };
+  },
+  computed: {
+    ...mapState(["productList"])
   },
   mounted() {},
   methods: {
@@ -862,6 +863,15 @@ export default {
       arr[e] = false;
       this.isLoadMore = arr;
     },
+
+    goToDetail(value){
+      this.$router.push({
+        name: 'doc-detail', 
+        query: { 
+          value: value
+        }
+      })
+    }
   }
 };
 </script>
@@ -970,12 +980,13 @@ export default {
   display: inline-block;
   background-repeat: no-repeat;
 }
-/* .sec-capability .capability-group-logo i.capa-1 {
+.sec-capability .capability-group-logo i.capa-1 {
   width: 50px;
   height: 50px;
-  background-image: url(https://cdn.ai.qq.com/ai/sprite/sprite-ed33a25616.doc.home.png?max_age=31536000);
+  /* background-image: url(https://cdn.ai.qq.com/ai/sprite/sprite-ed33a25616.doc.home.png?max_age=31536000); */
   background-position: 0 -191px;
 }
+/* 
 .sec-capability .capability-group-logo i.capa-2 {
   width: 52px;
   height: 51px;
@@ -1065,15 +1076,15 @@ export default {
   cursor: pointer;
   vertical-align: middle;
 }
-/* .sec-capability .capability-group-more i.ico-more {
-  background-image: url(https://cdn.ai.qq.com/ai/sprite/sprite-ed33a25616.doc.home.png?max_age=31536000);
+.sec-capability .capability-group-more i.ico-more {
+  /* background-image: url(https://cdn.ai.qq.com/ai/sprite/sprite-ed33a25616.doc.home.png?max_age=31536000); */
   background-position: -195px -166px;
   width: 11px;
   height: 6px;
   display: inline-block;
   margin-right: 12px;
   vertical-align: middle;
-} */
+}
 .sec-capability .no-margin {
   margin-right: 0;
 }

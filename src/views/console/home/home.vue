@@ -38,7 +38,9 @@
                   </div>
                   <div class="myapp-app-invoke">
                     <div class="myapp-app-invokeTitle">近30日调用总量</div>
-                    <div class="myapp-app-invokeValue">{{item.monthCount}}</div>
+                    <div class="myapp-app-invokeValue">
+                      {{ item.monthCount }}
+                    </div>
                   </div>
                   <div class="myapp-app-change">
                     <!-- <p>
@@ -95,21 +97,23 @@
                   </thead>
                   <tbody class="ui-table__body">
                     <tr
-                      v-for="(item, index) in myCapabilityList.slice(currentPage*10-10, currentPage*10)"
+                      v-for="(item, index) in myCapabilityList.slice(
+                        currentPage * 10 - 10,
+                        currentPage * 10
+                      )"
                       :key="index"
                       class="ui-table__row ui-table__row_border"
                     >
-                      <td class="ui-table__cell">{{item.label}}</td>
-                      <td class="ui-table__cell">{{item.label}}</td>
-                      <td class="ui-table__cell">{{item.monthCount}}</td>
+                      <td class="ui-table__cell">{{ item.label }}</td>
+                      <td class="ui-table__cell">{{ item.label }}</td>
+                      <td class="ui-table__cell">{{ item.monthCount }}</td>
                       <td class="ui-table__cell">无限额</td>
                       <td class="ui-table__cell">不保证并发</td>
                       <td class="ui-table__cell">免费使用</td>
                       <td class="ui-table__cell">
                         <a
-                          href="/doc/nlpbase.shtml"
-                          target="_blank"
-                          _stat_click_id="table_doc"
+                          href="javascript:;"
+                          @click="goToDocDetail(item.value)"
                           >查看文档</a
                         >
                       </td>
@@ -123,18 +127,16 @@
                         class="ui-pagination__arrow"
                         @click="changeCurrentPage(-1)"
                       >
-                        <div
-                          class="ui-pagination__left"
-                        ></div>
+                        <div class="ui-pagination__left"></div>
                       </div>
-                      <div class="ui-pagination__text">{{currentPage}} / {{pageCount}}</div>
+                      <div class="ui-pagination__text">
+                        {{ currentPage }} / {{ pageCount }}
+                      </div>
                       <div
                         class="ui-pagination__arrow"
                         @click="changeCurrentPage(1)"
                       >
-                        <div
-                          class="ui-pagination__right"
-                        ></div>
+                        <div class="ui-pagination__right"></div>
                       </div>
                     </div>
                   </div>
@@ -154,7 +156,7 @@
 import consoleHeader from "@/components/header/console-header.vue";
 import consoleFooter from "@/components/footer/console-footer.vue";
 
-import { getApplicationMyCapability } from"@/api/index";
+import { getApplicationMyCapability } from "@/api/index";
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -166,13 +168,13 @@ export default {
   data() {
     return {
       // isNavShow: false,
-      myCapabilityList:[],
+      myCapabilityList: [],
       currentPage: 1,
-      pageCount: 1,
+      pageCount: 1
     };
   },
   computed: {
-    ...mapState(["userInfo", "appList"]),
+    ...mapState(["userInfo", "appList", "product"])
   },
   mounted() {
     // 获取账号信息
@@ -212,24 +214,35 @@ export default {
         }
       });
     },
+    // 跳转文档详情页
+    goToDocDetail(value) {
+
+      this.$router.push({
+        name: "doc-detail",
+        query: {
+          value: value
+        }
+      });
+      
+    },
 
     // 获取已接入能力列表
-    getAccessCapability(){
-      getApplicationMyCapability().then(res=>{
+    getAccessCapability() {
+      getApplicationMyCapability().then(res => {
         console.log(res);
-        if(res.success){
+        if (res.success) {
           this.myCapabilityList = res.result;
-          this.pageCount = parseInt(this.myCapabilityList.length/10)+1;
+          this.pageCount = parseInt(this.myCapabilityList.length / 10) + 1;
           console.log(this.pageCount);
         }
-      })
+      });
     },
     // 切换已接入能力表格页码
-    changeCurrentPage(num){
-      if(num < 0 && this.currentPage+num>=1){
-        this.currentPage = this.currentPage+num;
-      }else if(num > 0 && this.currentPage+num<=this.pageCount){
-        this.currentPage = this.currentPage+num;
+    changeCurrentPage(num) {
+      if (num < 0 && this.currentPage + num >= 1) {
+        this.currentPage = this.currentPage + num;
+      } else if (num > 0 && this.currentPage + num <= this.pageCount) {
+        this.currentPage = this.currentPage + num;
       }
     }
   }

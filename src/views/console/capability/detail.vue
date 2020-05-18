@@ -11,34 +11,54 @@
                   v-for="(item1, index1) in productList"
                   :key="index1"
                   class="ui-sidebar-item"
-                  :class="[currentIndex1 == index1?'child-cur':'', isShow[index1]?'auto-height':'', hover.type=='index1'&&hover.index1==index1?'cur':'']"
+                  :class="[
+                    currentIndex1 == index1 ? 'child-cur' : '',
+                    isShow[index1] ? 'auto-height' : '',
+                    hover.type == 'index1' && hover.index1 == index1
+                      ? 'cur'
+                      : ''
+                  ]"
                 >
-                  <div class="ui-sidebar-item__father" :class="isShow[index1]?'unfold':''">
+                  <div
+                    class="ui-sidebar-item__father"
+                    :class="isShow[index1] ? 'unfold' : ''"
+                  >
                     <div
                       _stat_click_id="sidebar_1"
                       class="ui-sidebar-item__click"
                       @click="changeSideBar(index1)"
-                      @mouseover="hoverIn('index1',index1,index2)"
+                      @mouseover="hoverIn('index1', index1, index2)"
                       @mouseout="hoverOut()"
                     >
-                      <div class="ui-sidebar-item__title">{{item1.label}}</div>
+                      <div class="ui-sidebar-item__title">
+                        {{ item1.label }}
+                      </div>
                     </div>
                     <div class="ui-sidebar-item__child">
-                      <div 
-                        v-for="(item2,index2) in item1.children"
+                      <div
+                        v-for="(item2, index2) in item1.children"
                         :key="index2"
                         class="ui-sidebar-item"
-                        :class="[currentIndex1==index1&&currentIndex2==index2?'cur':'', hover.type=='index2'&&hover.index1==index1&&hover.index2==index2?'cur':'']"
-                        @mouseover="hoverIn('index2',index1,index2)"
+                        :class="[
+                          currentIndex1 == index1 && currentIndex2 == index2
+                            ? 'cur'
+                            : '',
+                          hover.type == 'index2' &&
+                          hover.index1 == index1 &&
+                          hover.index2 == index2
+                            ? 'cur'
+                            : ''
+                        ]"
+                        @mouseover="hoverIn('index2', index1, index2)"
                         @mouseout="hoverOut()"
                       >
                         <a
                           _stat_click_id="sidebar_1"
                           _stat_action_obj="1"
                           class="ui-sidebar-item__link"
-                          @click="changeSideBar2(index1,index2)"
+                          @click="changeSideBar2(index1, index2)"
                           ><div class="ui-sidebar-item__title">
-                            {{item2.label}}
+                            {{ item2.label }}
                           </div></a
                         >
                       </div>
@@ -49,16 +69,18 @@
             </div>
           </div>
 
-
           <div class="main-section">
             <div class="capa-detail-bread ui-paper">
               <a href="/console/capability/overview">全部能力</a> &gt;
-              {{productList[currentIndex1].label}} &gt; {{productList[currentIndex1].children[currentIndex2].label}}
+              {{ productList[currentIndex1].label }} &gt;
+              {{ productList[currentIndex1].children[currentIndex2].label }}
             </div>
             <div class="capa-detail-banner ui-paper banner-1">
-              <p class="capa-detail-banner__title">{{productList[currentIndex1].children[currentIndex2].label}}</p>
+              <p class="capa-detail-banner__title">
+                {{ productList[currentIndex1].children[currentIndex2].label }}
+              </p>
               <p class="capa-detail-banner__desc">
-                {{productList[currentIndex1].children[currentIndex2].content}}
+                {{ productList[currentIndex1].children[currentIndex2].content }}
               </p>
               <div class="capa-detail-btn">
                 <input
@@ -68,9 +90,8 @@
                   value="接入能力"
                 /><a
                   class="ui-button is-blue"
-                  href="/doc/nlpbase.shtml"
-                  target="_blank"
-                  _stat_click_id="banner_doc"
+                  href="javascript:;"
+                  @click="goToDocDetail(productList[currentIndex1].children[currentIndex2].value)"
                   >查看文档</a
                 >
               </div>
@@ -224,13 +245,17 @@
             </div> -->
           </div>
           <div>
-            <div class="ui-dialog ui-mask" :style="{display: accessCapabilityModal?'block':'none'}">
+            <div
+              class="ui-dialog ui-mask"
+              :style="{ display: accessCapabilityModal ? 'block' : 'none' }"
+            >
               <div
                 class="ui-dialog-wrap shadow addApi-dialog"
                 data-name="dialog_1"
               >
                 <div class="ui-dialog-header">
-                  <span>选择应用接入</span><i @click="hideAccessCapabilityModal" class="ico-close"></i>
+                  <span>选择应用接入</span
+                  ><i @click="hideAccessCapabilityModal" class="ico-close"></i>
                 </div>
                 <div class="ui-dialog-body">
                   <div class="addApi-dialog-content">
@@ -241,33 +266,39 @@
                         >创建应用</a
                       >再回到本页进行接入。
                     </div>
-                    <div class="ui-checkbox-wrap addApi-dialog-appList "
+                    <div
+                      class="ui-checkbox-wrap addApi-dialog-appList "
                       v-if="selectList"
                     >
-                      <div 
-                        v-for="(item,index) in appList"
+                      <div
+                        v-for="(item, index) in appList"
                         :key="index"
                         class="ui-checkbox addApi-dialog-appItem"
-                        :class="selectList[index]?'selected':''"
+                        :class="selectList[index] ? 'selected' : ''"
                       >
-                        <div class="ui-checkbox-content"
-                        >
+                        <div class="ui-checkbox-content">
                           <input
                             type="checkbox"
                             :id="item.id"
                             name="targetApps"
-                            @click="changeCapability(item.id,selectList[index])"
-                          /><label
-                            :for="item.id"
-                            class="ui-checkbox-logo"
+                            @click="
+                              changeCapability(item.id, selectList[index])
+                            "
+                          /><label :for="item.id" class="ui-checkbox-logo"
                             ><img
-                              :src="selectList[index]?'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABsElEQVQ4jY3UvWsUURQF8N+O0caP/yAKNi4IqSxFSWLAIhMLSYJYiYIW4lebFCqmDqigRSBNVDDY7DTBaEL8aNQuRbZSUPEfUAuFEIt3B16WuOyByzzuPee8++bNnUar1bIDhjAZz4OR+4oVPMfrmliWJSg6DJpYxQO0MYYDEWORux+cZi7MjU5iLXYcwCw28CdiI3IDeIF3odlm1MQizuMRNnc6b2ATD3EOi1VVNWujBuZxF68yQRnv5GfECkaz+jLuYL6qqkaBYeyPTmrcQwuD2BcxiCpqNR6HdrjABOay44xiqsvRpqLb+phzmCikK17KiLe6mNS4ma2XMFSgH1+ywrEejHLOZ/QX0tVu9SDO0cjWe0i39gOHs8KnHow+ZutD+F7gA05nhdkejHLOKbwv8AQXsSsKFWa6mMwER2guYaHAS/zClYw8jTPSTP2OWJXmbTrjXQ7tcp/0oi/gjTSU9WS3Iv6HEdzGibIst+pZa2McT6Ozzr9CjgJX8QzjZVm2dQjWpGmexDqu4wh2Yy+ORm4dZ3E8NKCvY7e2NFMj0eE16YP9i294ixvSwG7DP7oIZVxaHoG+AAAAAElFTkSuQmCC':item.id==capabilityId?'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABnUlEQVQ4jY3UPWtUURAG4OceTRo//oEJ2Lgg5BeIkqwBC40QMUFbBS0E0TZpFFMHVNAikMYPUNIkTXA1IX40apciu62KP8DVYgXR4s7K4bK77AvDPXdm3jkz99z3FGZbemAK8/EcC98XbOEF3lQJqfJewzYeoIkZHA6bCd/9yKn1K3QKO7HjBJaxh07YXvgmsIb3wQH7s05e4jJe95o1wx88RCs4J9FMKLCKu5Ui55TfpB22hbNZvIE7wS0S6jiER1nSPaxjEgfDJrERsS4eB7eeMIeVaFnsujBgtIXotjvmCuaS8og3s8TbA4p0cStbb2KqMNvqKI+3E4Ef0e4gtIMDo2inKPB3iC5yFNl6lPI/+o6jWeDzEIU+ZetxfEv4iDNZYHmIQnnOaXxIeIor2BeBDSwNKLIUOYJzFU8SXuEnrmfJiziv1NSvsG2l3hazvGvBbRSh/hre4pIeyu6D6Zjmv0QoVX0Rz6Kz6q2QI+EGngenqULYUap5Hru4iWMYwQEcD98uLuBEcEDR52Kbjt3qOILf+Ip3SsU3qoR/x2xgDwLTwVkAAAAASUVORK5CYII=':'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABZElEQVQ4jaXUz0pVURTH8c/dmpOwN7CgiRcCHyDCSAucbCdxlaiJFBQo1SP4BoIGOXDYH0ianDsRxcL+DZw68I4MKnwCJwkXG5x14XZQwXt/sDmwWL/vXnuvvU6tKAqnaAKz8b0asV/4hA/Y7iTmnEGqAOr4jBW0MI0rsaYjthw59W5jN+g2dmLHMSxhH39j7UdsDB/xLTz/gepYx0O8Rvu084baeIUHWG82m3WoFUVRww+8jYSLaB6PcDNhEsNRyUW1Gt7JhBmsOf84Z6kd3pmkbPFGD5CONjCRMIKffYAOMJKUrT3pAzRE2f5DXO8DdA1/EnYx1QfoLr4n5ft5jIEeIAN4gjcJmzjCsx5AT8O7Nai86Dl8UQ7l9jnGbt3DIsZzziedWWuhgXdRWfWv0K2EBbxHI+fcUjHsKKd5Fnt4gVFcwmXciNge7uNWeMBgZbcW7kTZDTxXPthj/MZXvMRWtcx/iAhPPOFzbckAAAAASUVORK5CYII='"
+                              :src="
+                                selectList[index]
+                                  ? 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABsElEQVQ4jY3UvWsUURQF8N+O0caP/yAKNi4IqSxFSWLAIhMLSYJYiYIW4lebFCqmDqigRSBNVDDY7DTBaEL8aNQuRbZSUPEfUAuFEIt3B16WuOyByzzuPee8++bNnUar1bIDhjAZz4OR+4oVPMfrmliWJSg6DJpYxQO0MYYDEWORux+cZi7MjU5iLXYcwCw28CdiI3IDeIF3odlm1MQizuMRNnc6b2ATD3EOi1VVNWujBuZxF68yQRnv5GfECkaz+jLuYL6qqkaBYeyPTmrcQwuD2BcxiCpqNR6HdrjABOay44xiqsvRpqLb+phzmCikK17KiLe6mNS4ma2XMFSgH1+ywrEejHLOZ/QX0tVu9SDO0cjWe0i39gOHs8KnHow+ZutD+F7gA05nhdkejHLOKbwv8AQXsSsKFWa6mMwER2guYaHAS/zClYw8jTPSTP2OWJXmbTrjXQ7tcp/0oi/gjTSU9WS3Iv6HEdzGibIst+pZa2McT6Ozzr9CjgJX8QzjZVm2dQjWpGmexDqu4wh2Yy+ORm4dZ3E8NKCvY7e2NFMj0eE16YP9i294ixvSwG7DP7oIZVxaHoG+AAAAAElFTkSuQmCC'
+                                  : item.id == capabilityId
+                                  ? 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABnUlEQVQ4jY3UPWtUURAG4OceTRo//oEJ2Lgg5BeIkqwBC40QMUFbBS0E0TZpFFMHVNAikMYPUNIkTXA1IX40apciu62KP8DVYgXR4s7K4bK77AvDPXdm3jkz99z3FGZbemAK8/EcC98XbOEF3lQJqfJewzYeoIkZHA6bCd/9yKn1K3QKO7HjBJaxh07YXvgmsIb3wQH7s05e4jJe95o1wx88RCs4J9FMKLCKu5Ui55TfpB22hbNZvIE7wS0S6jiER1nSPaxjEgfDJrERsS4eB7eeMIeVaFnsujBgtIXotjvmCuaS8og3s8TbA4p0cStbb2KqMNvqKI+3E4Ef0e4gtIMDo2inKPB3iC5yFNl6lPI/+o6jWeDzEIU+ZetxfEv4iDNZYHmIQnnOaXxIeIor2BeBDSwNKLIUOYJzFU8SXuEnrmfJiziv1NSvsG2l3hazvGvBbRSh/hre4pIeyu6D6Zjmv0QoVX0Rz6Kz6q2QI+EGngenqULYUap5Hru4iWMYwQEcD98uLuBEcEDR52Kbjt3qOILf+Ip3SsU3qoR/x2xgDwLTwVkAAAAASUVORK5CYII='
+                                  : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAABZElEQVQ4jaXUz0pVURTH8c/dmpOwN7CgiRcCHyDCSAucbCdxlaiJFBQo1SP4BoIGOXDYH0ianDsRxcL+DZw68I4MKnwCJwkXG5x14XZQwXt/sDmwWL/vXnuvvU6tKAqnaAKz8b0asV/4hA/Y7iTmnEGqAOr4jBW0MI0rsaYjthw59W5jN+g2dmLHMSxhH39j7UdsDB/xLTz/gepYx0O8Rvu084baeIUHWG82m3WoFUVRww+8jYSLaB6PcDNhEsNRyUW1Gt7JhBmsOf84Z6kd3pmkbPFGD5CONjCRMIKffYAOMJKUrT3pAzRE2f5DXO8DdA1/EnYx1QfoLr4n5ft5jIEeIAN4gjcJmzjCsx5AT8O7Nai86Dl8UQ7l9jnGbt3DIsZzziedWWuhgXdRWfWv0K2EBbxHI+fcUjHsKKd5Fnt4gVFcwmXciNge7uNWeMBgZbcW7kTZDTxXPthj/MZXvMRWtcx/iAhPPOFzbckAAAAASUVORK5CYII='
+                              "
                               alt="checkbox logo"/></label
                           ><label
                             :for="item.id"
                             class="ui-checkbox-text"
                             :title="item.name"
-                            >{{item.name}}</label
+                            >{{ item.name }}</label
                           >
                         </div>
                       </div>
@@ -289,13 +320,17 @@
                 </div>
               </div>
             </div>
-            <div class="ui-dialog ui-mask" :style="{display: successModal?'block':'none'}">
+            <div
+              class="ui-dialog ui-mask"
+              :style="{ display: successModal ? 'block' : 'none' }"
+            >
               <div
                 class="ui-dialog-wrap shadow success-dialog"
                 data-name="dialog_2"
               >
                 <div class="ui-dialog-header">
-                  <span> </span><i @click="hideSuccessModal" class="ico-close"></i>
+                  <span> </span
+                  ><i @click="hideSuccessModal" class="ico-close"></i>
                 </div>
                 <div class="ui-dialog-body">
                   <div class="success-dialog-body">
@@ -348,13 +383,13 @@ export default {
   data() {
     return {
       // 侧边栏收缩状态
-      isShow:[],
+      isShow: [],
       // 记录当前激活侧边栏序号
-      currentIndex1:0,
-      currentIndex2:0,
+      currentIndex1: 0,
+      currentIndex2: 0,
       // 记录鼠标所在的侧边栏序号
-      hover:{
-        type: '',
+      hover: {
+        type: "",
         index1: 0,
         index2: 0
       },
@@ -363,20 +398,25 @@ export default {
       // 选择的能力
       capabilityId: "",
       // 接入成功模态框
-      successModal: false,
+      successModal: false
     };
   },
   computed: {
     ...mapState(["productList", "appList"]),
     // 能力的应用接入情况
-    selectList: function(){
+    selectList: function() {
       let res = [];
-      for(let i = 0; i < this.appList.length; i ++){
+      for (let i = 0; i < this.appList.length; i++) {
         console.log(this.appList[i]);
         res[i] = false;
-        for(let j = 0; j < this.appList[i].capabilityList.length; j ++){
+        for (let j = 0; j < this.appList[i].capabilityList.length; j++) {
           // console.log(this.appList[i].capabilityList[j],this.productList[this.currentIndex1].children[this.currentIndex2])
-          if(this.appList[i].capabilityList[j] && this.appList[i].capabilityList[j].id == this.productList[this.currentIndex1].children[this.currentIndex2].id){
+          if (
+            this.appList[i].capabilityList[j] &&
+            this.appList[i].capabilityList[j].id ==
+              this.productList[this.currentIndex1].children[this.currentIndex2]
+                .id
+          ) {
             res[i] = true;
             break;
           }
@@ -384,78 +424,86 @@ export default {
       }
       console.log(res);
       return res;
-    },
+    }
   },
-  created(){
-      this.currentIndex1 = this.$route.query.index1?this.$route.query.index1:0;
-      this.$set(this.isShow,this.currentIndex1,true);
+  created() {
+    this.currentIndex1 = this.$route.query.index1
+      ? this.$route.query.index1
+      : 0;
+    this.$set(this.isShow, this.currentIndex1, true);
 
-      this.currentIndex2 = this.$route.query.index2?this.$route.query.index2:0;
-      this.getProductListAction();
+    this.currentIndex2 = this.$route.query.index2
+      ? this.$route.query.index2
+      : 0;
+    this.getProductListAction();
   },
   methods: {
-    ...mapActions(["getProductListAction","getApplicationListAction"]),
+    ...mapActions(["getProductListAction", "getApplicationListAction"]),
     //切换侧边栏状态
-    changeSideBar(index1){
+    changeSideBar(index1) {
       // this.isShow[index1] = !this.isShow[index1];
-      this.$set(this.isShow,index1, !this.isShow[index1])
+      this.$set(this.isShow, index1, !this.isShow[index1]);
     },
     //切换侧边栏二级菜单当前元素
-    changeSideBar2(index1,index2){
+    changeSideBar2(index1, index2) {
       this.currentIndex1 = index1;
       this.currentIndex2 = index2;
     },
 
-    hoverIn(type,index1,index2){
+    hoverIn(type, index1, index2) {
       this.hover = {
         type: type,
         index1: index1,
         index2: index2
-      }
+      };
     },
-    hoverOut(){
+    hoverOut() {
       this.hover = {};
     },
     // 显示接入能力模态框
-    showAccessCapabilityModal(){
+    showAccessCapabilityModal() {
       this.accessCapabilityModal = true;
     },
     // 隐藏接入能力模态框
-    hideAccessCapabilityModal(){
+    hideAccessCapabilityModal() {
       this.accessCapabilityModal = false;
     },
     // 切换要接入的能力
-    changeCapability(id, isAccess){
-      if(!isAccess){
+    changeCapability(id, isAccess) {
+      if (!isAccess) {
         this.capabilityId = id;
       }
-      console.log(this.capabilityId)
+      console.log(this.capabilityId);
     },
     // 接入能力
-    accessCapability(){
-      accessCapability(this.capabilityId, {productId: this.productList[this.currentIndex1].children[this.currentIndex2].id}).then(res=>{
+    accessCapability() {
+      accessCapability(this.capabilityId, {
+        productId: this.productList[this.currentIndex1].children[
+          this.currentIndex2
+        ].id
+      }).then(res => {
         console.log(res);
-        if(res.success){
+        if (res.success) {
           this.$Message.success(res.message);
           this.getApplicationListAction();
           this.hideAccessCapabilityModal();
           this.showSuccessModal();
-        }else{
+        } else {
           this.$Message.error(res.message);
           this.getApplicationListAction();
           // //test
           // this.hideAccessCapabilityModal();
           // this.showSuccessModal();
         }
-      })
+      });
     },
 
     // 显示接入成功模态框
-    showSuccessModal(){
+    showSuccessModal() {
       this.successModal = true;
     },
     // 显示接入成功模态框
-    hideSuccessModal(){
+    hideSuccessModal() {
       this.successModal = false;
     },
     // 前往创建应用页面
@@ -464,19 +512,27 @@ export default {
         name: "create-app"
       });
     },
-    goToPageByName(name){
+    // 前往文档详情页
+    goToDocDetail(value) {
       this.$router.push({
-        name: name,
+        name: "doc-detail",
+        query: {
+          value: value
+        }
+      });
+    },
+    goToPageByName(name) {
+      this.$router.push({
+        name: name
       });
     }
   }
 };
 </script>
 <style scoped>
-.container{
+.container {
   background-color: #f2f2f2;
 }
-
 
 .ai-notice .content {
   white-space: nowrap;

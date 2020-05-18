@@ -19,9 +19,8 @@
               >免费试用</a
             >
             <a
-              href="/doc/ocridcardocr.shtml"
+              @click="goToDocDetail(productList[index1].children[index2].value)"
               class="jmod-doc-btn btn btn-doc"
-              _stat_click_id="banner_doc"
               >技术文档</a
             >
           </div>
@@ -297,7 +296,15 @@ export default {
         }
       });
     },
-
+    // 跳转文档详情页
+        goToDocDetail(value){
+      this.$router.push({
+        name: 'doc-detail', 
+        query: { 
+          value: value
+        }
+      })
+    },
     // 上传本地图片到input并调用算法
     getPicture(){
       var that = this;

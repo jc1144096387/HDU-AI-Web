@@ -17,12 +17,14 @@
           <div class="doc-sidebar-title">文档目录</div>
           <div class="doc-sidebar-panel">
             <Menu
+              ref="menu"
               style="z-index:2;background-color: #f7f7f7;"
               v-if="productList"
               :active-name="
                 productList[currentIndex1].children[currentIndex2].value
               "
               :open-names="[productList[currentIndex1].value]"
+              @on-select="handleMenuSelect($event)"
             >
               <Submenu
                 v-for="(item1, index1) in productList"
@@ -47,7 +49,7 @@
       </div>
 
       <div class="main markdown-body jmod-doc-main doc-main">
-        <div class="doc-bread jmod-doc-bread">
+        <div class="doc-bread jmod-doc-bread" v-if="productList">
           <a @click="goToDoc()" href="javascript:;">文档中心</a><span>&gt;</span
           ><span>{{ productList[currentIndex1].label }}</span
           ><span>&gt;</span
@@ -101,21 +103,42 @@ export default {
       this.msg = res;
     });
 
-
     this.getProductListAction();
 
     // 监听窗口变化事件
     window.addEventListener("resize", this.handleResize);
-    this.sidebarLeft = (window.innerWidth - 1200) / 2;
-
+    this.handleResize();
     // 监听滚动事件
     window.addEventListener("scroll", this.handleScroll);
+    this.handleScroll();
+  },
+  mounted() {
+    if (this.productList.length == 0) {
+      this.getProductListAction().then(res => {
+        let index = this.getIndexByValue(this.$route.query.value);
+        this.currentIndex1 = index.index1;
+        this.currentIndex2 = index.index2;
+        this.$nextTick(() => {
+          if (this.$refs["menu"]) {
+            this.$refs["menu"].updateOpened();
+          }
+        });
+      });
+    } else {
+      let index = this.getIndexByValue(this.$route.query.value);
+      this.currentIndex1 = index.index1;
+      this.currentIndex2 = index.index2;
+      this.$nextTick(() => {
+        if (this.$refs["menu"]) {
+          this.$refs["menu"].updateOpened();
+        }
+      });
+    }
   },
   methods: {
     ...mapActions(["getProductListAction"]),
     // 窗口变化
     handleResize() {
-      console.log(window.innerWidth);
       if (window.innerWidth > 1200) {
         this.sidebarLeft = (window.innerWidth - 1200) / 2;
       } else {
@@ -132,10 +155,9 @@ export default {
         window.pageXOffset ||
         document.documentElement.scrollLeft ||
         document.body.scrollLeft;
-      console.log(scrollTop, scrollLeft);
+
       if (scrollTop < 92) {
         this.sidebarTop = 122 - scrollTop;
-        console.log(this.sidebarTop);
       } else {
         this.sidebarTop = 30;
       }
@@ -151,8 +173,26 @@ export default {
         name: "doc"
       });
     },
+    handleMenuSelect(name) {
+      let index = this.getIndexByValue(name);
+      this.changeSideBar2(index.index1, index.index2);
+    },
+    // 通过目录的value得到目录的index1和index2
+    getIndexByValue(value) {
+      for (let i = 0; i < this.productList.length; i++) {
+        for (let j = 0; j < this.productList[i].children.length; j++) {
+          if (this.productList[i].children[j].value == value) {
+            return {
+              index1: i,
+              index2: j
+            };
+          }
+        }
+      }
+    },
     //切换侧边栏二级菜单当前元素
     changeSideBar2(index1, index2) {
+      console.log(index1, index2);
       this.currentIndex1 = index1;
       this.currentIndex2 = index2;
     }
