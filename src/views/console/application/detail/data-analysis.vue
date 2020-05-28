@@ -51,6 +51,7 @@
       </Form>
     </div>
     <div v-if="select == 'all'" class="sec api-overview is-normal">
+      <Spin size="large" fix v-if="loading1"></Spin>
       <div class="sec-header">
         <div class="sec-header__title">能力运行概况</div>
       </div>
@@ -100,9 +101,7 @@
                   class="ui-pagination__arrow"
                   @click="changeCurrentPage(-1)"
                 >
-                  <div
-                    class="ui-pagination__left"
-                  ></div>
+                  <div class="ui-pagination__left"></div>
                 </div>
                 <div class="ui-pagination__text">
                   {{ currentPage }} / {{ pageCount }}
@@ -118,6 +117,7 @@
     </div>
     <div v-else>
       <div class="sec api-overview is-normal">
+        <Spin size="large" fix v-if="loading1"></Spin>
         <div class="sec-header">
           <div class="sec-header__title">能力运行概况</div>
         </div>
@@ -167,9 +167,7 @@
                     class="ui-pagination__arrow"
                     @click="changeCurrentPage(-1)"
                   >
-                    <div
-                      class="ui-pagination__left"
-                    ></div>
+                    <div class="ui-pagination__left"></div>
                   </div>
                   <div class="ui-pagination__text">
                     {{ currentPage }} / {{ pageCount }}
@@ -187,6 +185,7 @@
         </div>
       </div>
       <div class="sec invoke-count">
+        <Spin size="large" fix v-if="loading2"></Spin>
         <div class="sec-header">
           <div class="sec-header__title">调用次数</div>
         </div>
@@ -213,6 +212,7 @@
         </div>
       </div>
       <div class="sec invoke-time">
+        <Spin size="large" fix v-if="loading2"></Spin>
         <div class="sec-header">
           <div class="sec-header__title">调用耗时(ms)</div>
         </div>
@@ -290,10 +290,13 @@ export default {
       index: 0,
       item: {},
       select: "",
-      initLabel:"",
+      initLabel: "",
       dateRadio: "近30天",
       datePicker: [
-        dateUtil.format(new Date(new Date().getTime() - 3600 * 1000 * 24 * 29), "yyyy-MM-dd"),
+        dateUtil.format(
+          new Date(new Date().getTime() - 3600 * 1000 * 24 * 29),
+          "yyyy-MM-dd"
+        ),
         dateUtil.format(new Date(), "yyyy-MM-dd")
       ],
       datePickerOption: {
@@ -333,7 +336,10 @@ export default {
 
       tableList: [],
       currentPage: 1,
-      pageCount: 1
+      pageCount: 1,
+
+      loading1: false,
+      loading2: false
     };
   },
   computed: {
@@ -389,13 +395,13 @@ export default {
     }
   },
   watch: {
-    "appList": function(newVal, oldVal){
+    appList: function(newVal, oldVal) {
       this.index = this.$route.query.index;
       this.item = this.appList[this.index];
       this.select = this.$route.query.id;
-      if(this.item){
-        for(let i = 0; i < this.item.products.length; i ++){
-          if(this.item.products[i].id == this.select){
+      if (this.item) {
+        for (let i = 0; i < this.item.products.length; i++) {
+          if (this.item.products[i].id == this.select) {
             this.initLabel = this.item.products[i].label;
           }
         }
@@ -409,8 +415,8 @@ export default {
     this.item = this.appList[this.index];
 
     this.select = this.$route.query.id;
-    for(let i = 0; i < this.item.products.length; i ++){
-      if(this.item.products[i].id == this.select){
+    for (let i = 0; i < this.item.products.length; i++) {
+      if (this.item.products[i].id == this.select) {
         this.initLabel = this.item.products[i].label;
       }
     }
@@ -428,6 +434,7 @@ export default {
           dateUtil.format(start, "yyyy-MM-dd"),
           dateUtil.format(end, "yyyy-MM-dd")
         ];
+        this.currentPage = 1;
         this.getTableData();
         this.getChartData();
       } else if (this.dateRadio == "昨天") {
@@ -439,6 +446,7 @@ export default {
           dateUtil.format(start, "yyyy-MM-dd"),
           dateUtil.format(end, "yyyy-MM-dd")
         ];
+        this.currentPage = 1;
         this.getTableData();
         this.getChartData();
       } else if (this.dateRadio == "近7天") {
@@ -449,6 +457,7 @@ export default {
           dateUtil.format(start, "yyyy-MM-dd"),
           dateUtil.format(end, "yyyy-MM-dd")
         ];
+        this.currentPage = 1;
         this.getTableData();
         this.getChartData();
       } else if (this.dateRadio == "近30天") {
@@ -459,6 +468,7 @@ export default {
           dateUtil.format(start, "yyyy-MM-dd"),
           dateUtil.format(end, "yyyy-MM-dd")
         ];
+        this.currentPage = 1;
         this.getTableData();
         this.getChartData();
       }
@@ -466,11 +476,12 @@ export default {
     datePickerChange(date) {
       this.datePicker = date;
       this.dateRadio = "";
+      this.currentPage = 1;
       this.getTableData();
       this.getChartData();
     },
     handleSelectChange() {
-      console.log(this.select);
+      this.currentPage = 1;
       this.getTableData();
       this.getChartData();
     },
@@ -486,24 +497,29 @@ export default {
       if (this.select == "all") {
         delete params.productId;
       }
-      getApplicationDataCalling(this.item.id, params).then(res => {
-        if (res.success) {
-          let cost = [];
-          let total = [];
-          let success = [];
-          let fail = [];
-          for (let i = 0; i < res.result.total.length; i++) {
-            cost.push(res.result.cost[i].count);
-            total.push(res.result.total[i].count);
-            success.push(res.result.success[i].count);
-            fail.push(res.result.fail[i].count);
+      this.loading2 = true;
+      getApplicationDataCalling(this.item.id, params)
+        .then(res => {
+          if (res.success) {
+            let cost = [];
+            let total = [];
+            let success = [];
+            let fail = [];
+            for (let i = 0; i < res.result.total.length; i++) {
+              cost.push(res.result.cost[i].count);
+              total.push(res.result.total[i].count);
+              success.push(res.result.success[i].count);
+              fail.push(res.result.fail[i].count);
+            }
+            this.numArray.all = total;
+            this.numArray.success = success;
+            this.numArray.fail = fail;
+            this.costArray = cost;
           }
-          this.numArray.all = total;
-          this.numArray.success = success;
-          this.numArray.fail = fail;
-          this.costArray = cost;
-        }
-      });
+        })
+        .finally(() => {
+          this.loading2 = false;
+        });
     },
     // 获取表格数据
     getTableData() {
@@ -516,16 +532,18 @@ export default {
       if (this.select == "all") {
         delete params.productId;
       }
-
-      getApplicationOverviewCapabilityCalling(this.item.id, params).then(
-        res => {
+      this.loading1 = true;
+      getApplicationOverviewCapabilityCalling(this.item.id, params)
+        .then(res => {
           if (res.success) {
             this.tableList = res.result;
 
             this.pageCount = parseInt(this.tableList.length / 10) + 1;
           }
-        }
-      );
+        })
+        .finally(() => {
+          this.loading1 = false;
+        });
     },
     // 切换已接入能力表格页码
     changeCurrentPage(num) {

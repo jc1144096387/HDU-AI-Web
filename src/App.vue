@@ -993,7 +993,7 @@ html[lang="en"] body {
 
 
 /* 覆盖markdown样式 */
-.markdown-body ul,li{
+.markdown-body ul, .markdown-body li{
   list-style: disc outside none;
 }
 .markdown-body h1, .markdown-body h2 {

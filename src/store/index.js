@@ -13,7 +13,6 @@ export default new Vuex.Store({
     productList: [],// 技术引擎产品列表
 
     appList: [],// 用户的应用列表
-
   },
   getters,
   actions,

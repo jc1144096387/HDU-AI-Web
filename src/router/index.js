@@ -174,7 +174,17 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  // 定义路由跳转后的滚动行为
+  scrollBehavior (to, from, savedPosition){ 
+    if (savedPosition) {
+      // 返回 savedPosition，在按下 后退/前进 按钮时，就会像浏览器的原生表现那样
+      return savedPosition
+    } else {
+      // 滚动到顶部
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 export default router

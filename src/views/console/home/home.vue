@@ -25,6 +25,7 @@
             </div>
             <div class="sec-content">
               <div class="myapp-content">
+                <Spin size="large" fix v-if="loading1"></Spin>
                 <a
                   v-for="(item, index) in appList"
                   :key="index"
@@ -54,6 +55,7 @@
 
           <!-- 已接入能力列表 -->
           <div class="sec api-table">
+            <Spin size="large" fix v-if="loading2"></Spin>
             <div class="sec-header">
               <div class="sec-header__title">已接入能力</div>
             </div>
@@ -170,7 +172,9 @@ export default {
       // isNavShow: false,
       myCapabilityList: [],
       currentPage: 1,
-      pageCount: 1
+      pageCount: 1,
+      loading1: false,
+      loading2: false
     };
   },
   computed: {
@@ -191,7 +195,10 @@ export default {
     // );
 
     // 获取应用信息
-    this.getApplicationListAction();
+    this.loading1 = true;
+    this.getApplicationListAction().finally(() => {
+      this.loading1 = false;
+    });
 
     // 获取已接入能力列表
     this.getAccessCapability();
@@ -216,26 +223,29 @@ export default {
     },
     // 跳转文档详情页
     goToDocDetail(value) {
-
       this.$router.push({
         name: "doc-detail",
         query: {
           value: value
         }
       });
-      
     },
 
     // 获取已接入能力列表
     getAccessCapability() {
-      getApplicationMyCapability().then(res => {
-        console.log(res);
-        if (res.success) {
-          this.myCapabilityList = res.result;
-          this.pageCount = parseInt(this.myCapabilityList.length / 10) + 1;
-          console.log(this.pageCount);
-        }
-      });
+      getApplicationMyCapability()
+        .then(res => {
+          console.log(res);
+          this.loading2 = true;
+          if (res.success) {
+            this.myCapabilityList = res.result;
+            this.pageCount = parseInt(this.myCapabilityList.length / 10) + 1;
+            console.log(this.pageCount);
+          }
+        })
+        .finally(() => {
+          this.loading2 = false;
+        });
     },
     // 切换已接入能力表格页码
     changeCurrentPage(num) {

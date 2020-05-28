@@ -6,6 +6,7 @@
       </div>
       <div class="sec-content">
         <div class="api-chart__line">
+          <Spin size="large" fix v-if="loading1"></Spin>
           <chart
             chartId="mychart"
             :xData="dateArray"
@@ -17,6 +18,7 @@
     </div>
 
     <div class="sec api-table">
+      <Spin size="large" fix v-if="loading2"></Spin>
       <div class="sec-header">
         <div class="sec-header__title">能力运行概况（近30天）</div>
         <div class="sec-header__action">
@@ -78,9 +80,7 @@
                   class="ui-pagination__arrow"
                   @click="changeCurrentPage(-1)"
                 >
-                  <div
-                    class="ui-pagination__left"
-                  ></div>
+                  <div class="ui-pagination__left"></div>
                 </div>
                 <div class="ui-pagination__text">
                   {{ currentPage }} / {{ pageCount }}
@@ -128,7 +128,9 @@ export default {
 
       tableList: [],
       currentPage: 1,
-      pageCount: 1
+      pageCount: 1,
+      loading1: false,
+      loading2: false
     };
   },
   computed: {
@@ -153,7 +155,7 @@ export default {
       this.getTableData();
       this.getChartData();
     },
-    "appList": function(newVal, oldVal){
+    appList: function(newVal, oldVal) {
       this.index = this.$route.query.index;
       this.item = this.appList[this.index];
       this.getTableData();
@@ -191,16 +193,19 @@ export default {
         startDate: dateUtil.format(start, "yyyy-MM-dd"),
         endDate: dateUtil.format(end, "yyyy-MM-dd")
       };
-      getApplicationOverviewCapabilityCalling(this.item.id, params).then(
-        res => {
+      this.loading2 = true;
+      getApplicationOverviewCapabilityCalling(this.item.id, params)
+        .then(res => {
           console.log(res);
           if (res.success) {
             this.tableList = res.result;
 
             this.pageCount = parseInt(this.tableList.length / 10) + 1;
           }
-        }
-      );
+        })
+        .finally(() => {
+          this.loading2 = false;
+        });
     },
     // 切换已接入能力表格页码
     changeCurrentPage(num) {
@@ -214,16 +219,21 @@ export default {
     // 获取图表数据
     getChartData() {
       // 图表: 调用总量（近30天）
-      getApplicationOverviewTotalCalling(this.item.id).then(res => {
-        if (res.success) {
-          let numArray = [];
-          for (let i = 0; i < res.result.length; i++) {
-            numArray.push(res.result[i].count);
+      this.loading1 = true;
+      getApplicationOverviewTotalCalling(this.item.id)
+        .then(res => {
+          if (res.success) {
+            let numArray = [];
+            for (let i = 0; i < res.result.length; i++) {
+              numArray.push(res.result[i].count);
+            }
+            this.numArray = numArray;
+            console.log(this.numArray);
           }
-          this.numArray = numArray;
-          console.log(this.numArray);
-        }
-      });
+        })
+        .finally(() => {
+          this.loading1 = false;
+        });
     }
   }
 };

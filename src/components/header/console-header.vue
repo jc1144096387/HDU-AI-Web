@@ -25,7 +25,8 @@
               >应用管理</a
             >
             <div class="app-nav-panel">
-              <ul>
+              <Spin size="large" fix v-if="loading"></Spin>
+              <ul v-if="appList && appList.length!=0">
                 <!-- 我的应用列表 -->
                 <li v-for="(item,index) in appList" :key="index" class="app-nav-item">
                   <a
@@ -37,6 +38,9 @@
                   ></i>
                 </li>
 
+              </ul>
+              <ul v-else style="text-align: center; padding: 30px 0;">
+                暂无应用
               </ul>
               <div class="app-nav-add">
                 <a
@@ -140,6 +144,7 @@ export default {
       isNavShow: false,
       isDeleteModalShow: false,
       currentAppId: "",
+      loading: false,
     };
   },
   computed:{
@@ -160,9 +165,13 @@ export default {
         });
       }
     })
-
+    this.loading = true;
     // 获取应用信息
-    this.getApplicationListAction();
+    this.getApplicationListAction().then(res=>{
+    
+    }).finally(()=>{
+      this.loading = false;
+    });
   },
   methods: {
     ...mapActions([
@@ -221,6 +230,7 @@ export default {
     },
     // 调用删除api
     deleteApp(){
+      this.loading = true;
       deleteApplication({appid: this.currentAppId}).then(res =>{
         console.log(res);
         if(res.success){
@@ -232,6 +242,8 @@ export default {
           this.$Message.success("删除失败");
           // this.isDeleteModalShow = false;
         }
+      }).finally(()=>{
+        this.loading = false;
       })
     },
 
