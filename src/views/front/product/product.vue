@@ -14,7 +14,7 @@
           </p>
           <div class="banner-btns">
             <a
-              @click="goToCapabilityDetail(index1,index2)"
+              @click="goToCapabilityDetail(index1, index2)"
               class="jmod-console-btn btn btn-try"
               >免费试用</a
             >
@@ -68,7 +68,11 @@
             <div class="img-preview jmod-preview" id="preview">
               <label>原始图片</label>
               <img
-                :src="picture?picture:productList[index1].children[index2].picture"
+                :src="
+                  picture
+                    ? picture
+                    : productList[index1].children[index2].picture
+                "
                 style="width: auto; height: 100%; margin-top: 0px;"
               />
               <p class="err-tip jmod-err-tip"></p>
@@ -115,7 +119,7 @@
           <div class="demo-rs demo-box demo-box-sm jmod-result-wrapper">
             <div class="jmod-result">
               <label class="demo-rs-label">识别结果</label>
-              
+
               <div class="sec sec-txt">
                 <p>姓名：艾米</p>
                 <p>性别：女</p>
@@ -124,7 +128,7 @@
                 <p>住址：上海徐汇区田林路397号腾云大厦6F</p>
                 <p>身份号码：310104198604230289</p>
               </div>
-              
+
               <!-- <p class="err-tip">结果加载失败</p> -->
             </div>
             <div class="ui-loading jmod-result-loading hidden">
@@ -139,7 +143,61 @@
             </div>
           </div>
         </div>
-        <!-- 图像识别 -->
+        <!-- end: 图像识别 -->
+
+        <!-- 文本翻译 功能体验 text-->
+        <div
+          class="tab-text"
+          :class="
+            productList[index1].children[index2].value == 'text'
+              ? ''
+              : 'tab-cont'
+          "
+        >
+          <Form
+            ref="textForm"
+            :model="textForm"
+            :rules="rule"
+            style="width: 1100px;"
+          >
+            <FormItem label="语种" style="textForm-lang">
+              <Row>
+                <Col :offset="1" :xs="4" :sm="4" :md="4" :lg="4">
+                  <Select v-model="textForm.from" size="large">
+                    <Option value="English">英语</Option>
+                  </Select>
+                </Col>
+                <Col :xs="1" :sm="1" :md="1" :lg="1" style="text-align:center;">
+                  To
+                </Col>
+                <Col :xs="4" :sm="4" :md="4" :lg="4">
+                  <Select v-model="textForm.to" size="large">
+                    <Option value="China">中文</Option>
+                  </Select>
+                </Col>
+              </Row>
+            </FormItem>
+            <FormItem prop="content">
+              <Col :xs="11" :sm="11" :md="11" :lg="11" style="height: 218px;">
+                <Input
+                  v-model="textForm.source"
+                  type="textarea"
+                  placeholder="请输入要翻译的文字"
+                  maxlength="500"
+                  :show-word-limit="true"
+                  rows="10"
+                  @on-change="getNlptransTextResult"
+                ></Input>
+              </Col>
+              <Col :offset="1" :xs="11" :sm="11" :md="11" :lg="11">
+                <div style="height: 220px; background: #efefef;">
+                  {{textResult}}
+                </div>
+              </Col>
+            </FormItem>
+          </Form>
+        </div>
+        <!-- end: 文本翻译 功能体验 text-->
       </div>
     </div>
 
@@ -246,6 +304,8 @@ import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
 import frontHeader from "@/components/header/front-header.vue";
 
+import { nlptransText } from "@/api/index.js";
+
 export default {
   name: "product",
   components: {
@@ -255,8 +315,25 @@ export default {
     return {
       index1: 0,
       index2: 0,
-      picture:'',
-      pictureInput:'',
+      picture: "",
+      pictureInput: "",
+
+      loading: false,
+      rule:{
+
+      },
+      // 算法接口通用参数
+      baseParams:{
+        appid: "85",
+        appkey: "abcd"
+      },
+      //文本翻译
+      textForm: {
+        from: "English",
+        to: "China",
+        source: ""
+      },
+      textResult: "",
     };
   },
   computed: {
@@ -278,13 +355,14 @@ export default {
     changeTab(index) {
       this.index2 = index;
 
-      // test
-      for (let i = 0; i < this.productList.length; i++) {
-        for (let j = 0; j < this.productList[i].children.length; j++) {
-          this.productList[i].children[j].type = "picture";
-          this.productList[i].children[j].picture="//cdn.ai.qq.com/aiplat/static/ai-demo/large/odemo-pic-7.jpg";
-        }
-      }
+      // // test
+      // for (let i = 0; i < this.productList.length; i++) {
+      //   for (let j = 0; j < this.productList[i].children.length; j++) {
+      //     this.productList[i].children[j].type = "picture";
+      //     this.productList[i].children[j].picture =
+      //       "//cdn.ai.qq.com/aiplat/static/ai-demo/large/odemo-pic-7.jpg";
+      //   }
+      // }
     },
     // 跳转能力库详情页
     goToCapabilityDetail(index1, index2) {
@@ -297,27 +375,27 @@ export default {
       });
     },
     // 跳转文档详情页
-        goToDocDetail(value){
+    goToDocDetail(value) {
       this.$router.push({
-        name: 'doc-detail', 
-        query: { 
+        name: "doc-detail",
+        query: {
           value: value
         }
-      })
+      });
     },
     // 上传本地图片到input并调用算法
-    getPicture(){
+    getPicture() {
       var that = this;
 
       var inputDOM = that.$refs.picture;
       var file = inputDOM.files;
 
       // 转成base64预览
-      var reader=new FileReader();
-      reader.onload=function(e){
-        console.log( reader.result);  //或者 e.target.result都是一样的，都是base64码
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        console.log(reader.result); //或者 e.target.result都是一样的，都是base64码
         that.picture = reader.result;
-      }  
+      };
       //filses就是input[type=file]文件列表，files[0]就是第一个文件，这里就是将选择的第一个图片文件转化为base64的码
       reader.readAsDataURL(file[0]);
 
@@ -325,22 +403,37 @@ export default {
       this.pictureAI();
     },
     // 使用网络图片url代替picture并调用算法
-    changePicture(){
+    changePicture() {
       this.picture = this.pictureInput;
 
       // 调用算法接口
       this.pictureAI();
     },
     // 调用图像处理类型的算法接口
-    pictureAI(){
+    pictureAI() {},
 
-    },
-    
+
+    // 调用机器翻译-文本翻译算法接口
+    getNlptransTextResult(){
+      this.textForm = Object.assign(this.textForm, this.baseParams);
+      console.log(this.textForm);
+      nlptransText(this.textForm).then(res=>{
+        console.log(res);
+        this.textResult = res;
+
+      })
+    }
   }
 };
 </script>
 
 <style scoped>
+.tab-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 a {
   text-decoration: none;
   cursor: pointer;

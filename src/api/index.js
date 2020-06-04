@@ -91,3 +91,11 @@ export const getMdFile = ( url, params) => {
   return getRequest(url, params)
 }
 
+
+/*
+** 技术引擎中算法api
+*/
+// 文本翻译
+export const nlptransText = ( url, params) => {
+  return postRequest(url, params)
+}
