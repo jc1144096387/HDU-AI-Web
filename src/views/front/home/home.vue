@@ -243,7 +243,68 @@
             </div>
             </template>
           </div>
-          
+           <div class="capability-row">
+            <template v-for="(item1, index1) in productList" >
+            <div v-if="index1>=12 && index1 <=15" :key="index1" class="capability-group" :class="index1%4==3?'no-margin':''">
+              <div class="capability-group-logo" >
+                <i
+                  class="capa-1"
+                  :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                ></i>
+              </div>
+              <div class="capability-group-wrap">
+                <p class="capability-group-wrap__title">{{item1.label}}</p>
+                <template v-for="(item2,index2) in item1.children">
+                <a
+                  v-if="index2<5" :key="index2"
+                  _stat_click_id="capa_ocridentify"
+                  class="capability-group-wrap__item"
+                  @click="goToProductDetail(index1, index2)"
+                >{{item2.label}}</a>
+                </template>
+
+                <a
+                  v-if="item1.children.length>5"
+                  _stat_click_id="capa_more"
+                  _stat_action_obj="ocr"
+                  href="javascript:void(0);"
+                  class="capability-group-more jmod-capa-more"
+                  :style="{display: isLoadMore[index1]?'none':'block'}"
+                  @click="loadMore(index1)"
+                >
+                  <i
+                    class="ico-more"
+                    :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                  ></i>展开更多
+                </a>
+                <div class="hide-wrap" :style="{display: isLoadMore[index1]?'block':'none'}">
+                  <template v-for="(item2,index2) in item1.children">
+                    <a
+                      v-if="index2>=5" :key="index2"
+                      _stat_click_id="capa_ocridentify"
+                      class="capability-group-wrap__item"
+                      @click="goToProductDetail(index1, index2)"
+                    >{{item2.label}}</a>
+                  </template>
+
+                  <a
+                    _stat_click_id="capa_hide"
+                    _stat_action_obj="ocr"
+                    href="javascript:void(0);"
+                    class="capability-group-more jmod-capa-hide"
+                    @click="hideMore(index1)"
+                  >
+                    <i
+                      class="ico-more"
+                      style="transform: rotate(180deg);"
+                      :style="{backgroundImage:'url('+require('@/assets/sprite1.png')+')'}"
+                    ></i>收起
+                  </a>
+                </div>
+              </div>
+            </div>
+            </template>
+          </div>
 
           <!-- <div class="capability-row">
             <div class="capability-group">

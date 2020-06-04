@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import ViewUI from 'view-design';
+Vue.use(ViewUI);
 
 Vue.use(VueRouter)
 
@@ -186,5 +187,14 @@ const router = new VueRouter({
     }
   }
 })
+
+router.beforeEach((to, from, next) => {
+  ViewUI.LoadingBar.start();
+  next();
+});
+
+router.afterEach(route => {
+  ViewUI.LoadingBar.finish();
+});
 
 export default router

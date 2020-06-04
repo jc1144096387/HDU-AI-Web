@@ -475,7 +475,57 @@
               </div>
             </template>
           </div>
-
+          <div class="cat-col">
+            <template v-for="(item1, index1) in productList">
+              <div
+                class="cat-group top-row"
+                :key="index1"
+                v-if="index1 >= 11 && index1 <= 13"
+              >
+                <p class="cat-tit">
+                  {{ item1.label }}
+                  <i
+                    v-if="item1.span"
+                    :class="'is-' + item1.span"
+                    :style="{
+                      backgroundImage:
+                        'url(' +
+                        require('../../assets/header/cpimg/sprite.png') +
+                        ')'
+                    }"
+                    class="cat-tag"
+                  ></i>
+                </p>
+                <div class="cat-list">
+                  <div
+                    class="cat-item"
+                    v-for="(item2, index2) in item1.children"
+                    :key="index2"
+                  >
+                    <a
+                      _stat_click_id="header_demonav"
+                      _stat_action_obj="ocr_identify"
+                      @click="
+                        goToProductDetail(index1, index2)
+                      "
+                      >{{ item2.label }}</a
+                    >
+                    <i
+                      v-if="item2.span"
+                      :class="'is-' + item2.span"
+                      :style="{
+                        backgroundImage:
+                          'url(' +
+                          require('../../assets/header/cpimg/sprite.png') +
+                          ')'
+                      }"
+                      class="cat-tag"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
           <!-- <div class="cat-col">
             <div class="cat-group top-row">
               <p class="cat-tit">
