@@ -1080,15 +1080,13 @@
       </div>
       <div v-if="userInfo"  class="mod-header-user">
         <a
-          href="/console/home"
-          target="_blank"
+          @click="goToConsole()"
           class="try jmod-header-try hidden"
           _stat_click_id="header_console"
           >控制台</a
         >
         <a
-          href="/console/home"
-          target="_blank"
+          @click="goToConsole()"
           class="console jmod-header-console"
           _stat_click_id="header_console"
           >控制台</a
@@ -1238,7 +1236,13 @@ export default {
       this.$router.push({
         name: "login"
       });
-    }
+    },
+    // 跳转控制台
+    goToConsole() {
+      this.$router.push({
+        name: "console-home"
+      });
+    },
   }
 };
 </script>

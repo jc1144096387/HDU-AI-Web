@@ -170,6 +170,8 @@ const routes = [
     name: 'capability-detail',
     component:  () => import('@/views/console/capability/detail.vue')
   },
+  // 无对应路由跳转404
+  { path: '*', component:  () => import('@/views/error/404/404.vue')}
 ]
 
 const router = new VueRouter({
